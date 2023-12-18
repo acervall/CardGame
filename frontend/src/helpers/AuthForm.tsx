@@ -1,4 +1,4 @@
-import { StyledForm, FormField, SubmitButton } from '../assets/StyledComponents/FormComponents'
+import { StyledForm, FormField, RoundedButton } from '../assets/StyledComponents/FormComponents'
 import { AuthFormProps } from '../utils/types'
 import { useState } from 'react'
 
@@ -38,7 +38,7 @@ const AuthForm = <T,>({ fields, submitButton }: AuthFormProps<T>) => {
           ),
       )}
 
-      <SubmitButton type={submitButton.type}>{submitButton.label}</SubmitButton>
+      <RoundedButton type={submitButton.type}>{submitButton.label}</RoundedButton>
     </StyledForm>
   )
 }

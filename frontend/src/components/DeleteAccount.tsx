@@ -4,7 +4,7 @@ import { useQueryClient } from '@tanstack/react-query'
 import useUser from '../hooks/useUser'
 import { useContext } from 'react'
 import Context from '../constants/Context'
-import { SubmitButton } from '../assets/StyledComponents/FormComponents'
+import { RoundedButton } from '../assets/StyledComponents/FormComponents'
 import { useNavigate } from 'react-router-dom'
 
 const DeleteAccount = () => {
@@ -20,9 +20,9 @@ const DeleteAccount = () => {
     }
 
     return (
-      <SubmitButton backgroundColor="#b30f0f" backgroundColorHover="#c30808" onClick={handleClick}>
+      <RoundedButton backgroundColor="#b30f0f" backgroundColorHover="#c30808" onClick={handleClick}>
         Delete
-      </SubmitButton>
+      </RoundedButton>
     )
   }
 }

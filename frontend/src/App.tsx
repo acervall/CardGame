@@ -2,7 +2,10 @@ import { useState } from 'react'
 import { createHashRouter, Outlet, RouterProvider } from 'react-router-dom'
 import Home from './views/Home'
 import Profile from './views/Profile'
+import Game from './views/Game'
 import Context from './constants/Context'
+
+import Navbar from './components/Navbar'
 
 function Root() {
   const [accessToken, setAccessToken] = useState<string | null>(localStorage.getItem('accessToken'))
@@ -10,6 +13,7 @@ function Root() {
     <Context.Provider value={{ accessToken, setAccessToken }}>
       <main>
         <Outlet />
+        <Navbar />
       </main>
     </Context.Provider>
   )
@@ -22,6 +26,10 @@ function App() {
         {
           element: <Profile />,
           path: '/profile',
+        },
+        {
+          element: <Game />,
+          path: '/Game',
         },
         {
           element: <Home />,

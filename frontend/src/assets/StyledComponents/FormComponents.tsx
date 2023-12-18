@@ -48,7 +48,7 @@ interface ButtonProps {
   width?: string
 }
 
-export const SubmitButton = styled.button<ButtonProps>`
+export const RoundedButton = styled.button<ButtonProps>`
   border: transparent;
   background-color: ${(props) => props.backgroundColor || color.darkGray};
   padding: 10px;

@@ -3,7 +3,7 @@ import { useContext } from 'react'
 import Context from '../constants/Context'
 import { LogoutUser } from '../api/user'
 import { useNavigate } from 'react-router-dom'
-import { SubmitButton } from '../assets/StyledComponents/FormComponents'
+import { RoundedButton } from '../assets/StyledComponents/FormComponents'
 
 const LogoutButton = () => {
   const { setAccessToken } = useContext(Context)
@@ -15,7 +15,7 @@ const LogoutButton = () => {
     navigate(`/`)
   }
 
-  return <SubmitButton onClick={handleLogout}>Logout</SubmitButton>
+  return <RoundedButton onClick={handleLogout}>Logout</RoundedButton>
 }
 
 export default LogoutButton
