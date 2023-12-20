@@ -1,14 +1,16 @@
 enum Suit {
-  Spades = '♠',
-  Clubs = '♣',
-  Hearts = '♥',
-  Diamonds = '♦',
+  Spades = 'S',
+  Clubs = 'C',
+  Hearts = 'H',
+  Diamonds = 'D',
 }
 
-interface Card {
+export interface Card {
   face: string
   value: number
   suit: Suit
+  url: string
+  status?: string
 }
 
 const faces = ['2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K', 'A']
@@ -22,6 +24,7 @@ for (const suit of Object.values(Suit)) {
       face: faces[i],
       value: values[i],
       suit: suit,
+      url: `${faces[i]}${suit}`,
     })
   }
 }

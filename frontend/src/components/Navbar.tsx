@@ -7,7 +7,7 @@ const NavbarContent = styled.div`
   display: flex;
   justify-content: space-around;
   position: relative;
-  top: 60px;
+  top: 0;
   transition: top 0.5s ease-in-out;
 `
 
@@ -26,14 +26,14 @@ const NavbarContainer = styled.div`
   bottom: 1vh;
   width: 100%;
 
-  &:hover {
+  /* &:hover {
     & > :first-child {
       opacity: 0;
     }
     & > :last-child {
       top: 0;
     }
-  }
+  } */
 `
 
 function Navbar() {
@@ -44,10 +44,12 @@ function Navbar() {
   }
   return (
     <NavbarContainer>
-      <Arrow>^</Arrow>
+      {/* <Arrow>^</Arrow> */}
       <NavbarContent>
         <RoundedButton onClick={() => handleClick('/')}>Home</RoundedButton>
-        <RoundedButton onClick={() => handleClick('/game')}>Game</RoundedButton>
+        <RoundedButton onClick={() => handleClick('/game')} id="game">
+          Game
+        </RoundedButton>
         <RoundedButton onClick={() => handleClick('/profile')}>Profile</RoundedButton>
       </NavbarContent>
     </NavbarContainer>

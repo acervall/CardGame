@@ -1,6 +1,8 @@
 import cors from 'cors'
 import dotenv from 'dotenv'
 import express from 'express'
+import { Server } from 'http'
+import { Server as IOServer } from 'socket.io'
 
 dotenv.config()
 
@@ -36,6 +38,37 @@ function errorHandler(
 
 app.use(errorHandler)
 
-app.listen(port, async () => {
+const httpServer = new Server(app)
+const io = new IOServer(httpServer, {
+  cors: {
+    origin: '*', // Allow all origins
+    methods: ['GET', 'POST'],
+  },
+})
+
+const userCreatedRooms = new Set()
+
+io.on('connection', (socket) => {
+  socket.on('createRoom', (roomName) => {
+    socket.join(roomName)
+    userCreatedRooms.add(roomName)
+    io.emit('roomCreated', roomName)
+  })
+
+  socket.on('joinRoom', (roomName) => {
+    socket.join(roomName)
+  })
+
+  socket.on('sendMessage', (roomName, message) => {
+    io.to(roomName).emit('messageReceived', message)
+  })
+
+  socket.on('getRooms', () => {
+    const rooms = Array.from(userCreatedRooms)
+    socket.emit('roomsReceived', rooms)
+  })
+})
+
+httpServer.listen(port, () => {
   console.log(`Server is running on http://localhost:${port}`)
 })

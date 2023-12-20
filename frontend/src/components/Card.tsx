@@ -1,5 +1,6 @@
 import styled, { StyledProps } from '@emotion/styled'
 import { color } from '../assets/colors'
+import { cardImages } from '../assets/Cards/CardImages'
 
 const Card = styled.button(
   (props: StyledProps<string>) => `
@@ -7,7 +8,7 @@ const Card = styled.button(
 	width: 5.6vh;
 	height: 8vh;
 	background-color: ${props.status === 'Available' ? color.lightGray : color.white};
-	color: ${props.suit === '♦' || props.suit === '♥' ? color.red : color.black};
+	color: ${props.suit === 'D' || props.suit === 'H' ? color.red : color.black};
 	position: relative;
 	display: flex;
 	flex-direction: column;
@@ -15,6 +16,8 @@ const Card = styled.button(
 	padding: 2px;
 	border-radius: 5px;
 	opacity: ${props.status === 'Selected' ? 0.5 : 1};
+	background-image: url(${cardImages[props.url]});
+	background-size: cover;
   `,
 )
 
@@ -36,8 +39,11 @@ const Bottom = styled.div`
 
 export function Cards(props: CardProps) {
   return (
-    <Card suit={props.suit} status={props.status}>
-      {props.face === 'Joker' ? (
+    <>
+      <Card suit={props.suit} status={props.status} url={props.url}>
+        {props.status === 'Available' && <div>Available</div>}
+
+        {/* {props.face === 'Joker' ? (
         <Content>{props.face}</Content>
       ) : (
         <>
@@ -54,7 +60,8 @@ export function Cards(props: CardProps) {
             {props.face}
           </Bottom>
         </>
-      )}
-    </Card>
+      )} */}
+      </Card>
+    </>
   )
 }
