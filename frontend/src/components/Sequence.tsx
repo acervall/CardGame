@@ -1,7 +1,6 @@
-import styled, { StyledProps } from '@emotion/styled'
+import styled from '@emotion/styled'
 import { color } from '../assets/colors'
-import { CardOnGameBoard } from '../constants/CardOnGameBoard'
-import { doubleDeck, Card } from '../constants/Deck'
+import { doubleDeck, Card, cardOnGameBoard } from '../constants/Deck'
 import { Cards } from './Card'
 import { useState } from 'react'
 
@@ -53,7 +52,7 @@ function Sequence() {
   const [hand, setHand] = useState<Card[]>(initialHand)
   const [deck, setDeck] = useState<Card[]>(doubleDeck.slice(7) as Card[])
   const [throwPile, setThrowPile] = useState<Card[]>([])
-  const [currentGameBoard, setCurrentGameBoard] = useState<Card[]>(CardOnGameBoard as Card[])
+  const [currentGameBoard, setCurrentGameBoard] = useState<Card[][]>(cardOnGameBoard as Card[][])
   const [selectedCard, setSelectedCard] = useState<Card | null>(null)
   const [canDraw, setCanDraw] = useState<boolean>(false)
 

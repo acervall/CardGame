@@ -22,18 +22,26 @@ export const onRoomCreated = (callback: (roomName: string) => void) => {
   socket.on('roomCreated', callback)
 }
 
-export const onMessageReceived = (callback: (message: string) => void) => {
-  socket.on('messageReceived', callback)
-}
-
-export const sendMessage = (roomName: string, message: string) => {
-  socket.emit('sendMessage', roomName, message)
-}
-
 export const getRooms = () => {
   socket.emit('getRooms')
 }
 
 export const onRoomsReceived = (callback: (rooms: string[]) => void) => {
   socket.on('roomsReceived', callback)
+}
+
+export const leaveRoom = (roomName: string) => {
+  socket.emit('leaveRoom', roomName)
+  console.log('left room:', roomName)
+}
+
+export const startGame = (gameId: string) => {
+  socket.emit('startGame', gameId)
+  console.log('started game in room:', gameId)
+}
+
+export const onGameStateUpdate = (
+  callback: (response: { message: string; gameState?: { [key: string]: any } }) => void,
+) => {
+  socket.on('gameStateUpdate', callback)
 }

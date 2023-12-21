@@ -5,87 +5,98 @@ import {
   createRoom,
   joinRoom,
   onRoomCreated,
-  onMessageReceived,
-  sendMessage,
   getRooms,
   onRoomsReceived,
+  leaveRoom,
+  startGame,
+  onGameStateUpdate,
 } from '../api/socket'
+import useUser from '../hooks/useUser'
 
 const GameLobby = () => {
-  const [roomName, setRoomName] = useState('')
-  const [rooms, setRooms] = useState([])
-  const [message, setMessage] = useState('')
-  const [messages, setMessages] = useState([])
+  const [rooms, setRooms] = useState<string[]>([])
+  const [joinedRoom, setJoinedRoom] = useState<string | null>(null)
+  const [gameState, setGameState] = useState(null)
+
+  const { data: user, isLoading, error } = useUser()
 
   useEffect(() => {
     initializeSocket()
-
-    onRoomCreated((roomName) => {
-      setRooms((prevRooms) => [...prevRooms, roomName])
-    })
 
     onRoomsReceived((rooms) => {
       setRooms(rooms)
     })
 
+    onGameStateUpdate((response) => {
+      if (response.gameState) {
+        console.log(response.gameState)
+      } else {
+        console.log(response.message)
+      }
+    })
+
     getRooms()
   }, [])
 
-  const handleSendMessage = () => {
-    sendMessage(roomName, message)
+  if (user) {
+    const username = user.username
+
+    const handleCreateTable = () => {
+      createRoom(username)
+      joinRoom(username)
+      setJoinedRoom(username)
+      getRooms()
+    }
+
+    const handleJoinTable = (room: string) => {
+      joinRoom(room)
+      setJoinedRoom(room)
+    }
+
+    const handleStartGame = () => {
+      startGame(joinedRoom || username)
+    }
+
+    return (
+      <div>
+        <h1>Game Lobby</h1>
+        <p>Username: {username}</p>
+        <RoundedButton id="create-table" onClick={handleCreateTable}>
+          Create table
+        </RoundedButton>
+        <RoundedButton id="start-game" onClick={handleStartGame}>
+          Start game
+        </RoundedButton>
+        <RoundedButton id="leave-table" onClick={() => leaveRoom(joinedRoom || username)}>
+          Leave table
+        </RoundedButton>
+        <h2>Existing Rooms</h2>
+        <ul>
+          {rooms.map((room, index) => (
+            <li key={index}>
+              {room}
+              <button onClick={() => handleJoinTable(room)}>Join</button>
+            </li>
+          ))}
+        </ul>
+        {gameState && (
+          <div>
+            <h2>Game State</h2>
+
+            {/* Render the game state here */}
+          </div>
+        )}
+      </div>
+    )
   }
 
-  const handleCreateTable = () => {
-    createRoom(roomName)
+  if (isLoading) {
+    return <div>Loading...</div>
   }
 
-  const handleJoinTable = (room: string) => {
-    setRoomName(room)
-    joinRoom(room)
+  if (error) {
+    return <div>Error: {error.message}</div>
   }
-
-  const handleRoomNameChange = (event) => {
-    setRoomName(event.target.value)
-  }
-
-  const handleMessageChange = (event) => {
-    setMessage(event.target.value)
-    onMessageReceived((message) => {
-      console.log('New message:', message)
-      setMessages((prevMessages) => [...prevMessages, message])
-    })
-  }
-
-  return (
-    <div>
-      <h1>Game Lobby</h1>
-      <input
-        type="text"
-        placeholder="Enter table name"
-        value={roomName}
-        onChange={handleRoomNameChange}
-      />
-      <RoundedButton id="create-table" onClick={handleCreateTable}>
-        Create table
-      </RoundedButton>
-      <h2>Existing Rooms</h2>
-      <ul>
-        {rooms.map((room, index) => (
-          <RoundedButton key={index} onClick={() => handleJoinTable(room)}>
-            {room}
-          </RoundedButton>
-        ))}
-      </ul>
-      <input type="text" placeholder="message" value={message} onChange={handleMessageChange} />
-      <p>Message</p>
-      <p>
-        {messages.map((message) => (
-          <p> {message}</p>
-        ))}
-      </p>
-      <button onClick={handleSendMessage}>Send message</button>
-    </div>
-  )
 }
 
 export default GameLobby
