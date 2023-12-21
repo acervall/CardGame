@@ -3,6 +3,7 @@ import dotenv from 'dotenv'
 import express from 'express'
 import { Server } from 'http'
 import { Server as IOServer } from 'socket.io'
+import { setupGame } from './game/game'
 
 dotenv.config()
 
@@ -48,26 +49,7 @@ const io = new IOServer(httpServer, {
 
 const userCreatedRooms = new Set()
 
-io.on('connection', (socket) => {
-  socket.on('createRoom', (roomName) => {
-    socket.join(roomName)
-    userCreatedRooms.add(roomName)
-    io.emit('roomCreated', roomName)
-  })
-
-  socket.on('joinRoom', (roomName) => {
-    socket.join(roomName)
-  })
-
-  socket.on('sendMessage', (roomName, message) => {
-    io.to(roomName).emit('messageReceived', message)
-  })
-
-  socket.on('getRooms', () => {
-    const rooms = Array.from(userCreatedRooms)
-    socket.emit('roomsReceived', rooms)
-  })
-})
+setupGame(io)
 
 httpServer.listen(port, () => {
   console.log(`Server is running on http://localhost:${port}`)
