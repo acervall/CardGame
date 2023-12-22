@@ -4,7 +4,6 @@ import {
   initializeSocket,
   createRoom,
   joinRoom,
-  onRoomCreated,
   getRooms,
   onRoomsReceived,
   leaveRoom,

@@ -1,13 +1,17 @@
-import styled, { StyledProps } from '@emotion/styled'
+import styled from '@emotion/styled'
 import { color } from '../assets/colors'
 import { cardImages } from '../assets/Cards/CardImages'
+import { Card as CardType } from '../constants/Deck'
 
-const Card = styled.button(
-  (props: StyledProps<string>) => `
+interface CardProps extends CardType {
+  status: string
+}
+
+const Card = styled.button<CardProps>(
+  (props) => `
   all: unset;
 	width: 5.6vh;
 	height: 8vh;
-	background-color: ${props.status === 'Available' ? color.lightGray : color.white};
 	color: ${props.suit === 'D' || props.suit === 'H' ? color.red : color.black};
 	position: relative;
 	display: flex;
@@ -16,51 +20,24 @@ const Card = styled.button(
 	padding: 2px;
 	border-radius: 5px;
 	opacity: ${props.status === 'Selected' ? 0.5 : 1};
-	background-image: url(${cardImages[props.url]});
+  background-image: url(${cardImages[props.url as keyof typeof cardImages]});
 	background-size: cover;
+  background-color: ${props.status === 'Available' ? color.lightGray : color.white};
   `,
 )
-
-const Top = styled.div`
-  display: flex;
-  justify-content: flex-start;
-`
-const Content = styled.div`
-  display: flex;
-  flex-wrap: wrap;
-  font-size: 11px;
-  justify-content: center;
-`
-
-const Bottom = styled.div`
-  display: flex;
-  justify-content: flex-end;
-`
 
 export function Cards(props: CardProps) {
   return (
     <>
-      <Card suit={props.suit} status={props.status} url={props.url}>
+      <Card
+        suit={props.suit}
+        status={props.status}
+        url={props.url}
+        nr={props.nr}
+        face={props.face}
+        value={props.value}
+      >
         {props.status === 'Available' && <div>Available</div>}
-
-        {/* {props.face === 'Joker' ? (
-        <Content>{props.face}</Content>
-      ) : (
-        <>
-          <Top>
-            {props.face}
-            {props.suit}
-          </Top>
-          <Content>
-            {props.value < 11 &&
-              [...Array(props.value)].map((_, i) => <span key={i}>{props.suit}</span>)}
-          </Content>
-          <Bottom>
-            {props.suit}
-            {props.face}
-          </Bottom>
-        </>
-      )} */}
       </Card>
     </>
   )

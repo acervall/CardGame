@@ -1,7 +1,7 @@
 import styled from '@emotion/styled'
 import { color } from '../assets/colors'
 import { doubleDeck, Card, cardOnGameBoard } from '../constants/Deck'
-import { Cards } from './Card'
+// import { Cards } from './Card'
 import { useState } from 'react'
 
 const GameView = styled.div`
@@ -144,13 +144,17 @@ function Sequence() {
           <button disabled={!canDraw} onClick={drawCard}>
             Draw
           </button>
-          <div>{throwPile.length > 0 && <Cards {...throwPile[throwPile.length - 1]} />}</div>
+          <div>
+            {throwPile.length > 0 && (
+              <div>{/* <Cards {...throwPile[throwPile.length - 1]} /> */}</div>
+            )}
+          </div>
         </DeckContainer>
         <Hand>
           {hand.map((card, i) => {
             return (
               <div onClick={() => selectCard(card)}>
-                <Cards key={i} {...card} />
+                <div key={i}>{/* <Cards key={i} {...card} /> */}</div>
               </div>
             )
           })}
@@ -161,7 +165,7 @@ function Sequence() {
           return row.map((card: Card, j: number) => {
             return (
               <div key={`${i}-${j}`} onClick={() => placeMarker(card)}>
-                <Cards {...card} />
+                {/* <Cards {...card} /> */}
               </div>
             )
           })

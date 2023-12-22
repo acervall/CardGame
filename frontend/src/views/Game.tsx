@@ -1,4 +1,4 @@
-import Sequence from '../components/Sequence'
+// import Sequence from '../components/Sequence'
 import GameLobby from '../components/GameLobby'
 
 function Game() {
