@@ -5,77 +5,55 @@ const createNewDeck = () => {
   return shuffleDeck(doubleDeck)
 }
 
+interface player {
+  [key: string]: {
+    color: string
+    username: string
+  }
+}
+
 export function setupGame(io: IOServer) {
-  const userCreatedRooms = new Set()
   let games: { [key: string]: any } = {}
 
+  const backEndPlayers: player = {}
+
   io.on('connection', (socket: Socket) => {
-    socket.on('createRoom', (roomName) => {
-      socket.join(roomName)
-      userCreatedRooms.add(roomName)
-      io.emit('roomCreated', roomName)
-    })
+    io.emit('testSocket', `${socket.id}testSocket`)
 
-    const rooms = Array.from(userCreatedRooms)
+    io.emit('updatePlayers', backEndPlayers)
 
-    socket.on('joinRoom', (roomName) => {
-      if (games[roomName] && games[roomName].hasStarted) {
-        console.log('A game has already started in this room')
-        return
+    socket.on('initGame', ({ color, username }) => {
+      backEndPlayers[socket.id] = {
+        color: color,
+        username: username,
       }
-
-      console.log('joining room', roomName)
-      socket.join(roomName)
-    })
-
-    socket.on('startGame', (gameId) => {
-      if (!userCreatedRooms.has(gameId)) {
-        console.log('User is not in the room they are trying to start a game in')
-        io.to(gameId).emit('gameStateUpdate', {
-          message: 'User is not in the room they are trying to start a game in',
-        })
-        return
-      }
-
-      const usersInRoom = io.sockets.adapter.rooms.get(gameId)
+      io.emit('playerIsReady', backEndPlayers[socket.id])
 
       const allowedSizes = [2, 3, 4, 6, 8, 9, 10, 12]
-      if (!usersInRoom || !allowedSizes.includes(usersInRoom.size)) {
-        console.log('The game cannot be started with this number of users')
-        io.to(gameId).emit('gameStateUpdate', {
-          message: 'The game cannot be started with this number of users',
-        })
-        return
+      const amountPlayers = Object.keys(backEndPlayers).length
+      if (allowedSizes.find((size) => size === amountPlayers) !== undefined) {
+        console.log('readyToPlay')
+        io.emit('readyToPlay')
       }
-
-      games = {
-        ...games,
-        [gameId]: {
-          deck: createNewDeck(),
-          hasStarted: true,
-        },
-      }
-
-      io.to(gameId).emit('gameStateUpdate', { message: 'Game started', gameState: games[gameId] })
     })
 
-    socket.on('getRooms', () => {
-      const gameKeys = Object.keys(games)
-      const availableRooms = (rooms as string[]).filter(
-        (roomName: string) => !gameKeys.includes(roomName),
-      )
-      socket.emit('roomsReceived', availableRooms)
+    socket.on('startGame', () => {
+      const gameId = socket.id
+
+      console.log('bakcendPlayer')
+
+      games[gameId] = {
+        deck: createNewDeck(),
+        hasStarted: true,
+      }
+      console.log('startGame, emit gameStateUpdate')
+      io.emit('gameStateUpdate', { message: 'Game started', gameState: games[gameId] })
     })
 
-    socket.on('leaveRoom', (roomName) => {
-      socket.leave(roomName)
-
-      const usersInRoom = io.sockets.adapter.rooms.get(roomName)
-
-      if (!usersInRoom || usersInRoom.size === 0) {
-        delete rooms[roomName]
-        io.emit('roomsReceived', Object.keys(rooms))
-      }
+    socket.on('disconnect', (reason) => {
+      console.log(reason)
+      delete backEndPlayers[socket.id]
+      io.emit('updatePlayers', backEndPlayers)
     })
   })
 }
