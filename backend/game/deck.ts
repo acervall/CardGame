@@ -14,6 +14,10 @@ export interface Card {
   status: string | undefined
 }
 
+export interface Deck {
+  cards: Card[]
+}
+
 const faces = ['2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K', 'A']
 const values = [2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14]
 
@@ -57,6 +61,8 @@ function shuffleDeck(array: Card[]) {
   }
   return array
 }
+
+shuffleDeck(doubleDeck)
 
 const cardOrderOnGameBoard = [
   [54, 0, 1, 2, 3, 4, 5, 6, 7, 53],
