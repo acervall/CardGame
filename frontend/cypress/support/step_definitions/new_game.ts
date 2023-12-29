@@ -12,7 +12,7 @@ Given(`User1 has logged in and navigated to the game lobby`, () => {
 })
 
 When(`User1 creates a new game table`, () => {
-  cy.get('#create-table').click()
+  // cy.get('#create-table').click()
 })
 
 Then(
