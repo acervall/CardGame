@@ -29,11 +29,7 @@ jobs:
       - name: Start Docker Compose Services
         run: docker-compose -f compose.yaml up -d
 
-      - name: Change directory to frontend
-        run: cd frontend
-
-      - name: Cypress run
-        uses: cypress-io/github-action@v6
-        with:
-          build: npm run build
-          start: npm start
+      - name: Build and Cypress run
+        run: |
+          cd frontend && npm run build
+          npx cypress run
