@@ -1,9 +1,9 @@
 import styled from '@emotion/styled'
 import { color } from '../assets/colors'
-import { doubleDeck, Card, cardOnGameBoard } from '../constants/Deck'
+import { doubleDeck, Card } from '../constants/Deck'
 import { Cards } from './Card'
 import { useState, useEffect } from 'react'
-import { initializeSocket, getGameStateUpdate, readyToPlay, cardsOnHand } from '../api/socket'
+import { initializeSocket, getGameStateUpdate, cardsOnHand, GamesInterface } from '../api/socket'
 
 const GameView = styled.div`
   height: 100vh;
@@ -56,12 +56,15 @@ function Sequence() {
   const [currentGameBoard, setCurrentGameBoard] = useState<Card[][] | undefined>(undefined)
   const [selectedCard, setSelectedCard] = useState<Card | null>(null)
   const [canDraw, setCanDraw] = useState<boolean>(false)
-  const [gameInformation, setGameInformation] = useState(null)
+  const [gameInformation, setGameInformation] = useState<GamesInterface | undefined>(undefined)
+
+  console.log(gameInformation)
 
   useEffect(() => {
     initializeSocket()
     console.log('useEffect')
     getGameStateUpdate().then(({ message, gameState }) => {
+      console.log(message)
       setGameInformation(gameState)
 
       console.log('gameBoard', gameState.gameBoard)
@@ -85,34 +88,15 @@ function Sequence() {
   function selectCard(card: Card) {
     setSelectedCard(card)
     console.log(card)
-
-    const newGameBoard = currentGameBoard.map((row) =>
-      row.map((gameCard: Card) => {
-        if (
-          (gameCard === card || (gameCard.value === card.value && gameCard.suit === card.suit)) &&
-          gameCard.status !== 'Selected'
-        ) {
-          return { ...gameCard, status: 'Available' }
-        } else if (gameCard.status === 'Available') {
-          return { ...gameCard, status: undefined }
-        } else {
-          return gameCard
-        }
-      }),
-    )
-    setCurrentGameBoard(newGameBoard)
-  }
-
-  function placeMarker(card: Card) {
-    if (selectedCard && card.value === selectedCard.value && card.suit === selectedCard.suit) {
-      setThrowPile((oldThrowPile) => [...oldThrowPile, selectedCard])
-      setHand((oldHand) => oldHand.filter((handCard) => handCard !== selectedCard))
-      setCanDraw(true)
+    if (currentGameBoard) {
       const newGameBoard = currentGameBoard.map((row) =>
         row.map((gameCard: Card) => {
-          if (gameCard === card) {
-            return { ...gameCard, status: 'Selected' }
-          } else if (gameCard.value === selectedCard.value && gameCard.suit === selectedCard.suit) {
+          if (
+            (gameCard === card || (gameCard.value === card.value && gameCard.suit === card.suit)) &&
+            gameCard.status !== 'Selected'
+          ) {
+            return { ...gameCard, status: 'Available' }
+          } else if (gameCard.status === 'Available') {
             return { ...gameCard, status: undefined }
           } else {
             return gameCard
@@ -120,10 +104,35 @@ function Sequence() {
         }),
       )
       setCurrentGameBoard(newGameBoard)
-      if (checkForSequence(newGameBoard)) {
-        console.log('Player has a sequence of 5!')
-      } else {
-        console.log('Player does not have a sequence of 5!')
+    }
+  }
+
+  function placeMarker(card: Card) {
+    if (selectedCard && card.value === selectedCard.value && card.suit === selectedCard.suit) {
+      setThrowPile((oldThrowPile) => [...oldThrowPile, selectedCard])
+      setHand((oldHand) => oldHand.filter((handCard) => handCard !== selectedCard))
+      setCanDraw(true)
+      if (currentGameBoard) {
+        const newGameBoard = currentGameBoard.map((row) =>
+          row.map((gameCard: Card) => {
+            if (gameCard === card) {
+              return { ...gameCard, status: 'Selected' }
+            } else if (
+              gameCard.value === selectedCard.value &&
+              gameCard.suit === selectedCard.suit
+            ) {
+              return { ...gameCard, status: undefined }
+            } else {
+              return gameCard
+            }
+          }),
+        )
+        setCurrentGameBoard(newGameBoard)
+        if (checkForSequence(newGameBoard)) {
+          console.log('Player has a sequence of 5!')
+        } else {
+          console.log('Player does not have a sequence of 5!')
+        }
       }
     }
   }

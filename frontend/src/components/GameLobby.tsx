@@ -5,9 +5,9 @@ import useUser from '../hooks/useUser'
 import { color } from '../assets/colors'
 
 const GameLobby = () => {
-  const [rooms, setRooms] = useState<string[]>([])
-  const [joinedRoom, setJoinedRoom] = useState<string | null>(null)
-  const [gameState, setGameState] = useState(null)
+  // const [rooms, setRooms] = useState<string[]>([])
+  // const [joinedRoom, setJoinedRoom] = useState<string | null>(null)
+  // const [gameState, setGameState] = useState(null)
   const [gameColor, setGameColor] = useState<string | null>(null)
   const [gameIsReady, setGameIsReady] = useState<boolean>(false)
   const [amountPlayers, setAmountPlayers] = useState<number>(0)

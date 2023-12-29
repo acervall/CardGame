@@ -1,4 +1,4 @@
-enum Suit {
+export enum Suit {
   Spades = 'S',
   Clubs = 'C',
   Hearts = 'H',

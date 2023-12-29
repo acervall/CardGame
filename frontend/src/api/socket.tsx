@@ -9,14 +9,14 @@ interface ReadyToPlayResponse {
   amountPlayers?: number | undefined
 }
 
-interface GameStateUpdateResponse {
+export interface GameStateUpdateResponse {
   message: string
   gameState: GamesInterface
 }
 
-interface GamesInterface {
+export interface GamesInterface {
   deck: Card[]
-  gameBoard: Card[][] | null
+  gameBoard: Card[][] | undefined
   hasStarted: boolean
 }
 
@@ -25,14 +25,14 @@ export const initializeSocket = () => {
     // console.log('connected with id:', socket.id)
   })
 
-  socket.on('playerIsReady', (players) => {
-    // console.log(players)
-  })
+  // socket.on('playerIsReady', (players) => {
+  //   // console.log(players)
+  // })
 
-  socket.on('gameStateUpdate', (data) => {
-    // console.log('gameState, data.message', data.message)
-    // console.log('gameState, data.gameState', data.gameState)
-  })
+  // socket.on('gameStateUpdate', (data) => {
+  //   // console.log('gameState, data.message', data.message)
+  //   // console.log('gameState, data.gameState', data.gameState)
+  // })
 }
 
 // games[gameId] = {
@@ -69,7 +69,7 @@ export const stoppingGame = (): Promise<ReadyToPlayResponse> => {
   })
 }
 
-export const updateGameState = (gameState: any) => {
+export const updateGameState = (gameState: GamesInterface) => {
   // console.log('updating game state')
   socket.emit('updateGameState', gameState)
 }

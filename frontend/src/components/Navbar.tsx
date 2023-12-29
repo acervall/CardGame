@@ -1,7 +1,7 @@
 import { useNavigate } from 'react-router-dom'
 import { RoundedButton } from '../assets/StyledComponents/FormComponents'
 import styled from '@emotion/styled'
-import { color } from '../assets/colors'
+// import { color } from '../assets/colors'
 
 const NavbarContent = styled.div`
   display: flex;
@@ -11,15 +11,15 @@ const NavbarContent = styled.div`
   transition: top 0.5s ease-in-out;
 `
 
-const Arrow = styled.div`
-  position: absolute;
-  width: 100%;
-  text-align: center;
-  opacity: 1;
-  transition: opacity 0.5s ease-in-out;
-  font-size: 40px;
-  color: ${color.lightGray};
-`
+// const Arrow = styled.div`
+//   position: absolute;
+//   width: 100%;
+//   text-align: center;
+//   opacity: 1;
+//   transition: opacity 0.5s ease-in-out;
+//   font-size: 40px;
+//   color: ${color.lightGray};
+// `
 
 const NavbarContainer = styled.div`
   position: fixed;

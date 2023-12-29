@@ -1,10 +1,15 @@
 import styled from '@emotion/styled'
 import { color } from '../assets/colors'
 import { cardImages } from '../assets/Cards/CardImages'
-import { Card as CardType } from '../constants/Deck'
+import { Card as CardType, Suit } from '../constants/Deck'
 
 interface CardProps extends CardType {
-  status: string
+  nr: number
+  face: string
+  value: number
+  suit: Suit
+  url: string
+  status: string | undefined
 }
 
 const Card = styled.button<CardProps>(
