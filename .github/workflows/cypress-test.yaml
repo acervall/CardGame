@@ -31,7 +31,8 @@ jobs:
 
       - name: Start Application
         run: |
-          cd frontend && npm install && npm run dev
+          cd frontend && npm install && npm run dev &
+          sleep 10
 
       - name: Build and Cypress run
         run: npx cypress run
