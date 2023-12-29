@@ -37,4 +37,6 @@ jobs:
           sleep 10
 
       - name: Build and Cypress run
-        run: npx cypress run
+        run: |
+          cd frontend 
+          npx cypress run
