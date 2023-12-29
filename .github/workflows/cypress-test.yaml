@@ -30,9 +30,8 @@ jobs:
         run: docker-compose -f compose.yaml up -d
 
       - name: Start Application
-        run: npm run dev
+        run: |
+          cd frontend && npm install && npm run dev
 
       - name: Build and Cypress run
-        run: |
-          cd frontend && npm install && npm run build
-          npx cypress run
+        run: npx cypress run
