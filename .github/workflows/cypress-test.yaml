@@ -27,7 +27,9 @@ jobs:
           echo "JWT_SECRET=secret" >> .env
 
       - name: Start Docker Compose Services
-        run: docker-compose -f compose.yaml up -d
+        run: |
+          docker-compose -f compose.yaml up -d
+          cd frontend
 
       - name: Cypress run
         uses: cypress-io/github-action@v6
