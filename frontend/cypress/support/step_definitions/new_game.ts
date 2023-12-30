@@ -9,37 +9,44 @@ Given(`User1 has logged in and navigated to the game lobby`, () => {
   cy.get('button[type="submit"]').click()
 
   cy.get('#game').click()
+  cy.get('#amount-players').should('be.hidden')
 })
 
 When(`User1 selects color red`, () => {
-  // cy.get('#button-red').click()
+  cy.get('#button-red').click()
 })
 
 Then(`Amount of player online is visible for other users`, () => {
-  // connection to socket.io
-  // emit amount of players
+  cy.get('#amount-players').contains('1')
+  cy.get('#start-game').should('be.disabled')
 })
 
 Given(`User2 has logged in and navigated to the game lobby where User1 is color red`, () => {
-  // login functions
-  // see other players online
+  cy.visit('http://localhost:5173/')
+  cy.get('input[name="identifier"]').type('poi')
+  cy.get('input[name="password"]').type('poi')
+  cy.get('button[type="submit"]').click()
+
+  cy.get('#game').click()
+  cy.get('#amount-players').contains('1')
 })
+
 When(`User2 select color green`, () => {
-  // color green.click
+  cy.get('#button-green').click()
 })
 Then(`Enough players are online and the game can start`, () => {
-  // can see all users online
-  // start game button visible
+  cy.get('#amount-players').contains('2')
+  cy.get('#start-game').should('not.be.disabled')
 })
 
 Given(`The correct number of players are at the table and everyone is in a team`, () => {
-  // it's possible to start the game
-  //start game button visible
+  cy.get('#start-game').should('not.be.disabled')
 })
+
 When(`A player starts the game`, () => {
-  // one of the players starts the game
-  //start game button.click()
+  cy.get('#start-game').click()
 })
+
 Then(`The game starts`, () => {
-  // the game start
+  cy.get('#game-view').should('be.visible')
 })
