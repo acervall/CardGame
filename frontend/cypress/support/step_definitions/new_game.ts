@@ -11,48 +11,34 @@ Given(`User1 has logged in and navigated to the game lobby`, () => {
   cy.get('#game').click()
 })
 
-When(`User1 creates a new game table`, () => {
-  // cy.get('#create-table').click()
+When(`User1 selects color red`, () => {
+  // cy.get('#button-red').click()
 })
 
-Then(
-  `A new table is created, User1 is the only player in it, and it's open for other players to join`,
-  () => {
-    // connection to socket.io
-  },
-)
-
-Given(
-  `User2 has logged in and navigated to the game lobby where there is an open table created by User1`,
-  () => {
-    // login functions
-    // see open table
-  },
-)
-When(`User2 joins the open table`, () => {
-  // clicks join table
+Then(`Amount of player online is visible for other users`, () => {
+  // connection to socket.io
+  // emit amount of players
 })
-Then(`Both User1 and User2 are at the game table`, () => {
+
+Given(`User2 has logged in and navigated to the game lobby where User1 is color red`, () => {
+  // login functions
+  // see other players online
+})
+When(`User2 select color green`, () => {
+  // color green.click
+})
+Then(`Enough players are online and the game can start`, () => {
   // can see all users online
-})
-
-Given(`Both users are at the created table and can see the available teams to join`, () => {
-  // sees all users online can select team
-  // start game - not possible
-})
-When(`The users select their teams`, () => {
-  // select team to join
-})
-Then(`It's possible to start the game once everyone has selected a team`, () => {
-  // start game is possible
+  // start game button visible
 })
 
 Given(`The correct number of players are at the table and everyone is in a team`, () => {
-  // all players are part of a team
   // it's possible to start the game
+  //start game button visible
 })
 When(`A player starts the game`, () => {
   // one of the players starts the game
+  //start game button.click()
 })
 Then(`The game starts`, () => {
   // the game start
