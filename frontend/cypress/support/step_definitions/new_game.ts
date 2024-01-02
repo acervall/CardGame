@@ -31,3 +31,39 @@ Then(`the "Start Game" button should be visible, user starts game`, () => {
       }
     })
 })
+
+When(`a player plays a card`, () => {
+  cy.wait(5000)
+  cy.document().then((doc) => {
+    const gameView = doc.querySelector('[data-testid="game-view"]')
+    if (gameView) {
+      cy.get('[data-testid="game-board"]').should('exist')
+      cy.get('[data-testid="cards"]').should('have.length', 7)
+      cy.get('[data-testid="cards"]').eq(0).click()
+    } else {
+      console.log('game not started')
+      return
+    }
+  })
+})
+
+Then(`the correct card should be selected and end up in the discard pile`, () => {
+  cy.document().then((doc) => {
+    const gameView = doc.querySelector('[data-testid="game-view"]')
+    if (gameView) {
+      cy.get('[data-testid="game-board"] [data-testid="game-board-card"]').each(($cardDiv) => {
+        if ($cardDiv.attr('data-card-status') === 'Available') {
+          $cardDiv.click()
+          cy.get('[data-testid="throw-pile"]').should(
+            'have.attr',
+            'data-card-nr',
+            $cardDiv.attr('data-card-nr'),
+          )
+        }
+      })
+    } else {
+      console.log('game not started')
+      return
+    }
+  })
+})
