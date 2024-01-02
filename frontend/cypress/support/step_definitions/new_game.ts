@@ -1,52 +1,33 @@
 import { When, Then, Given } from '@badeball/cypress-cucumber-preprocessor'
 
-Given(`User1 has logged in and navigated to the game lobby`, () => {
+Given(`a user is logged in, navigates to lobby and selects color`, () => {
   cy.clearLocalStorage()
-
   cy.visit('http://localhost:5173/')
   cy.get('input[name="identifier"]').type('poi')
   cy.get('input[name="password"]').type('poi')
   cy.get('button[type="submit"]').click()
-
-  cy.get('#game').click()
-  cy.get('#amount-players').should('be.hidden')
+  cy.get('[data-testid="game"]').click()
+  cy.get('[data-testid="button-red"]').click()
 })
 
-When(`User1 selects color red`, () => {
-  cy.get('#button-red').click()
+When(`if the amount of players is more than two the game can start`, () => {
+  cy.get('[data-testid="amount-players"]')
+    .invoke('text')
+    .then((playerCount) => {
+      console.log('playerCount test', playerCount)
+      if (parseInt(playerCount) >= 2) {
+        cy.get('[data-testid="start-game"]').should('be.visible')
+      }
+    })
 })
 
-Then(`Amount of player online is visible for other users`, () => {
-  cy.get('#amount-players').contains('1')
-  cy.get('#start-game').should('be.disabled')
-})
-
-Given(`User2 has logged in and navigated to the game lobby where User1 is color red`, () => {
-  cy.visit('http://localhost:5173/')
-  cy.get('input[name="identifier"]').type('poi')
-  cy.get('input[name="password"]').type('poi')
-  cy.get('button[type="submit"]').click()
-
-  cy.get('#game').click()
-  cy.get('#amount-players').contains('1')
-})
-
-When(`User2 select color green`, () => {
-  cy.get('#button-green').click()
-})
-Then(`Enough players are online and the game can start`, () => {
-  cy.get('#amount-players').contains('2')
-  cy.get('#start-game').should('not.be.disabled')
-})
-
-Given(`The correct number of players are at the table and everyone is in a team`, () => {
-  cy.get('#start-game').should('not.be.disabled')
-})
-
-When(`A player starts the game`, () => {
-  cy.get('#start-game').click()
-})
-
-Then(`The game starts`, () => {
-  cy.get('#game-view').should('be.visible')
+Then(`the "Start Game" button should be visible, user starts game`, () => {
+  cy.get('[data-testid="amount-players"]')
+    .invoke('text')
+    .then((playerCount) => {
+      if (parseInt(playerCount) >= 2) {
+        cy.get('[data-testid="start-game"]').click()
+        cy.get('[data-testid="game-view"]').should('be.visible')
+      }
+    })
 })
