@@ -12,7 +12,7 @@ interface player {
 export function setupGame(io: IOServer) {
   let games: { [key: string]: any } = {}
 
-  const backEndPlayers: player = {}
+  let backEndPlayers: player = {}
   let playersInitialHand
 
   const createNewDoubleDeck = (amountPlayers: number) => {
@@ -27,7 +27,7 @@ export function setupGame(io: IOServer) {
       console.log('playerIds', playerIds)
       const playerId = playerIds[i]
       backEndPlayers[playerId].cardsOnHand = playersInitialHand.slice(i * 7, (i + 1) * 7)
-      console.log(' backEndPlayers[playerId].cardsOnHand ', backEndPlayers[playerId].cardsOnHand)
+      // console.log(' backEndPlayers[playerId].cardsOnHand ', backEndPlayers[playerId].cardsOnHand)
       console.log('playersInitialHand', playersInitialHand)
     }
 
@@ -39,10 +39,6 @@ export function setupGame(io: IOServer) {
   }
 
   io.on('connection', (socket: Socket) => {
-    io.emit('testSocket', `${socket.id}testSocket`)
-
-    io.emit('updatePlayers', backEndPlayers)
-
     let amountPlayers: number
 
     socket.on('initGame', ({ color, username }) => {
@@ -51,20 +47,21 @@ export function setupGame(io: IOServer) {
         username: username,
         cardsOnHand: undefined,
       }
-      io.emit('playerIsReady', backEndPlayers[socket.id])
+      // io.emit('playerIsReady', backEndPlayers[socket.id])
 
       const allowedSizes = [2, 3, 4, 6, 8, 9, 10, 12]
       amountPlayers = Object.keys(backEndPlayers).length
+
       io.emit('amountPlayers', amountPlayers)
 
       if (allowedSizes.find((size) => size === amountPlayers) !== undefined) {
-        console.log('readyToPlay')
-        io.emit('readyToPlay', amountPlayers)
+        io.emit('readyToPlay', true)
       }
     })
 
     socket.on('startGame', () => {
       const gameId = socket.id
+      console.log('socket startGame on')
 
       io.emit('gameHasStarted', true)
 
@@ -79,7 +76,10 @@ export function setupGame(io: IOServer) {
         io.to(playerId).emit('cardsOnHand', backEndPlayers[playerId].cardsOnHand)
       }
       console.log('startGame, emit gameStateUpdate')
-      io.emit('gameStateUpdate', { message: 'Game started', gameState: games[gameId] })
+      io.emit('gameStateUpdate', {
+        message: 'Game started',
+        gameState: games[gameId],
+      })
     })
 
     socket.on('disconnect', (reason) => {
@@ -90,3 +90,8 @@ export function setupGame(io: IOServer) {
     })
   })
 }
+
+// En person trycker start game, endast den får updates för spelet båda behöver joina
+// Hitta sätt att skicka korrekt information i rätt tid
+// Alla behöver få informationen när personen startar spelet
+// Skicka ut all information

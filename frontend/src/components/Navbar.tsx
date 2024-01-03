@@ -47,7 +47,7 @@ function Navbar() {
       {/* <Arrow>^</Arrow> */}
       <NavbarContent>
         <RoundedButton onClick={() => handleClick('/')}>Home</RoundedButton>
-        <RoundedButton onClick={() => handleClick('/game')} id="game">
+        <RoundedButton onClick={() => handleClick('/game')} data-testid="game">
           Game
         </RoundedButton>
         <RoundedButton onClick={() => handleClick('/profile')}>Profile</RoundedButton>

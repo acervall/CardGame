@@ -1,5 +1,5 @@
 // URL where Nginx is running
 // nginx then takes care of request and forwards it to backend api
 // export const BASE_URL = 'http://localhost:3000'
-export const BASE_URL = 'http://192.168.50.159:3000'
+export const BASE_URL = 'http://192.168.1.9:3000'
 // console.log('Loaded BASE_URL:', BASE_URL)

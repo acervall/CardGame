@@ -1,10 +1,12 @@
 import { useState, useEffect } from 'react'
 import { RoundedButton } from '../assets/StyledComponents/FormComponents'
-import { initializeSocket, joinGame, startGame, readyToPlay, getAmountPlayers } from '../api/socket'
+import { initializeSocket, joinGame, startGame } from '../api/socket'
 import useUser from '../hooks/useUser'
 import { color } from '../assets/colors'
+import { useGame } from '../utils/GameContext'
 
 const GameLobby = () => {
+  const { socket } = useGame()
   // const [rooms, setRooms] = useState<string[]>([])
   // const [joinedRoom, setJoinedRoom] = useState<string | null>(null)
   // const [gameState, setGameState] = useState(null)
@@ -14,24 +16,18 @@ const GameLobby = () => {
 
   const { data: user, isLoading, error } = useUser()
 
-  useEffect(() => {
-    initializeSocket()
-    readyToPlay().then(({ isReady, amountPlayers }) => {
-      if (isReady) {
-        setGameIsReady(true)
-        // console.log('The number of players ready to play is', amountPlayers)
-        if (amountPlayers !== undefined) {
-          setAmountPlayers(amountPlayers)
-        }
-      }
-    })
-    getAmountPlayers().then((amountPlayers) => {
-      if (amountPlayers) {
-        console.log('The number of players ready to play is', amountPlayers)
-        setAmountPlayers(amountPlayers)
-      }
-    })
-  }, [])
+  socket.on('readyToPlay', (isReady: boolean) => {
+    if (isReady) {
+      setGameIsReady(true)
+    }
+  })
+
+  socket.on('amountPlayers', (amountPlayers: number) => {
+    console.log('amountPlayers', amountPlayers)
+    if (amountPlayers) {
+      setAmountPlayers(amountPlayers)
+    }
+  })
 
   if (user) {
     const username = user.username
@@ -39,6 +35,7 @@ const GameLobby = () => {
     const handleStartGame = () => {
       startGame()
     }
+
     const selectGameColor = (gameColor: string) => {
       setGameColor(gameColor)
       if (gameColor) {
@@ -56,19 +53,27 @@ const GameLobby = () => {
         {!gameColor && (
           <>
             <p>Game color: {gameColor}</p>
-            <RoundedButton onClick={() => selectGameColor(color.red)}>Red</RoundedButton>
-            <RoundedButton onClick={() => selectGameColor(color.green)}>Green</RoundedButton>
-            <RoundedButton onClick={() => selectGameColor(color.blue)}>Blue</RoundedButton>
+            <RoundedButton data-testid="button-red" onClick={() => selectGameColor(color.red)}>
+              Red
+            </RoundedButton>
+            <RoundedButton data-testid="button-green" onClick={() => selectGameColor(color.green)}>
+              Green
+            </RoundedButton>
+            <RoundedButton data-testid="button-blue" onClick={() => selectGameColor(color.blue)}>
+              Blue
+            </RoundedButton>
           </>
         )}
         {gameIsReady && (
           <>
-            <RoundedButton id="start-game" onClick={handleStartGame}>
+            <RoundedButton data-testid="start-game" onClick={handleStartGame}>
               Start game
             </RoundedButton>
           </>
         )}
-        <p>Players in game: {amountPlayers}</p>
+        <p>
+          Players in game: <p data-testid="amount-players">{amountPlayers}</p>
+        </p>
       </div>
     )
   }
