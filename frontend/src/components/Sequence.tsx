@@ -1,9 +1,10 @@
 import styled from '@emotion/styled'
 import { color } from '../assets/colors'
-import { doubleDeck, Card } from '../constants/Deck'
+import { Card } from '../constants/Deck'
 import { Cards } from './Card'
 import { useState, useEffect } from 'react'
-import { initializeSocket, getGameStateUpdate, cardsOnHand, GamesInterface } from '../api/socket'
+// import { initializeSocket, cardsOnHand, GamesInterface, getGameStateUpdate } from '../api/socket'
+import { useGame } from '../utils/GameContext'
 
 const GameView = styled.div`
   height: 100vh;
@@ -47,40 +48,32 @@ const LeftSide = styled.div`
   flex-direction: column;
   width: 10vw;
 `
-
 function Sequence() {
-  const initialHand = doubleDeck.slice(0, 7) as Card[]
-  const [hand, setHand] = useState<Card[]>(initialHand)
-  const [deck, setDeck] = useState<Card[]>(doubleDeck.slice(7) as Card[])
+  const {
+    gameState,
+    socket,
+    cardsOnHand,
+    initGame,
+    startGame,
+    disconnect,
+    amountPlayers,
+    readyToPlay,
+  } = useGame()
+
+  const [hand, setHand] = useState<Card[]>(cardsOnHand)
+  const [deck, setDeck] = useState<Card[]>()
+  const [gameBoard, setGameBoard] = useState<Card[][]>(gameState?.gameBoard)
   const [throwPile, setThrowPile] = useState<Card[]>([])
-  const [currentGameBoard, setCurrentGameBoard] = useState<Card[][] | undefined>(undefined)
   const [selectedCard, setSelectedCard] = useState<Card | null>(null)
   const [canDraw, setCanDraw] = useState<boolean>(false)
-  const [gameInformation, setGameInformation] = useState<GamesInterface | undefined>(undefined)
-
-  console.log(gameInformation)
-
-  useEffect(() => {
-    initializeSocket()
-    console.log('useEffect')
-    getGameStateUpdate().then(({ message, gameState }) => {
-      console.log(message)
-      setGameInformation(gameState)
-
-      console.log('gameBoard', gameState.gameBoard)
-      setCurrentGameBoard(gameState.gameBoard)
-    })
-    cardsOnHand().then((cards) => {
-      console.log('cards', cards)
-      setHand(cards)
-    })
-  }, [])
 
   function drawCard() {
     if (deck.length > 0) {
       const newCard = deck[0]
-      setHand((oldHand) => [...oldHand, newCard])
-      setDeck((oldDeck) => oldDeck.slice(1))
+      if (hand !== undefined) {
+        setHand((oldHand) => [...oldHand, newCard])
+        setDeck((oldDeck) => oldDeck.slice(1))
+      }
       setCanDraw(false)
     }
   }
@@ -88,8 +81,8 @@ function Sequence() {
   function selectCard(card: Card) {
     setSelectedCard(card)
     console.log(card)
-    if (currentGameBoard) {
-      const newGameBoard = currentGameBoard.map((row) =>
+    if (gameBoard) {
+      const newGameBoard = gameBoard.map((row) =>
         row.map((gameCard: Card) => {
           if (
             (gameCard === card || (gameCard.value === card.value && gameCard.suit === card.suit)) &&
@@ -103,7 +96,7 @@ function Sequence() {
           }
         }),
       )
-      setCurrentGameBoard(newGameBoard)
+      setGameBoard(newGameBoard)
     }
   }
 
@@ -112,8 +105,8 @@ function Sequence() {
       setThrowPile((oldThrowPile) => [...oldThrowPile, selectedCard])
       setHand((oldHand) => oldHand.filter((handCard) => handCard !== selectedCard))
       setCanDraw(true)
-      if (currentGameBoard) {
-        const newGameBoard = currentGameBoard.map((row) =>
+      if (gameBoard) {
+        const newGameBoard = gameBoard.map((row) =>
           row.map((gameCard: Card) => {
             if (gameCard === card) {
               return { ...gameCard, status: 'Selected' }
@@ -127,7 +120,7 @@ function Sequence() {
             }
           }),
         )
-        setCurrentGameBoard(newGameBoard)
+        setGameBoard(newGameBoard)
         if (checkForSequence(newGameBoard)) {
           console.log('Player has a sequence of 5!')
         } else {
@@ -164,7 +157,7 @@ function Sequence() {
   }
 
   return (
-    <GameView>
+    <GameView data-testid="game-view">
       <LeftSide>
         <DeckContainer>
           <button disabled={!canDraw} onClick={drawCard}>
@@ -172,30 +165,37 @@ function Sequence() {
           </button>
           <div>
             {throwPile.length > 0 && (
-              <div>
+              <div data-testid="throw-pile" data-card-nr={throwPile[throwPile.length - 1].nr}>
                 <Cards {...throwPile[throwPile.length - 1]} />
               </div>
             )}
           </div>
         </DeckContainer>
         <Hand>
-          {hand.map((card, i) => {
-            return (
-              <div onClick={() => selectCard(card)}>
-                <div key={i}>
-                  <Cards key={i} {...card} />
+          {hand &&
+            hand.map((card, i) => {
+              return (
+                <div onClick={() => selectCard(card)}>
+                  <div data-testid="cards" data-card-nr={card.nr} key={i}>
+                    <Cards key={i} {...card} />
+                  </div>
                 </div>
-              </div>
-            )
-          })}
+              )
+            })}
         </Hand>
       </LeftSide>
-      {currentGameBoard && (
-        <GamePlan>
-          {currentGameBoard.map((row, i) => {
+      {gameBoard && (
+        <GamePlan data-testid="game-board">
+          {gameBoard.map((row, i) => {
             return row.map((card: Card, j: number) => {
               return (
-                <div key={`${i}-${j}`} onClick={() => placeMarker(card)}>
+                <div
+                  key={`${i}-${j}`}
+                  data-testid="game-board-card"
+                  data-card-status={card.status}
+                  data-card-nr={card.nr}
+                  onClick={() => placeMarker(card)}
+                >
                   <Cards {...card} />
                 </div>
               )

@@ -1,33 +1,29 @@
 import { useState, useEffect } from 'react'
 import { RoundedButton } from '../assets/StyledComponents/FormComponents'
-import { initializeSocket, joinGame, startGame } from '../api/socket'
+// import { initializeSocket, joinGame, startGame } from '../api/socket'
 import useUser from '../hooks/useUser'
 import { color } from '../assets/colors'
 import { useGame } from '../utils/GameContext'
 
 const GameLobby = () => {
-  const { socket } = useGame()
-  // const [rooms, setRooms] = useState<string[]>([])
-  // const [joinedRoom, setJoinedRoom] = useState<string | null>(null)
-  // const [gameState, setGameState] = useState(null)
+  const {
+    gameState,
+    socket,
+    cardsOnHand,
+    initGame,
+    startGame,
+    disconnect,
+    amountPlayers,
+    readyToPlay,
+  } = useGame()
   const [gameColor, setGameColor] = useState<string | null>(null)
   const [gameIsReady, setGameIsReady] = useState<boolean>(false)
-  const [amountPlayers, setAmountPlayers] = useState<number>(0)
 
   const { data: user, isLoading, error } = useUser()
 
-  socket.on('readyToPlay', (isReady: boolean) => {
-    if (isReady) {
-      setGameIsReady(true)
-    }
-  })
-
-  socket.on('amountPlayers', (amountPlayers: number) => {
-    console.log('amountPlayers', amountPlayers)
-    if (amountPlayers) {
-      setAmountPlayers(amountPlayers)
-    }
-  })
+  useEffect(() => {
+    setGameIsReady(readyToPlay)
+  }, [readyToPlay])
 
   if (user) {
     const username = user.username
@@ -39,10 +35,7 @@ const GameLobby = () => {
     const selectGameColor = (gameColor: string) => {
       setGameColor(gameColor)
       if (gameColor) {
-        joinGame(gameColor, username)
-        // if (amountPlayers === 0) {
-        //   setAmountPlayers(1)
-        // }
+        initGame(gameColor, username)
       }
     }
 

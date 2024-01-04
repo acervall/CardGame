@@ -1,39 +1,27 @@
-import { io } from 'socket.io-client'
-import { BASE_URL } from '../constants/baseUrl'
-import { Card } from '../constants/Deck'
+// import { io } from 'socket.io-client'
+// import { BASE_URL } from '../constants/baseUrl'
+// import { Card } from '../constants/Deck'
 
-const socket = io(BASE_URL)
+// const socket = io(BASE_URL)
 
-interface ReadyToPlayResponse {
-  isReady: boolean
-  amountPlayers?: number | undefined
-}
+// interface ReadyToPlayResponse {
+//   isReady: boolean
+// }
 
-export interface GameStateUpdateResponse {
-  message: string
-  gameState: GamesInterface
-}
+// export interface GameStateUpdateResponse {
+//   message: string
+//   gameState: GamesInterface
+// }
 
-export interface GamesInterface {
-  deck: Card[]
-  gameBoard: Card[][] | undefined
-  hasStarted: boolean
-}
+// export interface GamesInterface {
+//   deck: Card[]
+//   gameBoard: Card[][] | undefined
+//   hasStarted: boolean
+// }
 
-export const initializeSocket = () => {
-  socket.on('connect', () => {
-    // console.log('connected with id:', socket.id)
-  })
-
-  // socket.on('playerIsReady', (players) => {
-  //   // console.log(players)
-  // })
-
-  // socket.on('gameStateUpdate', (data) => {
-  //   // console.log('gameState, data.message', data.message)
-  //   // console.log('gameState, data.gameState', data.gameState)
-  // })
-}
+// export const initializeSocket = () => {
+//   socket.on('connect', () => {})
+// }
 
 // games[gameId] = {
 //   deck: createNewDoubleDeck(),
@@ -41,78 +29,55 @@ export const initializeSocket = () => {
 //   hasStarted: true,
 // }
 
-export const joinGame = (color: string, username: string) => {
-  // console.log('joining game', color, username)
-  socket.emit('initGame', { color, username })
-}
+// export const joinGame = (color: string, username: string) => {
+//   socket.emit('initGame', { color, username })
+// }
 
-export const startGame = () => {
-  // console.log('starting game')
-  socket.emit('startGame')
-}
+// export const readyToPlay = (): Promise<boolean> => {
+//   return new Promise((resolve) => {
+//     socket.on('readyToPlay', (isReady) => {
+//       resolve(isReady)
+//     })
+//   })
+// }
 
-export const gameIsStarting = (): Promise<ReadyToPlayResponse> => {
-  return new Promise((resolve) => {
-    socket.on('gameHasStarted', (state) => {
-      resolve({ isReady: state })
-    })
-  })
-}
+// export const gameIsStarting = (): Promise<boolean> => {
+//   return new Promise((resolve) => {
+//     socket.on('gameHasStarted', (state) => {
+//       resolve(state)
+//     })
+//   })
+// }
 
-export const stoppingGame = (): Promise<ReadyToPlayResponse> => {
-  // console.log('socket, stipping game')
-  return new Promise((resolve) => {
-    socket.on('gameEnds', (state) => {
-      // console.log('gameEnds', state)
-      resolve({ isReady: state })
-    })
-  })
-}
+// export const startGame = () => {
+//   console.log('starting game')
+//   socket.emit('startGame')
+// }
 
-export const updateGameState = (gameState: GamesInterface) => {
-  // console.log('updating game state')
-  socket.emit('updateGameState', gameState)
-}
+// export const disconnect = (): Promise<ReadyToPlayResponse> => {
+//   socket.disconnect()
+//   // socket.emit('gameEnds', true)
+//   // console.log('disconnected')
+//   return new Promise((resolve) => {
+//     socket.on('gameEnds', (state) => {
+//       resolve({ isReady: state })
+//     })
+//   })
+// }
 
-export const readyToPlay = (): Promise<ReadyToPlayResponse> => {
-  return new Promise((resolve) => {
-    socket.on('readyToPlay', (amountPlayers) => {
-      resolve({ isReady: true, amountPlayers })
-    })
-  })
-}
+// export const cardsOnHand = (): Promise<Card[]> => {
+//   return new Promise((resolve) => {
+//     socket.on('cardsOnHand', (cards) => {
+//       console.log('THESE ARE THE CARDS', cards)
+//       resolve(cards)
+//     })
+//   })
+// }
 
-export const getGameStateUpdate = (): Promise<GameStateUpdateResponse> => {
-  return new Promise((resolve) => {
-    socket.on('gameStateUpdate', (data) => {
-      resolve({ message: 'Game started', gameState: data.gameState })
-    })
-  })
-}
-
-export const getAmountPlayers = (): Promise<number> => {
-  return new Promise((resolve) => {
-    socket.on('amountPlayers', (amountPlayers) => {
-      resolve(amountPlayers)
-    })
-  })
-}
-
-export const disconnect = (): Promise<ReadyToPlayResponse> => {
-  socket.disconnect()
-  // socket.emit('gameEnds', true)
-  // console.log('disconnected')
-  return new Promise((resolve) => {
-    socket.on('gameEnds', (state) => {
-      resolve({ isReady: state })
-    })
-  })
-}
-
-export const cardsOnHand = (): Promise<Card[]> => {
-  return new Promise((resolve) => {
-    socket.on('cardsOnHand', (cards) => {
-      resolve(cards)
-    })
-  })
-}
+// export const getGameStateUpdate = (): Promise<GameStateUpdateResponse> => {
+//   return new Promise((resolve) => {
+//     socket.on('gameStateUpdate', (data) => {
+//       resolve({ message: 'Game started', gameState: data.gameState })
+//     })
+//   })
+// }

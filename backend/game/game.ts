@@ -16,7 +16,6 @@ export function setupGame(io: IOServer) {
   let playersInitialHand
 
   const createNewDoubleDeck = (amountPlayers: number) => {
-    console.log('amountPlayers', amountPlayers)
     const dealAmountCards = amountPlayers * 7
     let deck = shuffleDeck(doubleDeck)
     playersInitialHand = deck.slice(0, dealAmountCards)
@@ -24,11 +23,8 @@ export function setupGame(io: IOServer) {
 
     const playerIds = Object.keys(backEndPlayers)
     for (let i = 0; i < playerIds.length; i++) {
-      console.log('playerIds', playerIds)
       const playerId = playerIds[i]
       backEndPlayers[playerId].cardsOnHand = playersInitialHand.slice(i * 7, (i + 1) * 7)
-      // console.log(' backEndPlayers[playerId].cardsOnHand ', backEndPlayers[playerId].cardsOnHand)
-      console.log('playersInitialHand', playersInitialHand)
     }
 
     return deck
@@ -42,11 +38,15 @@ export function setupGame(io: IOServer) {
     let amountPlayers: number
 
     socket.on('initGame', ({ color, username }) => {
+      console.log('initGame', socket.id, color, username)
       backEndPlayers[socket.id] = {
         color: color,
         username: username,
         cardsOnHand: undefined,
       }
+      socket.emit('players', backEndPlayers)
+      socket.emit('playerName', socket.id)
+      console.log('players', backEndPlayers)
       // io.emit('playerIsReady', backEndPlayers[socket.id])
 
       const allowedSizes = [2, 3, 4, 6, 8, 9, 10, 12]
@@ -60,10 +60,8 @@ export function setupGame(io: IOServer) {
     })
 
     socket.on('startGame', () => {
+      console.log('startGame', socket.id)
       const gameId = socket.id
-      console.log('socket startGame on')
-
-      io.emit('gameHasStarted', true)
 
       games[gameId] = {
         deck: createNewDoubleDeck(Object.keys(backEndPlayers).length),
@@ -71,15 +69,19 @@ export function setupGame(io: IOServer) {
         hasStarted: true,
       }
       for (const playerId in backEndPlayers) {
-        console.log('backEndPlayers', backEndPlayers)
-        console.log(playerId)
-        io.to(playerId).emit('cardsOnHand', backEndPlayers[playerId].cardsOnHand)
+        const cardsOnHand = backEndPlayers[playerId].cardsOnHand
+
+        io.emit('gameStateUpdate', games[gameId], backEndPlayers)
+        io.emit('id', playerId)
+        io.to(playerId).emit('playerId', playerId)
+        console.log('playerId', playerId, ' socket.id', socket.id)
+        console.log('playerId', playerId, 'cardsOnHand', cardsOnHand)
       }
-      console.log('startGame, emit gameStateUpdate')
-      io.emit('gameStateUpdate', {
-        message: 'Game started',
-        gameState: games[gameId],
-      })
+      // console.log('startGame, emit gameStateUpdate')
+      // io.emit('gameStateUpdate', {
+      //   message: 'Game started',
+      //   gameState: games[gameId],
+      // })
     })
 
     socket.on('disconnect', (reason) => {
@@ -90,6 +92,8 @@ export function setupGame(io: IOServer) {
     })
   })
 }
+
+// emitta till korrekt person
 
 // En person trycker start game, endast den får updates för spelet båda behöver joina
 // Hitta sätt att skicka korrekt information i rätt tid
