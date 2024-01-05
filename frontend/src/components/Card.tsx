@@ -21,13 +21,23 @@ const Card = styled.button<CardProps>(
 	position: relative;
 	display: flex;
 	flex-direction: column;
-	justify-content: space-between;
+	justify-content: center;
+  align-items: center;
 	padding: 2px;
 	border-radius: 5px;
 	opacity: ${props.status === 'Selected' ? 0.5 : 1};
   background-image: url(${cardImages[props.url as keyof typeof cardImages]});
 	background-size: cover;
   background-color: ${props.status === 'Available' ? color.lightGray : color.white};
+  `,
+)
+
+const Circle = styled.div<CardProps>(
+  (props) => `
+	width: 3vh;
+	height: 3vh;
+  background-color: ${props.status};
+  border-radius: 3vh;
   `,
 )
 
@@ -43,6 +53,7 @@ export function Cards(props: CardProps) {
         value={props.value}
       >
         {props.status === 'Available' && <div>Available</div>}
+        <Circle status={props.status} />
       </Card>
     </>
   )

@@ -50,33 +50,31 @@ const LeftSide = styled.div`
 `
 function Sequence() {
   const {
-    gameState,
     socket,
     cardsOnHand,
     initGame,
     startGame,
     disconnect,
+    drawCard,
     amountPlayers,
     readyToPlay,
+    currentDeck,
+    gameBoard,
+    gameHasStarted,
+    team,
+    throwPile,
+    setThrowPile,
+    updateGameboard,
+    setGameBoard,
   } = useGame()
 
-  const [hand, setHand] = useState<Card[]>(cardsOnHand)
-  const [deck, setDeck] = useState<Card[]>()
-  const [gameBoard, setGameBoard] = useState<Card[][]>(gameState?.gameBoard)
-  const [throwPile, setThrowPile] = useState<Card[]>([])
   const [selectedCard, setSelectedCard] = useState<Card | null>(null)
   const [canDraw, setCanDraw] = useState<boolean>(false)
+  // const [gameBoard, setGameBoard] = useState(gameBoard)
 
-  function drawCard() {
-    if (deck.length > 0) {
-      const newCard = deck[0]
-      if (hand !== undefined) {
-        setHand((oldHand) => [...oldHand, newCard])
-        setDeck((oldDeck) => oldDeck.slice(1))
-      }
-      setCanDraw(false)
-    }
-  }
+  // console.log('currentDeck', currentDeck)
+  // const flatArray = gameBoard.flat()
+  // const foundObject = flatArray.find((obj) => obj.status !== undefined)
 
   function selectCard(card: Card) {
     setSelectedCard(card)
@@ -99,17 +97,18 @@ function Sequence() {
       setGameBoard(newGameBoard)
     }
   }
+  // setCanDraw(true)
 
   function placeMarker(card: Card) {
     if (selectedCard && card.value === selectedCard.value && card.suit === selectedCard.suit) {
       setThrowPile((oldThrowPile) => [...oldThrowPile, selectedCard])
-      setHand((oldHand) => oldHand.filter((handCard) => handCard !== selectedCard))
+      // setHand((oldHand) => oldHand.filter((handCard) => handCard !== selectedCard))
       setCanDraw(true)
       if (gameBoard) {
         const newGameBoard = gameBoard.map((row) =>
           row.map((gameCard: Card) => {
             if (gameCard === card) {
-              return { ...gameCard, status: 'Selected' }
+              return { ...gameCard, status: team }
             } else if (
               gameCard.value === selectedCard.value &&
               gameCard.suit === selectedCard.suit
@@ -121,40 +120,42 @@ function Sequence() {
           }),
         )
         setGameBoard(newGameBoard)
-        if (checkForSequence(newGameBoard)) {
-          console.log('Player has a sequence of 5!')
-        } else {
-          console.log('Player does not have a sequence of 5!')
-        }
+        console.log(newGameBoard)
+        updateGameboard(newGameBoard)
       }
     }
   }
 
-  function checkForSequence(board: Card[][]): boolean {
-    const size = board.length
+  // function placeMarker(card: Card) {
 
-    for (let i = 0; i < size; i++) {
-      let rowSeq = 0
-      let colSeq = 0
-      for (let j = 0; j < size; j++) {
-        rowSeq = board[i][j]?.status === 'Selected' ? rowSeq + 1 : 0
-        colSeq = board[j][i]?.status === 'Selected' ? colSeq + 1 : 0
-        if (rowSeq === 5 || colSeq === 5) return true
-      }
-    }
+  // let newHand = hand.filter((handCard: Card) => handCard !== selectedCard)
+  // if (selectedCard && card.value === selectedCard.value && card.suit === selectedCard.suit) {
+  // setThrowPile((oldThrowPile) => [...oldThrowPile, selectedCard])
+  // setHand((oldHand) => oldHand.filter((handCard) => handCard !== selectedCard))
+  //   if (gameBoard) {
+  //     const newGameBoard = gameBoard.map((row) =>
+  //       row.map((gameCard: Card) => {
+  //         if (gameCard === card) {
+  //           return { ...gameCard, status: team }
+  //         } else if (
+  //           gameCard.value === selectedCard.value &&
+  //           gameCard.suit === selectedCard.suit
+  //         ) {
+  //           return { ...gameCard, status: undefined }
+  //         } else {
+  //           return gameCard
+  //         }
+  //       }),
+  //     )
+  //     setGameBoard(newGameBoard)
 
-    for (let d = 0; d < size; d++) {
-      let diag1Seq = 0
-      let diag2Seq = 0
-      for (let i = 0, j = d; j < size; i++, j++) {
-        diag1Seq = board[i][j]?.status === 'Selected' ? diag1Seq + 1 : 0
-        diag2Seq = board[j][i]?.status === 'Selected' ? diag2Seq + 1 : 0
-        if (diag1Seq === 5 || diag2Seq === 5) return true
-      }
-    }
+  //   }
+  // }
+  // }
 
-    return false
-  }
+  // const handlePlaceMarker = (card: Card) => {
+  //   placeMarker({ selectedCard, card, gameBoard })
+  // }
 
   return (
     <GameView data-testid="game-view">
@@ -172,8 +173,8 @@ function Sequence() {
           </div>
         </DeckContainer>
         <Hand>
-          {hand &&
-            hand.map((card, i) => {
+          {cardsOnHand &&
+            cardsOnHand.map((card, i) => {
               return (
                 <div onClick={() => selectCard(card)}>
                   <div data-testid="cards" data-card-nr={card.nr} key={i}>
@@ -211,3 +212,8 @@ export default Sequence
 
 // Diagonal fungerar ej
 // När man väljer en som redan finns markerad så försvinner den andra
+
+// Ta bort för spelare
+// fixa throwpile
+// kolla att korrekt kort finns i deck
+// reload innan man connectar

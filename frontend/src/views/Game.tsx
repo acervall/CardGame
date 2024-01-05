@@ -5,29 +5,34 @@ import { useEffect } from 'react'
 
 function Game() {
   const {
-    gameState,
     socket,
     cardsOnHand,
     initGame,
     startGame,
     disconnect,
+    drawCard,
     amountPlayers,
     readyToPlay,
+    currentDeck,
+    gameBoard,
+    gameHasStarted,
   } = useGame()
 
   const leaveGame = () => {
-    socket.emit('disconnect')
+    disconnect()
   }
 
   useEffect(() => {
-    console.log(gameState)
-  }, [gameState])
+    console.log(gameHasStarted)
+  }, [gameHasStarted])
 
   return (
     <>
-      {gameState ? (
+      {gameHasStarted ? (
         <>
-          <button onClick={leaveGame}>Leave Game</button>
+          <button onClick={leaveGame} style={{ position: 'fixed', zIndex: 5 }}>
+            Leave Game
+          </button>
           <Sequence />
         </>
       ) : (

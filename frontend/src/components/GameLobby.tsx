@@ -7,14 +7,17 @@ import { useGame } from '../utils/GameContext'
 
 const GameLobby = () => {
   const {
-    gameState,
     socket,
     cardsOnHand,
     initGame,
     startGame,
     disconnect,
+    drawCard,
     amountPlayers,
     readyToPlay,
+    currentDeck,
+    gameBoard,
+    gameHasStarted,
   } = useGame()
   const [gameColor, setGameColor] = useState<string | null>(null)
   const [gameIsReady, setGameIsReady] = useState<boolean>(false)
@@ -46,13 +49,13 @@ const GameLobby = () => {
         {!gameColor && (
           <>
             <p>Game color: {gameColor}</p>
-            <RoundedButton data-testid="button-red" onClick={() => selectGameColor(color.red)}>
+            <RoundedButton data-testid="button-red" onClick={() => selectGameColor('red')}>
               Red
             </RoundedButton>
-            <RoundedButton data-testid="button-green" onClick={() => selectGameColor(color.green)}>
+            <RoundedButton data-testid="button-green" onClick={() => selectGameColor('green')}>
               Green
             </RoundedButton>
-            <RoundedButton data-testid="button-blue" onClick={() => selectGameColor(color.blue)}>
+            <RoundedButton data-testid="button-blue" onClick={() => selectGameColor('blue')}>
               Blue
             </RoundedButton>
           </>
