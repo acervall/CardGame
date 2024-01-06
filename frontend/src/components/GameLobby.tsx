@@ -18,6 +18,8 @@ const GameLobby = () => {
     currentDeck,
     gameBoard,
     gameHasStarted,
+    getHand,
+    team,
   } = useGame()
   const [gameColor, setGameColor] = useState<string | null>(null)
   const [gameIsReady, setGameIsReady] = useState<boolean>(false)
@@ -26,7 +28,16 @@ const GameLobby = () => {
 
   useEffect(() => {
     setGameIsReady(readyToPlay)
-  }, [readyToPlay])
+    if (readyToPlay && !cardsOnHand) {
+      getHand()
+      console.log('readyToPlay', readyToPlay)
+      console.log('cardsOnHand', cardsOnHand)
+    }
+  }, [readyToPlay, cardsOnHand])
+
+  useEffect(() => {
+    console.log(team)
+  }, [team])
 
   if (user) {
     const username = user.username
@@ -38,7 +49,7 @@ const GameLobby = () => {
     const selectGameColor = (gameColor: string) => {
       setGameColor(gameColor)
       if (gameColor) {
-        initGame(gameColor, username)
+        initGame(gameColor)
       }
     }
 
@@ -67,9 +78,17 @@ const GameLobby = () => {
             </RoundedButton>
           </>
         )}
+        {team && (
+          <div>
+            <p>My team: {team}</p>
+            <p>My hand:{cardsOnHand?.length}</p>
+          </div>
+        )}
         <p>
           Players in game: <p data-testid="amount-players">{amountPlayers}</p>
         </p>
+        <RoundedButton onClick={getHand}>getHand</RoundedButton>
+        <RoundedButton onClick={disconnect}>disconnect</RoundedButton>
       </div>
     )
   }

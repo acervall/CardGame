@@ -48,6 +48,22 @@ const LeftSide = styled.div`
   flex-direction: column;
   width: 10vw;
 `
+
+const AlertSquare = styled.div`
+  position: fixed;
+  width: 30vw;
+  height: 30vh;
+  background-color: white;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 50;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: larger;
+`
+
 function Sequence() {
   const {
     socket,
@@ -66,15 +82,15 @@ function Sequence() {
     setThrowPile,
     updateGameboard,
     setGameBoard,
+    canDraw,
+    setCanDraw,
+    playersTurn,
+    yourTurn,
+    gameOver,
   } = useGame()
 
   const [selectedCard, setSelectedCard] = useState<Card | null>(null)
-  const [canDraw, setCanDraw] = useState<boolean>(false)
-  // const [gameBoard, setGameBoard] = useState(gameBoard)
-
-  // console.log('currentDeck', currentDeck)
-  // const flatArray = gameBoard.flat()
-  // const foundObject = flatArray.find((obj) => obj.status !== undefined)
+  const [canThrow, setCanThrow] = useState<boolean>(false)
 
   function selectCard(card: Card) {
     setSelectedCard(card)
@@ -84,7 +100,7 @@ function Sequence() {
         row.map((gameCard: Card) => {
           if (
             (gameCard === card || (gameCard.value === card.value && gameCard.suit === card.suit)) &&
-            gameCard.status !== 'Selected'
+            gameCard.status === undefined
           ) {
             return { ...gameCard, status: 'Available' }
           } else if (gameCard.status === 'Available') {
@@ -95,24 +111,32 @@ function Sequence() {
         }),
       )
       setGameBoard(newGameBoard)
+
+      const noAvailableCards = newGameBoard.every((row) =>
+        row.every((gameCard) => gameCard.status !== 'Available'),
+      )
+
+      if (noAvailableCards) {
+        console.log('No cards with status Available on the game board.')
+        setCanThrow(true)
+      }
     }
   }
-  // setCanDraw(true)
-
+  const throwCard = () => {
+    updateGameboard(gameBoard, selectedCard)
+    setCanDraw(true)
+    setCanThrow(false)
+  }
   function placeMarker(card: Card) {
     if (selectedCard && card.value === selectedCard.value && card.suit === selectedCard.suit) {
-      setThrowPile((oldThrowPile) => [...oldThrowPile, selectedCard])
-      // setHand((oldHand) => oldHand.filter((handCard) => handCard !== selectedCard))
       setCanDraw(true)
       if (gameBoard) {
         const newGameBoard = gameBoard.map((row) =>
           row.map((gameCard: Card) => {
             if (gameCard === card) {
               return { ...gameCard, status: team }
-            } else if (
-              gameCard.value === selectedCard.value &&
-              gameCard.suit === selectedCard.suit
-            ) {
+            } else if (gameCard.status === 'Available') {
+              console.log('gameCard.status', gameCard.status)
               return { ...gameCard, status: undefined }
             } else {
               return gameCard
@@ -121,66 +145,45 @@ function Sequence() {
         )
         setGameBoard(newGameBoard)
         console.log(newGameBoard)
-        updateGameboard(newGameBoard)
+        updateGameboard(newGameBoard, selectedCard)
       }
     }
   }
 
-  // function placeMarker(card: Card) {
-
-  // let newHand = hand.filter((handCard: Card) => handCard !== selectedCard)
-  // if (selectedCard && card.value === selectedCard.value && card.suit === selectedCard.suit) {
-  // setThrowPile((oldThrowPile) => [...oldThrowPile, selectedCard])
-  // setHand((oldHand) => oldHand.filter((handCard) => handCard !== selectedCard))
-  //   if (gameBoard) {
-  //     const newGameBoard = gameBoard.map((row) =>
-  //       row.map((gameCard: Card) => {
-  //         if (gameCard === card) {
-  //           return { ...gameCard, status: team }
-  //         } else if (
-  //           gameCard.value === selectedCard.value &&
-  //           gameCard.suit === selectedCard.suit
-  //         ) {
-  //           return { ...gameCard, status: undefined }
-  //         } else {
-  //           return gameCard
-  //         }
-  //       }),
-  //     )
-  //     setGameBoard(newGameBoard)
-
-  //   }
-  // }
-  // }
-
-  // const handlePlaceMarker = (card: Card) => {
-  //   placeMarker({ selectedCard, card, gameBoard })
-  // }
-
   return (
     <GameView data-testid="game-view">
+      {!!gameOver && <AlertSquare>TEAM {gameOver} WON!</AlertSquare>}
       <LeftSide>
         <DeckContainer>
           <button disabled={!canDraw} onClick={drawCard}>
             Draw
           </button>
-          <div>
-            {throwPile.length > 0 && (
-              <div data-testid="throw-pile" data-card-nr={throwPile[throwPile.length - 1].nr}>
-                <Cards {...throwPile[throwPile.length - 1]} />
-              </div>
-            )}
-          </div>
+          <button disabled={!canThrow} onClick={throwCard}>
+            Throw card
+          </button>
+          {!!throwPile && (
+            <div>
+              {throwPile.length > 0 && (
+                <div
+                  data-testid="throw-pile"
+                  // data-card-nr={throwPile[throwPile.length - 1].nr}
+                >
+                  <Cards {...throwPile[throwPile.length - 1]} />
+                </div>
+              )}
+            </div>
+          )}
         </DeckContainer>
+        {yourTurn ? <p>It's your turn</p> : <p>It's {playersTurn}'s turn</p>}
         <Hand>
           {cardsOnHand &&
             cardsOnHand.map((card, i) => {
               return (
-                <div onClick={() => selectCard(card)}>
+                <button onClick={() => selectCard(card)}>
                   <div data-testid="cards" data-card-nr={card.nr} key={i}>
                     <Cards key={i} {...card} />
                   </div>
-                </div>
+                </button>
               )
             })}
         </Hand>
@@ -217,3 +220,6 @@ export default Sequence
 // fixa throwpile
 // kolla att korrekt kort finns i deck
 // reload innan man connectar
+
+// man kan lägga på alla platser
+// om man har mer än ett av samma kort på handen

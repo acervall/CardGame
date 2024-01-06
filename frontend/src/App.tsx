@@ -4,7 +4,7 @@ import Home from './views/Home'
 import Profile from './views/Profile'
 import Game from './views/Game'
 import Context from './constants/Context'
-import { GameProvider } from './utils/GameContext'
+import { UserProvider } from './utils/UserContext'
 
 import Navbar from './components/Navbar'
 
@@ -12,12 +12,12 @@ function Root() {
   const [accessToken, setAccessToken] = useState<string | null>(localStorage.getItem('accessToken'))
   return (
     <Context.Provider value={{ accessToken, setAccessToken }}>
-      <GameProvider>
+      <UserProvider>
         <main>
           <Outlet />
           <Navbar />
         </main>
-      </GameProvider>
+      </UserProvider>
     </Context.Provider>
   )
 }

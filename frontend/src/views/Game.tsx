@@ -1,9 +1,10 @@
+import { GameProvider } from '../utils/GameContext'
 import Sequence from '../components/Sequence'
 import GameLobby from '../components/GameLobby'
 import { useGame } from '../utils/GameContext'
 import { useEffect } from 'react'
 
-function Game() {
+const GameSpace = () => {
   const {
     socket,
     cardsOnHand,
@@ -39,6 +40,14 @@ function Game() {
         <GameLobby />
       )}
     </>
+  )
+}
+
+const Game = () => {
+  return (
+    <GameProvider>
+      <GameSpace />
+    </GameProvider>
   )
 }
 
