@@ -2,22 +2,16 @@ import { useState, useEffect } from 'react'
 import { RoundedButton } from '../assets/StyledComponents/FormComponents'
 // import { initializeSocket, joinGame, startGame } from '../api/socket'
 import useUser from '../hooks/useUser'
-import { color } from '../assets/colors'
-import { useGame } from '../utils/GameContext'
+import { useGame } from '../utils/useGame'
 
 const GameLobby = () => {
   const {
-    socket,
     cardsOnHand,
     initGame,
     startGame,
     disconnect,
-    drawCard,
     amountPlayers,
     readyToPlay,
-    currentDeck,
-    gameBoard,
-    gameHasStarted,
     getHand,
     team,
   } = useGame()

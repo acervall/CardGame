@@ -2,9 +2,9 @@ import styled from '@emotion/styled'
 import { color } from '../assets/colors'
 import { Card } from '../constants/Deck'
 import { Cards } from './Card'
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 // import { initializeSocket, cardsOnHand, GamesInterface, getGameStateUpdate } from '../api/socket'
-import { useGame } from '../utils/GameContext'
+import { useGame } from '../utils/useGame'
 
 const GameView = styled.div`
   height: 100vh;
@@ -66,27 +66,18 @@ const AlertSquare = styled.div`
 
 function Sequence() {
   const {
-    socket,
+    canDraw,
     cardsOnHand,
-    initGame,
-    startGame,
-    disconnect,
     drawCard,
-    amountPlayers,
-    readyToPlay,
-    currentDeck,
     gameBoard,
-    gameHasStarted,
+    gameOver,
+    playersTurn,
+    setCanDraw,
+    setGameBoard,
     team,
     throwPile,
-    setThrowPile,
     updateGameboard,
-    setGameBoard,
-    canDraw,
-    setCanDraw,
-    playersTurn,
     yourTurn,
-    gameOver,
   } = useGame()
 
   const [selectedCard, setSelectedCard] = useState<Card | null>(null)
@@ -123,7 +114,9 @@ function Sequence() {
     }
   }
   const throwCard = () => {
-    updateGameboard(gameBoard, selectedCard)
+    if (selectedCard !== null) {
+      updateGameboard(gameBoard, selectedCard)
+    }
     setCanDraw(true)
     setCanThrow(false)
   }

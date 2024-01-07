@@ -1,12 +1,17 @@
 import { Server as IOServer, Socket } from 'socket.io'
 import { doubleDeck, shuffleDeck, cardOnGameBoard, Card } from './deck'
 
-interface player {
-  [key: string]: {
-    color: string
-    username: string
-    cardsOnHand: Card[] | undefined
-  }
+interface Player {
+  color: string
+  username: string
+  cardsOnHand: Card[]
+}
+
+interface GameState {
+  deck: Card[]
+  gameBoard: Card[][]
+  throwPile: Card[]
+  backendPlayers: Player[]
 }
 
 function checkForSequence(board: Card[][], team: string): boolean {
@@ -36,148 +41,127 @@ function checkForSequence(board: Card[][], team: string): boolean {
 }
 
 export function setupGame(io: IOServer) {
-  let games: { [key: string]: any } = {}
+  const gameState: GameState = {
+    deck: shuffleDeck(doubleDeck),
+    gameBoard: cardOnGameBoard,
+    throwPile: [],
+    backendPlayers: [],
+  }
 
-  let backEndPlayers: player = {}
-  let deck = shuffleDeck(doubleDeck)
-  let gameBoard = cardOnGameBoard
-  let throwPile: Card[] = []
-  let orderOfPlayers: string[] = []
+  const findPlayerByUsername = (username: string) =>
+    gameState.backendPlayers.find((p) => p.username === username)
+
+  const emitToAll = (eventName: string, data: any) => io.emit(eventName, data)
 
   io.on('connection', (socket: Socket) => {
-    let amountPlayers: number
-
     socket.on('initGame', ({ color, username }) => {
       console.log('initGame', socket.id, color, username)
-      const cardsOnHand = deck.splice(0, 7)
-      console.log('cardsOnHand, username', cardsOnHand.length, username)
-      console.log('deck', deck.length)
-      backEndPlayers[username] = {
-        color: color,
-        username: username,
-        cardsOnHand: cardsOnHand,
+
+      const initializePlayer = () => {
+        const cardsOnHand = gameState.deck.splice(0, 7)
+        gameState.throwPile = []
+        gameState.gameBoard = cardOnGameBoard
+
+        return { color, username, cardsOnHand }
       }
 
-      orderOfPlayers.push(username)
+      const player = initializePlayer()
+      gameState.backendPlayers.push(player)
 
-      console.log('backEndPlayers', backEndPlayers)
-
-      socket.emit('playerinformation', backEndPlayers[username])
+      socket.emit('playerinformation', player)
 
       const allowedSizes = [2, 3, 4, 6, 8, 9, 10, 12]
-      amountPlayers = Object.keys(backEndPlayers).length
+      const amountPlayers = gameState.backendPlayers.length
 
       io.emit('amountPlayers', amountPlayers)
 
-      if (allowedSizes.find((size) => size === amountPlayers) !== undefined) {
+      if (allowedSizes.includes(amountPlayers)) {
         io.emit('readyToPlay', true)
       }
     })
 
     socket.on('startGame', () => {
-      io.emit('playerTurn', orderOfPlayers[0])
-      io.emit('newDeck', deck)
-      io.emit('gameBoard', gameBoard)
+      io.emit('playerTurn', gameState.backendPlayers[0].username)
+      io.emit('newDeck', gameState.deck)
+      io.emit('gameBoard', gameState.gameBoard)
       io.emit('gameHasStarted', true)
-      io.emit('throwPile', throwPile)
-    })
-
-    socket.on('draw', ({ deck, username }) => {
-      if (deck.length > 0) {
-        if (backEndPlayers[username].cardsOnHand)
-          if (backEndPlayers[username].cardsOnHand!.length < 7) {
-            const newCard = deck[0]
-            const newDeck = deck.slice(1)
-            backEndPlayers[username].cardsOnHand?.push(newCard)
-            console.log('deck LENGTH', deck.length)
-            io.emit('newDeck', newDeck)
-            console.log(newDeck[0])
-            socket.emit('newCardsOnHand', newCard)
-          }
-      }
+      io.emit('throwPile', gameState.throwPile)
     })
 
     socket.on('updateGameboard', ({ newGameBoard, team, throwCard, username }) => {
-      gameBoard = newGameBoard
-      throwPile.push(throwCard)
+      gameState.gameBoard = newGameBoard
+      gameState.throwPile.push(throwCard)
 
-      // console.log('backEndPlayers[username].cardsOnHand', backEndPlayers[username].cardsOnHand)
-      // console.log('throwCard', throwCard)
+      const player = findPlayerByUsername(username)
 
-      const cardsOnHand = backEndPlayers[username].cardsOnHand
-
-      if (cardsOnHand) {
-        const cardToRemove = backEndPlayers[username].cardsOnHand!.find(
-          (card) => card.nr === throwCard.nr,
-        )
+      if (player && player.cardsOnHand) {
+        const cardToRemove = player.cardsOnHand.find((card) => card.nr === throwCard.nr)
 
         if (cardToRemove) {
-          const newHand = backEndPlayers[username].cardsOnHand!.filter(
-            (card) => card !== cardToRemove,
-          )
+          const newHand = player.cardsOnHand.filter((card) => card.nr !== throwCard.nr)
 
-          backEndPlayers[username].cardsOnHand = newHand
+          player.cardsOnHand = newHand
           socket.emit('getHand', newHand)
         }
-        // console.log('newHand', newHand)
-        // console.log('throwCard', throwCard)
       } else {
-        console.log('not same card poop')
+        console.log('not the same card, something went wrong')
       }
 
       if (checkForSequence(newGameBoard, team)) {
         console.log('Player has a sequence!')
-        io.emit('winner', team)
+        emitToAll('winner', team)
       } else {
-        console.log('Player does not have a sequence of')
+        console.log('Player does not have a sequence')
       }
 
-      let position = orderOfPlayers.lastIndexOf(username)
-      let next = position === orderOfPlayers.length - 1 ? 0 : position + 1
-      console.log('username', username)
-      console.log('position', position)
-      console.log('next', next)
-      console.log('orderOfPlayers[next]', orderOfPlayers[next])
-      console.log('orderOfPlayers', orderOfPlayers)
-      console.log('orderOfPlayers.length', orderOfPlayers.length)
+      if (player) {
+        let position = gameState.backendPlayers.lastIndexOf(player)
+        let next = position === gameState.backendPlayers.length - 1 ? 0 : position + 1
+        emitToAll('playerTurn', gameState.backendPlayers[next].username)
+      }
 
-      io.emit('gameBoard', newGameBoard)
-      io.emit('throwPile', throwPile)
-      io.emit('playerTurn', orderOfPlayers[next])
+      emitToAll('gameBoard', newGameBoard)
+      emitToAll('throwPile', gameState.throwPile)
     })
 
     socket.on('getHand', (username) => {
-      // console.log('getting hand ', backEndPlayers[username])
-      // console.log('backEndPlayers', backEndPlayers)
-      // console.log('username', username)
-      socket.emit('getHand', backEndPlayers[username])
+      const player = gameState.backendPlayers.find((p) => p.username === username)
+      player && socket.emit('getHand', player.cardsOnHand)
+    })
+
+    socket.on('draw', ({ username }) => {
+      if (gameState.deck.length > 0) {
+        const player = gameState.backendPlayers.find((p) => p.username === username)
+        if (player && player.cardsOnHand && player.cardsOnHand.length < 7) {
+          const newCard = gameState.deck[0]
+          gameState.deck = gameState.deck.slice(1)
+          player.cardsOnHand.push(newCard)
+          io.emit('newDeck', gameState.deck)
+          socket.emit('newCardsOnHand', newCard)
+        }
+      }
     })
 
     socket.on('disconnect', (reason) => {
-      console.log(
-        'reason === client namespace disconnect',
-        reason === 'client namespace disconnect',
-        reason,
-      )
+      console.log('reason = client', reason === 'client namespace disconnect', reason)
       if (reason === 'client namespace disconnect') {
         console.log('restarting game')
-        backEndPlayers = {}
-        deck = shuffleDeck(doubleDeck)
-        gameBoard = cardOnGameBoard
-        throwPile = []
-        orderOfPlayers = []
-        io.emit('updatePlayers', backEndPlayers)
+        gameState.backendPlayers = []
+        gameState.deck = shuffleDeck(doubleDeck)
+        gameState.gameBoard = cardOnGameBoard
+        gameState.throwPile = []
+        io.emit('updatePlayers', gameState.backendPlayers)
         io.emit('gameHasStarted', false)
-        io.emit('amountPlayers', Object.keys(backEndPlayers).length)
-        console.log('backEndPlayers', backEndPlayers, 'deck', deck.length, 'throwPile', throwPile)
+        io.emit('amountPlayers', gameState.backendPlayers.length)
+        console.log(
+          'backendPlayers',
+          gameState.backendPlayers,
+          'deck',
+          gameState.deck.length,
+          'throwPile',
+          gameState.throwPile,
+        )
       }
     })
   })
 }
-
-// emitta till korrekt person
-
-// En person trycker start game, endast den får updates för spelet båda behöver joina
-// Hitta sätt att skicka korrekt information i rätt tid
-// Alla behöver få informationen när personen startar spelet
-// Skicka ut all information

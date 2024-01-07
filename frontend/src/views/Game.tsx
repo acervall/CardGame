@@ -1,23 +1,11 @@
 import { GameProvider } from '../utils/GameContext'
 import Sequence from '../components/Sequence'
 import GameLobby from '../components/GameLobby'
-import { useGame } from '../utils/GameContext'
+import { useGame } from '../utils/useGame'
 import { useEffect } from 'react'
 
 const GameSpace = () => {
-  const {
-    socket,
-    cardsOnHand,
-    initGame,
-    startGame,
-    disconnect,
-    drawCard,
-    amountPlayers,
-    readyToPlay,
-    currentDeck,
-    gameBoard,
-    gameHasStarted,
-  } = useGame()
+  const { disconnect, gameHasStarted } = useGame()
 
   const leaveGame = () => {
     disconnect()

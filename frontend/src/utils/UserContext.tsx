@@ -1,14 +1,22 @@
-import { useState, useContext, createContext } from 'react'
+import { useState, createContext, ReactNode } from 'react'
 import useUser from '../hooks/useUser'
 
-export const UserContext = createContext<string | undefined>(undefined)
+interface UserContextType {
+  username: string
+}
 
-export const UserProvider = ({ children }) => {
-  const [username, setUsername] = useState<string | null>(null)
+export const UserContext = createContext<UserContextType | undefined>(undefined)
 
-  const { data: user, isLoading, error } = useUser()
+interface UserProviderProps {
+  children: ReactNode
+}
 
-  if (user && username === null) {
+export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
+  const [username, setUsername] = useState<string>('')
+
+  const { data: user } = useUser()
+
+  if (user && username === '') {
     setUsername(user.username)
   }
 
@@ -21,12 +29,4 @@ export const UserProvider = ({ children }) => {
       {children}
     </UserContext.Provider>
   )
-}
-
-export const useUsername = () => {
-  const context = useContext(UserContext)
-  if (!context) {
-    throw new Error('useUsername must be used within a UserProvider')
-  }
-  return context
 }

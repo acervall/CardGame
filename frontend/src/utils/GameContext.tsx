@@ -1,77 +1,87 @@
-import { useState, useEffect, useContext, createContext, useRef } from 'react'
+import { useState, useEffect, createContext, useRef } from 'react'
 import { io, Socket } from 'socket.io-client'
 import { BASE_URL } from '../constants/baseUrl'
 import { Card } from '../constants/Deck'
 import useUser from '../hooks/useUser'
-import { useUsername } from './UserContext'
+import { useUsername } from './useUsername'
 
-interface GameState {
-  deck: Card[]
-  gameBoard: Card[][] | undefined
-  hasStarted: boolean
-}
+// interface GameState {
+//   deck: Card[]
+//   gameBoard: Card[][]
+//   hasStarted: boolean
+// }
 
 interface GameContextProps {
-  gameState: GameState | null
-  socket: Socket
-  cardsOnHand: Card[] | null
-  amountPlayers: number | null
+  amountPlayers: number
+  canDraw: boolean
+  cardsOnHand: Card[]
+  gameBoard: Card[][]
+  gameHasStarted: boolean
+  gameOver: string | boolean
+  playersTurn: string
   readyToPlay: boolean
-  currentDeck: Card[]
-  initGame: (color: string) => void
-  startGame: () => void
+  team: string
+  throwPile: Card[]
+  yourTurn: boolean
+
+  setCanDraw: (canDraw: boolean) => void
+  setGameBoard: (gameBoard: Card[][]) => void
+
   disconnect: () => void
   drawCard: () => void
+  getHand: () => void
+  initGame: (color: string) => void
+  startGame: () => void
+  updateGameboard: (newGameBoard: Card[][], selectedCard: Card) => void
 }
 
 export const GameContext = createContext<GameContextProps | undefined>(undefined)
 
-export const GameProvider = ({ children }) => {
+interface GameProviderProps {
+  children: React.ReactNode
+}
+
+export const GameProvider: React.FC<GameProviderProps> = ({ children }) => {
   const { username } = useUsername()
-  const [gameState, setGameState] = useState<GameState | null>(null)
-  const [cardsOnHand, setCardsOnHand] = useState<Card[] | null>(null)
-  const [amountPlayers, setAmountPlayers] = useState<number | null>(null)
-  const [readyToPlay, setReadyToPlay] = useState<boolean>(false)
-  const [playerName, setPlayerName] = useState<string | null>(null)
-  const playerNameRef = useRef<string | null>(null)
-  // const throwPileRef = useRef<Card[] | null>(null)
 
-  const [currentDeck, setCurrentDeck] = useState<Card[] | null>(null)
-  const [gameBoard, setGameBoard] = useState<Card[][] | null>(null)
-  const [gameHasStarted, setGameHasStarted] = useState<boolean>(false)
-  const [team, setTeam] = useState<string | null>(null)
-  const [throwPile, setThrowPile] = useState<Card[] | null>(null)
-  // const [username, setUsername] = useState<string | null>(null)
+  // const [gameState, setGameState] = useState<GameState | null>(null)
+
+  const [amountPlayers, setAmountPlayers] = useState<number>(0)
   const [canDraw, setCanDraw] = useState<boolean>(false)
-  const [playersTurn, setPlayersTurn] = useState<string | null>(null)
-  const [yourTurn, setYourTurn] = useState<boolean>(false)
+  const [cardsOnHand, setCardsOnHand] = useState<Card[]>([])
+  const [gameBoard, setGameBoard] = useState<Card[][]>([[]])
+  const [gameHasStarted, setGameHasStarted] = useState<boolean>(false)
   const [gameOver, setGameOver] = useState<string | boolean>(false)
+  const [playersTurn, setPlayersTurn] = useState<string>('')
+  const [readyToPlay, setReadyToPlay] = useState<boolean>(false)
+  const [team, setTeam] = useState<string>('')
+  const [throwPile, setThrowPile] = useState<Card[]>([])
+  const [yourTurn, setYourTurn] = useState<boolean>(false)
 
-  const { data: user, isLoading, error } = useUser()
+  const [currentDeck, setCurrentDeck] = useState<Card[]>([])
 
-  const socket = io(BASE_URL)
+  const { data: user } = useUser()
+
+  const socket = useRef<Socket>(io(BASE_URL))
 
   useEffect(() => {
-    socket.on('connect', () => {
-      // console.log('Connected to server')
-    })
-    // setUsername(user.username)
-    console.log('username', username)
+    socket.current.on('connect', () => {})
 
-    socket.on('newDeck', (newDeck) => {
-      setCurrentDeck(newDeck)
-    })
-    socket.on('gameBoard', (newGameBoard) => {
-      setGameBoard(newGameBoard)
-    })
-    socket.on('gameHasStarted', (state) => {
-      setGameHasStarted(state)
-    })
-    socket.on('throwPile', (throwPile) => {
-      setThrowPile(throwPile)
+    socket.current.on('playerinformation', (playerinformation) => {
+      console.log('socket playerinformation.cardsOnHand', playerinformation.cardsOnHand)
+      setCardsOnHand(playerinformation.cardsOnHand)
+      setTeam(playerinformation.color)
     })
 
-    socket.on('playerTurn', (playerTurn) => {
+    socket.current.on('amountPlayers', (amount) => {
+      setAmountPlayers(amount)
+    })
+
+    socket.current.on('readyToPlay', (ready) => {
+      setReadyToPlay(ready)
+    })
+
+    socket.current.on('playerTurn', (playerTurn) => {
       if (playerTurn === username) {
         setYourTurn(true)
         setCanDraw(false)
@@ -85,12 +95,23 @@ export const GameProvider = ({ children }) => {
       setPlayersTurn(playerTurn)
     })
 
-    socket.on('playerinformation', (playerinformation) => {
-      console.log('socket playerinformation.cardsOnHand', playerinformation.cardsOnHand)
-      setCardsOnHand(playerinformation.cardsOnHand)
-      setTeam(playerinformation.color)
+    socket.current.on('newDeck', (newDeck) => {
+      setCurrentDeck(newDeck)
     })
-    socket.on('newCardsOnHand', (newCard) => {
+
+    socket.current.on('gameBoard', (newGameBoard) => {
+      setGameBoard(newGameBoard)
+    })
+
+    socket.current.on('gameHasStarted', (state) => {
+      setGameHasStarted(state)
+    })
+
+    socket.current.on('throwPile', (throwPile) => {
+      setThrowPile(throwPile)
+    })
+
+    socket.current.on('newCardsOnHand', (newCard) => {
       console.log('newCards', newCard)
       if (cardsOnHand !== null) {
         console.log('cardsOnHand', cardsOnHand)
@@ -98,162 +119,102 @@ export const GameProvider = ({ children }) => {
       }
     })
 
-    socket.on('backEndPlayers', (backEndPlayers) => {
-      console.log(backEndPlayers)
-    })
-
-    socket.on('amountPlayers', (amount) => {
-      setAmountPlayers(amount)
-    })
-
-    socket.on('readyToPlay', (ready) => {
-      setReadyToPlay(ready)
-    })
-
-    socket.on('players', (player) => {
-      console.log('backend players', player)
-    })
-
     return () => {
-      socket.off('connect')
-      socket.off('newDeck')
-      socket.off('gameBoard')
-      socket.off('gameHasStarted')
-      socket.off('throwPile')
-      socket.off('playerTurn')
-      socket.off('playerinformation')
-      socket.off('newCardsOnHand')
-      socket.off('backEndPlayers')
-      socket.off('amountPlayers')
-      socket.off('readyToPlay')
-      socket.off('players')
+      socket.current.off('connect')
+      socket.current.off('playerinformation')
+      socket.current.off('amountPlayers')
+      socket.current.off('readyToPlay')
+      socket.current.off('playerTurn')
+      socket.current.off('newDeck')
+      socket.current.off('gameBoard')
+      socket.current.off('gameHasStarted')
+      socket.current.off('throwPile')
+      socket.current.off('newCardsOnHand')
     }
   }, [])
 
   const initGame = (color: string) => {
-    // if (user) {
-    //   const username = user.username
-    //   socket.emit('initGame', { color, username })
-    // }
-    socket.emit('initGame', { color, username })
+    if (user) {
+      socket.current.emit('initGame', { color, username: user.username })
+    }
   }
-
-  // if (user) {
-  //   const username = user.username
-  // }
 
   const startGame = () => {
-    // console.log('starting game')
-    socket.emit('startGame')
+    socket.current.emit('startGame')
   }
 
-  const updateGameboard = (newGameBoard, selectedCard) => {
-    // if (user) {
-    //   const username = user.username
-    //   console.log('updateGameboard', team)
-    //   console.log('throwPile', throwPile)
-    //   socket.emit('updateGameboard', { newGameBoard, team, throwCard: selectedCard, username })
-    //   socket.on('getHand', (hand) => {
-    //     console.log('newhand hopfully', hand)
-    //     setCardsOnHand(hand)
-    //   })
-    // }
-    console.log('updateGameboard', team)
-    console.log('throwPile', throwPile)
-    socket.emit('updateGameboard', { newGameBoard, team, throwCard: selectedCard, username })
-    socket.on('getHand', (hand) => {
-      console.log('newhand hopfully', hand)
-      setCardsOnHand(hand)
-    })
+  const updateGameboard = (newGameBoard: Card[][], selectedCard: Card) => {
+    if (user) {
+      const username = user.username
+      socket.current.emit('updateGameboard', {
+        newGameBoard,
+        team,
+        throwCard: selectedCard,
+        username,
+      })
+      socket.current.on('getHand', (hand) => {
+        setCardsOnHand(hand)
+      })
 
-    socket.on('winner', (team) => {
-      console.log('a team won', team)
-      setGameOver(team)
-      // setCardsOnHand(team)
-    })
+      socket.current.on('winner', (winnerTeam) => {
+        setGameOver(winnerTeam)
+      })
+    }
   }
 
   const getHand = () => {
-    // if (user) {
-    //   const username = user.username
-    //   console.log('trying hand')
-    //   socket.on('getHand', (playerinformation) => {
-    //     console.log('playerinformation', playerinformation.cardsOnHand)
-    //     if (!team) {
-    //       console.log('playerinformation', playerinformation)
-    //       setTeam(playerinformation.color)
-    //     }
-    //     setCardsOnHand(playerinformation.cardsOnHand)
-    //   })
-    //   socket.emit('getHand', username)
-    // }
-
-    console.log('trying hand')
-    socket.on('getHand', (playerinformation) => {
-      console.log('playerinformation', playerinformation.cardsOnHand)
-      if (!team) {
-        console.log('playerinformation', playerinformation)
-        setTeam(playerinformation.color)
-      }
-      setCardsOnHand(playerinformation.cardsOnHand)
-    })
-    socket.emit('getHand', username)
+    if (user) {
+      const username = user.username
+      socket.current.on('getHand', (playerinformation) => {
+        if (!team) {
+          setTeam(playerinformation.color)
+        }
+        setCardsOnHand(playerinformation.cardsOnHand)
+      })
+      socket.current.emit('getHand', username)
+    }
   }
 
   const drawCard = () => {
-    // if (user) {
-    //   const username = user.username
-    //   socket.emit('draw', { deck: currentDeck, username })
-    //   getHand()
-    //   setCanDraw(false)
-    // }
-
-    socket.emit('draw', { deck: currentDeck, username })
-    getHand()
-    setCanDraw(false)
+    if (user) {
+      const username = user.username
+      socket.current.emit('draw', { deck: currentDeck, username })
+      getHand()
+      setCanDraw(false)
+    }
   }
 
   const disconnect = () => {
-    console.log('dissdkjfdsj')
-    socket.disconnect()
+    socket.current.disconnect()
   }
 
   return (
     <GameContext.Provider
       value={{
-        socket,
-        cardsOnHand,
-        initGame,
-        startGame,
-        disconnect,
-        drawCard,
         amountPlayers,
-        readyToPlay,
-        currentDeck,
+        canDraw,
+        cardsOnHand,
         gameBoard,
         gameHasStarted,
+        gameOver,
+        playersTurn,
+        readyToPlay,
         team,
         throwPile,
-        setThrowPile,
-        updateGameboard,
-        setGameBoard,
-        getHand,
-        canDraw,
-        setCanDraw,
-        playersTurn,
         yourTurn,
-        gameOver,
+
+        setCanDraw,
+        setGameBoard,
+
+        disconnect,
+        drawCard,
+        getHand,
+        initGame,
+        startGame,
+        updateGameboard,
       }}
     >
       {children}
     </GameContext.Provider>
   )
-}
-
-export const useGame = () => {
-  const context = useContext(GameContext)
-  if (!context) {
-    throw new Error('useGame must be used within a GameProvider')
-  }
-  return context
 }
