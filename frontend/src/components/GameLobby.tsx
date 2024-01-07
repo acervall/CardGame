@@ -1,8 +1,13 @@
 import { useState, useEffect } from 'react'
 import { RoundedButton } from '../assets/StyledComponents/FormComponents'
-// import { initializeSocket, joinGame, startGame } from '../api/socket'
 import useUser from '../hooks/useUser'
 import { useGame } from '../utils/useGame'
+import styled from '@emotion/styled'
+
+const PlayerView = styled.div`
+  display: flex;
+  gap: 10px;
+`
 
 const GameLobby = () => {
   const {
@@ -10,18 +15,19 @@ const GameLobby = () => {
     initGame,
     startGame,
     disconnect,
-    amountPlayers,
+    backendPlayers,
     readyToPlay,
     getHand,
     team,
+    setTeam,
   } = useGame()
-  const [gameColor, setGameColor] = useState<string | null>(null)
   const [gameIsReady, setGameIsReady] = useState<boolean>(false)
 
   const { data: user, isLoading, error } = useUser()
 
   useEffect(() => {
     setGameIsReady(readyToPlay)
+    console.log('readyToPlay', readyToPlay)
     if (readyToPlay && !cardsOnHand) {
       getHand()
       console.log('readyToPlay', readyToPlay)
@@ -30,7 +36,7 @@ const GameLobby = () => {
   }, [readyToPlay, cardsOnHand])
 
   useEffect(() => {
-    console.log(team)
+    console.log('team', team)
   }, [team])
 
   if (user) {
@@ -41,19 +47,18 @@ const GameLobby = () => {
     }
 
     const selectGameColor = (gameColor: string) => {
-      setGameColor(gameColor)
-      if (gameColor) {
-        initGame(gameColor)
-      }
+      console.log('gameColor', gameColor)
+      setTeam(gameColor)
+      initGame(gameColor)
     }
 
     return (
       <div>
         <h1>Game Lobby</h1>
         <p>Username: {username}</p>
-        {!gameColor && (
+        {team === '' && (
           <>
-            <p>Game color: {gameColor}</p>
+            <p>Game color: {team}</p>
             <RoundedButton data-testid="button-red" onClick={() => selectGameColor('red')}>
               Red
             </RoundedButton>
@@ -78,9 +83,36 @@ const GameLobby = () => {
             <p>My hand:{cardsOnHand?.length}</p>
           </div>
         )}
+        <PlayerView>
+          <div>
+            <p>Team Red:</p>
+            {backendPlayers.map((player, index) => {
+              if (player.color === 'red') {
+                return <p key={index}>{player.username}</p>
+              }
+            })}
+          </div>
+          <div>
+            <p>Team Green:</p>
+            {backendPlayers.map((player, index) => {
+              if (player.color === 'green') {
+                return <p key={index}>{player.username}</p>
+              }
+            })}
+          </div>
+          <div>
+            <p>Team Blue:</p>
+            {backendPlayers.map((player, index) => {
+              if (player.color === 'blue') {
+                return <p key={index}>{player.username}</p>
+              }
+            })}
+          </div>
+        </PlayerView>
         <p>
-          Players in game: <p data-testid="amount-players">{amountPlayers}</p>
+          Players in game: <p data-testid="amount-players">{backendPlayers.length}</p>
         </p>
+
         <RoundedButton onClick={getHand}>getHand</RoundedButton>
         <RoundedButton onClick={disconnect}>disconnect</RoundedButton>
       </div>

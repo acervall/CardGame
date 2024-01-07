@@ -53,7 +53,7 @@ export function Cards(props: CardProps) {
         value={props.value}
       >
         {props.status === 'Available' && <div>Available</div>}
-        <Circle status={props.status} />
+        <Circle {...props} />
       </Card>
     </>
   )

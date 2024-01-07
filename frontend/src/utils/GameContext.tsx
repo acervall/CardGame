@@ -10,8 +10,14 @@ import { useUsername } from './useUsername'
 //   hasStarted: boolean
 // }
 
+interface Player {
+  color: string
+  username: string
+  cardsOnHand: Card[]
+}
+
 interface GameContextProps {
-  amountPlayers: number
+  backendPlayers: Player[]
   canDraw: boolean
   cardsOnHand: Card[]
   gameBoard: Card[][]
@@ -21,10 +27,12 @@ interface GameContextProps {
   readyToPlay: boolean
   team: string
   throwPile: Card[]
+  username: string
   yourTurn: boolean
 
   setCanDraw: (canDraw: boolean) => void
   setGameBoard: (gameBoard: Card[][]) => void
+  setTeam: (team: string) => void
 
   disconnect: () => void
   drawCard: () => void
@@ -44,17 +52,17 @@ export const GameProvider: React.FC<GameProviderProps> = ({ children }) => {
   const { username } = useUsername()
 
   // const [gameState, setGameState] = useState<GameState | null>(null)
-
-  const [amountPlayers, setAmountPlayers] = useState<number>(0)
-  const [canDraw, setCanDraw] = useState<boolean>(false)
+  const [backendPlayers, setBackendPlayers] = useState<Player[]>([])
   const [cardsOnHand, setCardsOnHand] = useState<Card[]>([])
   const [gameBoard, setGameBoard] = useState<Card[][]>([[]])
   const [gameHasStarted, setGameHasStarted] = useState<boolean>(false)
-  const [gameOver, setGameOver] = useState<string | boolean>(false)
   const [playersTurn, setPlayersTurn] = useState<string>('')
   const [readyToPlay, setReadyToPlay] = useState<boolean>(false)
   const [team, setTeam] = useState<string>('')
   const [throwPile, setThrowPile] = useState<Card[]>([])
+
+  const [canDraw, setCanDraw] = useState<boolean>(false)
+  const [gameOver, setGameOver] = useState<string | boolean>(false)
   const [yourTurn, setYourTurn] = useState<boolean>(false)
 
   const [currentDeck, setCurrentDeck] = useState<Card[]>([])
@@ -62,16 +70,22 @@ export const GameProvider: React.FC<GameProviderProps> = ({ children }) => {
   const socket = useRef<Socket>(io(BASE_URL))
 
   useEffect(() => {
+    if (username) {
+      firstConnection()
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [username])
+
+  useEffect(() => {
     socket.current.on('connect', () => {})
 
     socket.current.on('playerinformation', (playerinformation) => {
-      console.log('socket playerinformation.cardsOnHand', playerinformation.cardsOnHand)
       setCardsOnHand(playerinformation.cardsOnHand)
       setTeam(playerinformation.color)
     })
 
-    socket.current.on('amountPlayers', (amount) => {
-      setAmountPlayers(amount)
+    socket.current.on('backendPlayers', (backendPlayers) => {
+      setBackendPlayers(backendPlayers)
     })
 
     socket.current.on('readyToPlay', (ready) => {
@@ -82,13 +96,10 @@ export const GameProvider: React.FC<GameProviderProps> = ({ children }) => {
       if (playerTurn === username) {
         setYourTurn(true)
         setCanDraw(false)
-        console.log('testar')
       } else {
-        console.log('testar not your turn')
         setYourTurn(false)
       }
 
-      console.log('playerTurn', playerTurn)
       setPlayersTurn(playerTurn)
     })
 
@@ -109,9 +120,7 @@ export const GameProvider: React.FC<GameProviderProps> = ({ children }) => {
     })
 
     socket.current.on('newCardsOnHand', (newCard) => {
-      console.log('newCards', newCard)
-      if (cardsOnHand !== null) {
-        console.log('cardsOnHand', cardsOnHand)
+      if (cardsOnHand.length !== 0) {
         setCardsOnHand((oldCardsOnHand) => [...oldCardsOnHand, newCard])
       }
     })
@@ -119,7 +128,7 @@ export const GameProvider: React.FC<GameProviderProps> = ({ children }) => {
     return () => {
       socket.current.off('connect')
       socket.current.off('playerinformation')
-      socket.current.off('amountPlayers')
+      socket.current.off('backendPlayers')
       socket.current.off('readyToPlay')
       socket.current.off('playerTurn')
       socket.current.off('newDeck')
@@ -128,9 +137,27 @@ export const GameProvider: React.FC<GameProviderProps> = ({ children }) => {
       socket.current.off('throwPile')
       socket.current.off('newCardsOnHand')
     }
-  }, [])
+  }, [cardsOnHand, username])
+
+  const firstConnection = () => {
+    socket.current.on('gameState', (gameState) => {
+      console.log('gameState', gameState)
+      if (gameState.backendPlayers.length !== 0) {
+        setBackendPlayers(gameState.backendPlayers)
+        const matchingPlayer = gameState.backendPlayers.find(
+          (player: Player) => player.username === username,
+        )
+        if (matchingPlayer) {
+          setCardsOnHand(matchingPlayer.cardsOnHand)
+          setTeam(matchingPlayer.color)
+        }
+      }
+    })
+    socket.current.emit('firstConnection')
+  }
 
   const initGame = (color: string) => {
+    console.log('initGame', color)
     socket.current.emit('initGame', { color, username: username })
   }
 
@@ -169,12 +196,13 @@ export const GameProvider: React.FC<GameProviderProps> = ({ children }) => {
 
   const disconnect = () => {
     socket.current.disconnect()
+    window.location.reload()
   }
 
   return (
     <GameContext.Provider
       value={{
-        amountPlayers,
+        backendPlayers,
         canDraw,
         cardsOnHand,
         gameBoard,
@@ -184,10 +212,12 @@ export const GameProvider: React.FC<GameProviderProps> = ({ children }) => {
         readyToPlay,
         team,
         throwPile,
+        username,
         yourTurn,
 
         setCanDraw,
         setGameBoard,
+        setTeam,
 
         disconnect,
         drawCard,

@@ -12,6 +12,7 @@ interface GameState {
   gameBoard: Card[][]
   throwPile: Card[]
   backendPlayers: Player[]
+  gameHasStarted: boolean
 }
 
 function checkForSequence(board: Card[][], team: string): boolean {
@@ -46,6 +47,7 @@ export function setupGame(io: IOServer) {
     gameBoard: cardOnGameBoard,
     throwPile: [],
     backendPlayers: [],
+    gameHasStarted: false,
   }
 
   const findPlayerByUsername = (username: string) =>
@@ -54,6 +56,10 @@ export function setupGame(io: IOServer) {
   const emitToAll = (eventName: string, data: any) => io.emit(eventName, data)
 
   io.on('connection', (socket: Socket) => {
+    socket.on('firstConnection', () => {
+      io.emit('gameState', gameState)
+    })
+
     socket.on('initGame', ({ color, username }) => {
       console.log('initGame', socket.id, color, username)
 
@@ -73,7 +79,7 @@ export function setupGame(io: IOServer) {
       const allowedSizes = [2, 3, 4, 6, 8, 9, 10, 12]
       const amountPlayers = gameState.backendPlayers.length
 
-      io.emit('amountPlayers', amountPlayers)
+      io.emit('backendPlayers', gameState.backendPlayers)
 
       if (allowedSizes.includes(amountPlayers)) {
         io.emit('readyToPlay', true)
@@ -81,10 +87,12 @@ export function setupGame(io: IOServer) {
     })
 
     socket.on('startGame', () => {
+      gameState.gameHasStarted = true
+
       io.emit('playerTurn', gameState.backendPlayers[0].username)
       io.emit('newDeck', gameState.deck)
       io.emit('gameBoard', gameState.gameBoard)
-      io.emit('gameHasStarted', true)
+      io.emit('gameHasStarted', gameState.gameHasStarted)
       io.emit('throwPile', gameState.throwPile)
     })
 

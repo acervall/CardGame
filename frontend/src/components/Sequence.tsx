@@ -77,7 +77,7 @@ function Sequence() {
     team,
     throwPile,
     updateGameboard,
-    yourTurn,
+    username,
   } = useGame()
 
   const [selectedCard, setSelectedCard] = useState<Card | null>(null)
@@ -167,16 +167,16 @@ function Sequence() {
             </div>
           )}
         </DeckContainer>
-        {yourTurn ? <p>It's your turn</p> : <p>It's {playersTurn}'s turn</p>}
+        {username === playersTurn ? <p>It's your turn</p> : <p>It's {playersTurn}'s turn</p>}
         <Hand>
           {cardsOnHand &&
             cardsOnHand.map((card, i) => {
               return (
-                <button onClick={() => selectCard(card)}>
+                <div onClick={username === playersTurn ? () => selectCard(card) : undefined}>
                   <div data-testid="cards" data-card-nr={card.nr} key={i}>
                     <Cards key={i} {...card} />
                   </div>
-                </button>
+                </div>
               )
             })}
         </Hand>
