@@ -48,15 +48,19 @@ function checkForSequence(board: Card[][], team: string): boolean {
   return false
 }
 
-export function setupGame(io: IOServer) {
-  const gameState: GameState = {
-    deck: shuffleDeck(doubleDeck),
+function initializeGameState(): GameState {
+  return {
+    deck: shuffleDeck([...doubleDeck]),
     gameBoard: cardOnGameBoard,
     throwPile: [],
     backendPlayers: [],
     gameHasStarted: false,
     playerTurn: '',
   }
+}
+
+export function setupGame(io: IOServer) {
+  let gameState = initializeGameState()
 
   const findPlayerByUsername = (username: string) =>
     gameState.backendPlayers.find((p) => p.username === username)
@@ -180,12 +184,7 @@ export function setupGame(io: IOServer) {
       console.log('reason = client', reason === 'client namespace disconnect', reason)
       if (reason === 'client namespace disconnect') {
         console.log('restarting game')
-        gameState.backendPlayers = []
-        gameState.deck = shuffleDeck(doubleDeck)
-        gameState.gameBoard = cardOnGameBoard
-        gameState.throwPile = []
-        gameState.gameHasStarted = false
-        gameState.playerTurn = ''
+        gameState = initializeGameState()
         io.emit('updatePlayers', gameState.backendPlayers)
         io.emit('gameHasStarted', false)
         io.emit('amountPlayers', gameState.backendPlayers.length)
