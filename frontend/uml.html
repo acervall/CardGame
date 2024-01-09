@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>UML-diagram</title>
+    <script src="https://cdn.jsdelivr.net/npm/mermaid@10.6.1/dist/mermaid.min.js"></script>
+  </head>
+  <body>
+    <pre class="mermaid">
+		--- 
+		title: Sequence - UML-diagram 
+		---
+
+		flowchart TB
+			subgraph Start Game
+				A[User Logs In] --> B[Navigate to Game Lobby]
+				B --> C[Select Team]
+				C --> D{Enough Users?}
+				D -- Yes --> F[Click Start Game]
+				D -- No --> E[Wait for More Users]
+				E --> D
+	  	end
+	  
+		  subgraph Main Loop
+				F --> G[Player Plays Card]
+				G --> H[Player Places Chip]
+				H --> I[Check for Sequence]
+				I --> J{Game Over?}
+				J -- No --> K[Player Draws New Card]
+				K -- Next Player --> G
+		  end
+	  
+		  subgraph End Game
+				J -- Yes --> L[Display Winner]
+				L --> M[Start New Game]
+		  end
+	  </pre
+    >
+  </body>
+</html>
