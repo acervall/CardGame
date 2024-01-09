@@ -10,7 +10,7 @@ Given(`a user is logged in, navigates to the profile page`, () => {
 })
 
 When(`a user changes background color to "red"`, () => {
-  cy.get('[data-testid=""]')
+  cy.get('[data-testid="change-color-red"]').click()
 })
 
 Then(`the background color of their homepage should change to "red"`, () => {
