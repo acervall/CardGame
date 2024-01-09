@@ -15,7 +15,7 @@ When(`a user changes background color to "red"`, () => {
 
 Then(`the background color of their homepage should change to "red"`, () => {
   cy.get('[data-testid="home"]').click()
-  cy.get('body').should(($body) => {
-    expect($body.css('background-color')).to.equal('rgb(255, 0, 0)')
+  cy.get('[data-testid="background"]').should(($div) => {
+    expect($div.css('background-color')).to.equal('rgb(255, 0, 0)')
   })
 })
