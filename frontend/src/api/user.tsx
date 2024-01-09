@@ -1,4 +1,11 @@
-import { IdentifierPassword, User, UserId, NewUser, UserSettings } from '../utils/types'
+import {
+  IdentifierPassword,
+  User,
+  UserId,
+  NewUser,
+  UserSettings,
+  OnlySettings,
+} from '../utils/types'
 import axios from 'axios'
 import { BASE_URL } from '../constants/baseUrl'
 import { QueryClient } from '@tanstack/react-query'
@@ -75,6 +82,19 @@ export const EditUser = async (user: User, queryClient: QueryClient): Promise<vo
   } catch (error) {
     console.error('Error editing user:', error)
     throw new Error('Error editing user')
+  }
+}
+
+export const EditUserSettings = async (
+  user: OnlySettings,
+  queryClient: QueryClient,
+): Promise<void> => {
+  try {
+    await axios.put<OnlySettings>(`${BASE_URL}/auth/editSettings`, user)
+    queryClient.invalidateQueries({ queryKey: ['user'] })
+  } catch (error) {
+    console.error('Error editing user settings:', error)
+    throw new Error('Error editing user settings')
   }
 }
 

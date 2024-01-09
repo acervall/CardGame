@@ -46,11 +46,15 @@ function Navbar() {
     <NavbarContainer>
       {/* <Arrow>^</Arrow> */}
       <NavbarContent>
-        <RoundedButton onClick={() => handleClick('/')}>Home</RoundedButton>
+        <RoundedButton onClick={() => handleClick('/')} data-testid="home">
+          Home
+        </RoundedButton>
         <RoundedButton onClick={() => handleClick('/game')} data-testid="game">
           Game
         </RoundedButton>
-        <RoundedButton onClick={() => handleClick('/profile')}>Profile</RoundedButton>
+        <RoundedButton onClick={() => handleClick('/profile')} data-testid="profile">
+          Profile
+        </RoundedButton>
       </NavbarContent>
     </NavbarContainer>
   )

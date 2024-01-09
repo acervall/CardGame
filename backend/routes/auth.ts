@@ -175,6 +175,33 @@ router.put('/edit', async (request, response, next) => {
   }
 })
 
+// EDIT USER SETTINGS
+router.put('/editSettings', async (request, response, next) => {
+  const { id, opacity, background_color } = request.body
+  console.log('edit settings user', request.body)
+
+  try {
+    await client.query(
+      'UPDATE user_settings SET opacity = $1, background_color = $2 WHERE id = $3',
+      [opacity, background_color, id],
+    )
+
+    const { rows } = await client.query('SELECT * FROM user_settings WHERE id = $1', [id])
+
+    response.status(201).json({
+      success: true,
+      message: 'User settings updated',
+      user: {
+        id: rows[0].id,
+        opacity: rows[0].opacity,
+        background_color: rows[0].background_color,
+      },
+    })
+  } catch (error: unknown) {
+    next({ source: 'EDIT USER INFO SETTINGS - PUT /editSettings', error })
+  }
+})
+
 // REMOVE USER
 router.delete('/', async (request, response, next) => {
   const { id } = request.body

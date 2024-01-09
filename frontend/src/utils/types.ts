@@ -35,6 +35,12 @@ export interface UserSettings {
   password?: string
 }
 
+export interface OnlySettings {
+  id: number
+  opacity: number
+  background_color: string
+}
+
 export interface UserId {
   id: number
 }
