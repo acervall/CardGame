@@ -13,6 +13,7 @@ interface GameState {
   throwPile: Card[]
   backendPlayers: Player[]
   gameHasStarted: boolean
+  playerTurn: string
 }
 
 function checkForSequence(board: Card[][], team: string): boolean {
@@ -22,19 +23,25 @@ function checkForSequence(board: Card[][], team: string): boolean {
     let rowSeq = 0
     let colSeq = 0
     for (let j = 0; j < size; j++) {
-      rowSeq = board[i][j]?.status === team ? rowSeq + 1 : 0
-      colSeq = board[j][i]?.status === team ? colSeq + 1 : 0
+      rowSeq = board[i][j]?.team === team || board[i][j]?.team === 'joker' ? rowSeq + 1 : 0
+      colSeq = board[j][i]?.team === team || board[j][i]?.team === 'joker' ? colSeq + 1 : 0
       if (rowSeq === 5 || colSeq === 5) return true
     }
   }
 
-  for (let d = 0; d < size; d++) {
+  for (let d = 0; d < size * 2; d++) {
     let diag1Seq = 0
     let diag2Seq = 0
-    for (let i = 0, j = d; j < size; i++, j++) {
-      diag1Seq = board[i][j]?.status === team ? diag1Seq + 1 : 0
-      diag2Seq = board[j][i]?.status === team ? diag2Seq + 1 : 0
-      if (diag1Seq === 5 || diag2Seq === 5) return true
+    for (let i = 0, j = d; j >= 0; i++, j--) {
+      if (i < size && j < size) {
+        diag1Seq = board[i][j]?.team === team || board[i][j]?.team === 'joker' ? diag1Seq + 1 : 0
+        if (diag1Seq === 5) return true
+      }
+      if (i < size && d - i < size) {
+        diag2Seq =
+          board[i][d - i]?.team === team || board[i][d - i]?.team === 'joker' ? diag2Seq + 1 : 0
+        if (diag2Seq === 5) return true
+      }
     }
   }
 
@@ -48,10 +55,28 @@ export function setupGame(io: IOServer) {
     throwPile: [],
     backendPlayers: [],
     gameHasStarted: false,
+    playerTurn: '',
   }
 
   const findPlayerByUsername = (username: string) =>
     gameState.backendPlayers.find((p) => p.username === username)
+
+  const removerCardFromHand = (username: string, throwCard: Card) => {
+    const player = findPlayerByUsername(username)
+
+    if (player && player.cardsOnHand) {
+      const cardToRemove = player.cardsOnHand.find((card) => card.nr === throwCard.nr)
+
+      if (cardToRemove) {
+        const newHand = player.cardsOnHand.filter((card) => card.nr !== throwCard.nr)
+
+        player.cardsOnHand = newHand
+        return newHand
+      }
+    } else {
+      console.log('not the same card, something went wrong')
+    }
+  }
 
   const emitToAll = (eventName: string, data: any) => io.emit(eventName, data)
 
@@ -88,32 +113,32 @@ export function setupGame(io: IOServer) {
 
     socket.on('startGame', () => {
       gameState.gameHasStarted = true
+      gameState.playerTurn = gameState.backendPlayers[0].username
 
-      io.emit('playerTurn', gameState.backendPlayers[0].username)
+      io.emit('playerTurn', gameState.playerTurn)
       io.emit('newDeck', gameState.deck)
       io.emit('gameBoard', gameState.gameBoard)
       io.emit('gameHasStarted', gameState.gameHasStarted)
       io.emit('throwPile', gameState.throwPile)
     })
 
+    socket.on('throwCard', ({ throwCard, username }) => {
+      gameState.throwPile.push(throwCard)
+      emitToAll('throwPile', gameState.throwPile)
+
+      const newHand = removerCardFromHand(username, throwCard)
+
+      socket.emit('getHand', newHand)
+    })
+
     socket.on('updateGameboard', ({ newGameBoard, team, throwCard, username }) => {
       gameState.gameBoard = newGameBoard
       gameState.throwPile.push(throwCard)
+      const newHand = removerCardFromHand(username, throwCard)
 
       const player = findPlayerByUsername(username)
 
-      if (player && player.cardsOnHand) {
-        const cardToRemove = player.cardsOnHand.find((card) => card.nr === throwCard.nr)
-
-        if (cardToRemove) {
-          const newHand = player.cardsOnHand.filter((card) => card.nr !== throwCard.nr)
-
-          player.cardsOnHand = newHand
-          socket.emit('getHand', newHand)
-        }
-      } else {
-        console.log('not the same card, something went wrong')
-      }
+      socket.emit('getHand', newHand)
 
       if (checkForSequence(newGameBoard, team)) {
         console.log('Player has a sequence!')
@@ -125,7 +150,8 @@ export function setupGame(io: IOServer) {
       if (player) {
         let position = gameState.backendPlayers.lastIndexOf(player)
         let next = position === gameState.backendPlayers.length - 1 ? 0 : position + 1
-        emitToAll('playerTurn', gameState.backendPlayers[next].username)
+        gameState.playerTurn = gameState.backendPlayers[next].username
+        emitToAll('playerTurn', gameState.playerTurn)
       }
 
       emitToAll('gameBoard', newGameBoard)
@@ -158,6 +184,8 @@ export function setupGame(io: IOServer) {
         gameState.deck = shuffleDeck(doubleDeck)
         gameState.gameBoard = cardOnGameBoard
         gameState.throwPile = []
+        gameState.gameHasStarted = false
+        gameState.playerTurn = ''
         io.emit('updatePlayers', gameState.backendPlayers)
         io.emit('gameHasStarted', false)
         io.emit('amountPlayers', gameState.backendPlayers.length)

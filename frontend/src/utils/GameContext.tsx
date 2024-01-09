@@ -1,7 +1,7 @@
 import { useState, useEffect, createContext, useRef } from 'react'
 import { io, Socket } from 'socket.io-client'
 import { BASE_URL } from '../constants/baseUrl'
-import { Card } from '../constants/Deck'
+import { Card, Team } from '../constants/Deck'
 import { useUsername } from './useUsername'
 
 // interface GameState {
@@ -25,14 +25,14 @@ interface GameContextProps {
   gameOver: string | boolean
   playersTurn: string
   readyToPlay: boolean
-  team: string
+  team: Team
   throwPile: Card[]
   username: string
   yourTurn: boolean
 
   setCanDraw: (canDraw: boolean) => void
   setGameBoard: (gameBoard: Card[][]) => void
-  setTeam: (team: string) => void
+  setTeam: (team: Team) => void
 
   disconnect: () => void
   drawCard: () => void
@@ -40,6 +40,7 @@ interface GameContextProps {
   initGame: (color: string) => void
   startGame: () => void
   updateGameboard: (newGameBoard: Card[][], selectedCard: Card) => void
+  throwCard: (throwCard: Card) => void
 }
 
 export const GameContext = createContext<GameContextProps | undefined>(undefined)
@@ -58,7 +59,7 @@ export const GameProvider: React.FC<GameProviderProps> = ({ children }) => {
   const [gameHasStarted, setGameHasStarted] = useState<boolean>(false)
   const [playersTurn, setPlayersTurn] = useState<string>('')
   const [readyToPlay, setReadyToPlay] = useState<boolean>(false)
-  const [team, setTeam] = useState<string>('')
+  const [team, setTeam] = useState<Team>(undefined)
   const [throwPile, setThrowPile] = useState<Card[]>([])
 
   const [canDraw, setCanDraw] = useState<boolean>(false)
@@ -77,22 +78,24 @@ export const GameProvider: React.FC<GameProviderProps> = ({ children }) => {
   }, [username])
 
   useEffect(() => {
-    socket.current.on('connect', () => {})
+    const currentSocket = socket.current
 
-    socket.current.on('playerinformation', (playerinformation) => {
+    currentSocket.on('connect', () => {})
+
+    currentSocket.on('playerinformation', (playerinformation) => {
       setCardsOnHand(playerinformation.cardsOnHand)
       setTeam(playerinformation.color)
     })
 
-    socket.current.on('backendPlayers', (backendPlayers) => {
+    currentSocket.on('backendPlayers', (backendPlayers) => {
       setBackendPlayers(backendPlayers)
     })
 
-    socket.current.on('readyToPlay', (ready) => {
+    currentSocket.on('readyToPlay', (ready) => {
       setReadyToPlay(ready)
     })
 
-    socket.current.on('playerTurn', (playerTurn) => {
+    currentSocket.on('playerTurn', (playerTurn) => {
       if (playerTurn === username) {
         setYourTurn(true)
         setCanDraw(false)
@@ -103,45 +106,50 @@ export const GameProvider: React.FC<GameProviderProps> = ({ children }) => {
       setPlayersTurn(playerTurn)
     })
 
-    socket.current.on('newDeck', (newDeck) => {
+    currentSocket.on('newDeck', (newDeck) => {
       setCurrentDeck(newDeck)
     })
 
-    socket.current.on('gameBoard', (newGameBoard) => {
+    currentSocket.on('gameBoard', (newGameBoard) => {
       setGameBoard(newGameBoard)
     })
 
-    socket.current.on('gameHasStarted', (state) => {
+    currentSocket.on('gameHasStarted', (state) => {
       setGameHasStarted(state)
     })
 
-    socket.current.on('throwPile', (throwPile) => {
+    currentSocket.on('throwPile', (throwPile) => {
       setThrowPile(throwPile)
     })
 
-    socket.current.on('newCardsOnHand', (newCard) => {
+    currentSocket.on('newCardsOnHand', (newCard) => {
       if (cardsOnHand.length !== 0) {
         setCardsOnHand((oldCardsOnHand) => [...oldCardsOnHand, newCard])
       }
     })
 
     return () => {
-      socket.current.off('connect')
-      socket.current.off('playerinformation')
-      socket.current.off('backendPlayers')
-      socket.current.off('readyToPlay')
-      socket.current.off('playerTurn')
-      socket.current.off('newDeck')
-      socket.current.off('gameBoard')
-      socket.current.off('gameHasStarted')
-      socket.current.off('throwPile')
-      socket.current.off('newCardsOnHand')
+      currentSocket.off('connect')
+      currentSocket.off('playerinformation')
+      currentSocket.off('backendPlayers')
+      currentSocket.off('readyToPlay')
+      currentSocket.off('playerTurn')
+      currentSocket.off('newDeck')
+      currentSocket.off('gameBoard')
+      currentSocket.off('gameHasStarted')
+      currentSocket.off('throwPile')
     }
   }, [cardsOnHand, username])
 
   const firstConnection = () => {
     socket.current.on('gameState', (gameState) => {
-      console.log('gameState', gameState)
+      if (gameState.gameHasStarted) {
+        setGameHasStarted(true)
+        setGameBoard(gameState.gameBoard)
+        setThrowPile(gameState.throwPile)
+        setCurrentDeck(gameState.deck)
+        setPlayersTurn(gameState.playerTurn)
+      }
       if (gameState.backendPlayers.length !== 0) {
         setBackendPlayers(gameState.backendPlayers)
         const matchingPlayer = gameState.backendPlayers.find(
@@ -157,12 +165,18 @@ export const GameProvider: React.FC<GameProviderProps> = ({ children }) => {
   }
 
   const initGame = (color: string) => {
-    console.log('initGame', color)
     socket.current.emit('initGame', { color, username: username })
   }
 
   const startGame = () => {
     socket.current.emit('startGame')
+  }
+
+  const throwCard = (throwCard: Card) => {
+    socket.current.on('throwPile', (throwPile) => {
+      setThrowPile(throwPile)
+    })
+    socket.current.emit('throwCard', { throwCard, username })
   }
 
   const updateGameboard = (newGameBoard: Card[][], selectedCard: Card) => {
@@ -184,6 +198,23 @@ export const GameProvider: React.FC<GameProviderProps> = ({ children }) => {
   const getHand = () => {
     socket.current.on('getHand', (hand) => {
       setCardsOnHand(hand)
+      // const jackS = {
+      //   nr: 9,
+      //   face: 'J',
+      //   value: 11,
+      //   suit: 'S',
+      //   url: 'JS',
+      // }
+
+      // const jackD = {
+      //   nr: 48,
+      //   face: 'J',
+      //   value: 11,
+      //   suit: 'D',
+      //   url: 'JD',
+      // }
+      // const newHAnd = [...hand, jackD, jackS]
+      // setCardsOnHand(newHAnd)
     })
     socket.current.emit('getHand', username)
   }
@@ -225,9 +256,14 @@ export const GameProvider: React.FC<GameProviderProps> = ({ children }) => {
         initGame,
         startGame,
         updateGameboard,
+        throwCard,
       }}
     >
       {children}
     </GameContext.Provider>
   )
 }
+
+// kolla korten som kommer i draw
+// vad som ska hända när någon vinner
+// Joker ska bara ta bort inte ersätta

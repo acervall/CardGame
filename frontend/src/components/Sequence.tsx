@@ -23,7 +23,7 @@ const GamePlan = styled.div`
   display: grid;
   grid-template-columns: repeat(10, 1fr);
   grid-template-rows: repeat(10, 1fr);
-  gap: 10px;
+  gap: 1px;
   padding: 10px;
   width: calc((6vh + 10px) * 10);
   height: fit-content;
@@ -78,24 +78,55 @@ function Sequence() {
     throwPile,
     updateGameboard,
     username,
+    throwCard,
   } = useGame()
 
   const [selectedCard, setSelectedCard] = useState<Card | null>(null)
   const [canThrow, setCanThrow] = useState<boolean>(false)
 
+  console.log('gameBoard', gameBoard)
   function selectCard(card: Card) {
     setSelectedCard(card)
-    console.log(card)
-    if (gameBoard) {
-      const newGameBoard = gameBoard.map((row) =>
+    const isOneEyedJack = card.face === 'J' && (card.suit === 'S' || card.suit === 'H')
+    const isTwoEyedJack = card.face === 'J' && (card.suit === 'C' || card.suit === 'D')
+    if (gameBoard && isOneEyedJack) {
+      const newGameBoard: Card[][] = gameBoard.map((row) =>
+        row.map((gameCard: Card) => {
+          if (gameCard.status === 'Available') {
+            return { ...gameCard, status: 'Unset' }
+          } else if (gameCard.status === 'Selected' && gameCard.team !== team) {
+            return { ...gameCard, status: 'CanBeRemoved' }
+          } else {
+            return gameCard
+          }
+        }),
+      )
+      setGameBoard(newGameBoard)
+    } else if (gameBoard && isTwoEyedJack) {
+      const newGameBoard: Card[][] = gameBoard.map((row) =>
+        row.map((gameCard: Card) => {
+          if (gameCard.status === 'Unset') {
+            return { ...gameCard, status: 'Available' }
+          } else if (gameCard.status === 'CanBeRemoved') {
+            return { ...gameCard, status: 'Selected' }
+          } else {
+            return gameCard
+          }
+        }),
+      )
+      setGameBoard(newGameBoard)
+    } else if (gameBoard) {
+      const newGameBoard: Card[][] = gameBoard.map((row) =>
         row.map((gameCard: Card) => {
           if (
             (gameCard === card || (gameCard.value === card.value && gameCard.suit === card.suit)) &&
-            gameCard.status === undefined
+            gameCard.status !== 'Selected'
           ) {
             return { ...gameCard, status: 'Available' }
           } else if (gameCard.status === 'Available') {
-            return { ...gameCard, status: undefined }
+            return { ...gameCard, status: 'Unset' }
+          } else if (gameCard.status === 'CanBeRemoved') {
+            return { ...gameCard, status: 'Selected' }
           } else {
             return gameCard
           }
@@ -107,37 +138,46 @@ function Sequence() {
         row.every((gameCard) => gameCard.status !== 'Available'),
       )
 
-      if (noAvailableCards) {
-        console.log('No cards with status Available on the game board.')
+      if (noAvailableCards && card.face !== 'J') {
         setCanThrow(true)
+      } else {
+        setCanThrow(false)
       }
     }
   }
-  const throwCard = () => {
+  const handleThrowCard = () => {
     if (selectedCard !== null) {
-      updateGameboard(gameBoard, selectedCard)
+      throwCard(selectedCard)
     }
     setCanDraw(true)
     setCanThrow(false)
   }
   function placeMarker(card: Card) {
-    if (selectedCard && card.value === selectedCard.value && card.suit === selectedCard.suit) {
+    setCanThrow(false)
+    if (
+      (selectedCard && card.status === 'Available') ||
+      (selectedCard && card.status === 'CanBeRemoved')
+      // (selectedCard && card.value === selectedCard.value && card.suit === selectedCard.suit) ||
+      // (selectedCard && card.status === 'CanBeRemoved')
+    ) {
       setCanDraw(true)
       if (gameBoard) {
-        const newGameBoard = gameBoard.map((row) =>
+        const newGameBoard: Card[][] = gameBoard.map((row) =>
           row.map((gameCard: Card) => {
-            if (gameCard === card) {
-              return { ...gameCard, status: team }
+            if (gameCard === card && gameCard.status === 'CanBeRemoved') {
+              return { ...gameCard, status: 'Unset', team: undefined }
+            } else if (gameCard === card) {
+              return { ...gameCard, status: 'Selected', team: team }
             } else if (gameCard.status === 'Available') {
-              console.log('gameCard.status', gameCard.status)
-              return { ...gameCard, status: undefined }
+              return { ...gameCard, status: 'Unset' }
+            } else if (gameCard.status === 'CanBeRemoved') {
+              return { ...gameCard, status: 'Selected' }
             } else {
               return gameCard
             }
           }),
         )
         setGameBoard(newGameBoard)
-        console.log(newGameBoard)
         updateGameboard(newGameBoard, selectedCard)
       }
     }
@@ -151,7 +191,7 @@ function Sequence() {
           <button disabled={!canDraw} onClick={drawCard}>
             Draw
           </button>
-          <button disabled={!canThrow} onClick={throwCard}>
+          <button disabled={!canThrow} onClick={handleThrowCard}>
             Throw card
           </button>
           {!!throwPile && (
@@ -172,7 +212,10 @@ function Sequence() {
           {cardsOnHand &&
             cardsOnHand.map((card, i) => {
               return (
-                <div onClick={username === playersTurn ? () => selectCard(card) : undefined}>
+                <div
+                  key={i}
+                  onClick={username === playersTurn ? () => selectCard(card) : undefined}
+                >
                   <div data-testid="cards" data-card-nr={card.nr} key={i}>
                     <Cards key={i} {...card} />
                   </div>
@@ -193,7 +236,7 @@ function Sequence() {
                   data-card-nr={card.nr}
                   onClick={() => placeMarker(card)}
                 >
-                  <Cards {...card} />
+                  <Cards gameBoard={true} {...card} />
                 </div>
               )
             })
@@ -206,13 +249,4 @@ function Sequence() {
 
 export default Sequence
 
-// Diagonal fungerar ej
-// När man väljer en som redan finns markerad så försvinner den andra
-
-// Ta bort för spelare
-// fixa throwpile
 // kolla att korrekt kort finns i deck
-// reload innan man connectar
-
-// man kan lägga på alla platser
-// om man har mer än ett av samma kort på handen

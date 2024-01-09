@@ -16,7 +16,6 @@ const AuthForm = <T,>({ fields, submitButton }: AuthFormProps<T>) => {
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
-    console.log('handleSubmit', formValues)
     submitButton.func(formValues)
   }
 

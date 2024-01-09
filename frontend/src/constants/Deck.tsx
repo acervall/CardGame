@@ -5,13 +5,17 @@ export enum Suit {
   Diamonds = 'D',
 }
 
+export type CardStatus = 'Available' | 'Selected' | 'CanBeRemoved' | 'Unset' | 'Joker' | undefined
+export type Team = 'red' | 'green' | 'blue' | 'joker' | undefined
+
 export interface Card {
   nr: number
   face: string
   value: number
   suit: Suit
   url: string
-  status: string | undefined
+  status: CardStatus
+  team: Team
 }
 
 const faces = ['2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K', 'A']
@@ -28,7 +32,8 @@ for (const suit of Object.values(Suit)) {
       value: values[i],
       suit: suit,
       url: `${faces[i]}${suit}`,
-      status: undefined,
+      status: 'Unset',
+      team: undefined,
     })
     cardNumber++
   }
@@ -43,7 +48,8 @@ for (const suit of Object.values(Suit)) {
     value: 0,
     suit: suit,
     url: 'gray_back',
-    status: undefined,
+    status: 'Joker',
+    team: 'joker',
   })
   cardNumber++
 }

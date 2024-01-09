@@ -11,7 +11,6 @@ function Home() {
 
   useEffect(() => {
     queryClient.invalidateQueries({ queryKey: ['user'] })
-    console.log(accessToken)
   }, [accessToken, queryClient])
 
   if (isLoading) {
