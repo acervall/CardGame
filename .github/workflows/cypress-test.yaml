@@ -15,9 +15,9 @@ jobs:
           echo "POSTGRES_PASSWORD=secret" >> .env
           echo "JWT_SECRET=secret" >> .env
 
-      - name: Setup Docker
-        run: |
-          docker-compose -f compose.yaml up -d
+      # - name: Setup Docker
+      #   run: |
+      #     docker-compose -f compose.yaml up -d
 
       - name: Start Docker Compose Services
         run: docker-compose -f compose.yaml up -d
