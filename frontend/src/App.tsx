@@ -5,6 +5,8 @@ import Profile from './views/Profile'
 import Game from './views/Game'
 import Context from './constants/Context'
 import { UserProvider } from './utils/UserContext'
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
 
 import Navbar from './components/Navbar'
 
@@ -23,6 +25,8 @@ function Root() {
 }
 
 function App() {
+  const queryClient = new QueryClient()
+
   const router = createHashRouter([
     {
       children: [
@@ -43,7 +47,12 @@ function App() {
     },
   ])
 
-  return <RouterProvider router={router} />
+  return (
+    <QueryClientProvider client={queryClient}>
+      <RouterProvider router={router} />
+      <ReactQueryDevtools initialIsOpen={false} />
+    </QueryClientProvider>
+  )
 }
 
 export default App

@@ -1,5 +1,7 @@
 // USERS
 
+import { ComponentPropsWithoutRef } from 'react'
+
 export interface User {
   accessToken: string
   user: {
@@ -47,39 +49,13 @@ export interface UserId {
 
 // FORMS
 
-export interface Field {
+export interface Field extends ComponentPropsWithoutRef<'input'> {
   label?: string
   typeKey: string
-  value?: string | number
-  type?:
-    | 'text'
-    | 'button'
-    | 'checkbox'
-    | 'color'
-    | 'date'
-    | 'datetime-local'
-    | 'email'
-    | 'file'
-    | 'hidden'
-    | 'image'
-    | 'month'
-    | 'number'
-    | 'password'
-    | 'radio'
-    | 'range'
-    | 'reset'
-    | 'search'
-    | 'submit'
-    | 'tel'
-    | 'time'
-    | 'url'
-    | 'week'
-  required?: boolean
 }
 
-export interface SubmitButtonInterface<T> {
+export interface SubmitButtonInterface<T> extends ComponentPropsWithoutRef<'button'> {
   label: string
-  type: 'submit' | 'button' | 'reset'
   func: (values: T) => void
 }
 
