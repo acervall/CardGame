@@ -48,7 +48,7 @@ const GameLobby = () => {
           <p>Game color: {team}</p>
           {teams.map((color) => (
             <RoundedButton
-              data-testid={'change-color-' + color}
+              data-testid={`data-testid="button-${color}"`}
               key={color}
               onClick={() => selectGameColor(color)}
             >
