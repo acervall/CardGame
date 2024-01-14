@@ -74,36 +74,60 @@
 <a name='L9'></a><a href='#L9'>9</a>
 <a name='L10'></a><a href='#L10'>10</a>
 <a name='L11'></a><a href='#L11'>11</a>
-<a name='L12'></a><a href='#L12'>12</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import { createContext, Dispatch, SetStateAction } from 'react'
-&nbsp;
-type AccessTokenContextType = {
-  accessToken: string | null
-  setAccessToken: Dispatch&lt;SetStateAction&lt;string | null&gt;&gt;
-}
-&nbsp;
-export default createContext&lt;AccessTokenContextType&gt;({
-  accessToken: localStorage.getItem('accessToken'),
-  setAccessToken: <span class="fstat-no" title="function not covered" >() =&gt; {</span>},
-})
-&nbsp;</pre></td></tr></table></pre>
+<a name='L12'></a><a href='#L12'>12</a>
+<a name='L13'></a><a href='#L13'>13</a>
+<a name='L14'></a><a href='#L14'>14</a>
+<a name='L15'></a><a href='#L15'>15</a>
+<a name='L16'></a><a href='#L16'>16</a>
+<a name='L17'></a><a href='#L17'>17</a>
+<a name='L18'></a><a href='#L18'>18</a>
+<a name='L19'></a><a href='#L19'>19</a>
+<a name='L20'></a><a href='#L20'>20</a></td><td class="line-coverage quiet"><span class="cline-any cline-no">0</span>
+<span class="cline-any cline-no">0</span>
+<span class="cline-any cline-no">0</span>
+<span class="cline-any cline-no">0</span>
+<span class="cline-any cline-no">0</span>
+<span class="cline-any cline-no">0</span>
+<span class="cline-any cline-no">0</span>
+<span class="cline-any cline-no">0</span>
+<span class="cline-any cline-no">0</span>
+<span class="cline-any cline-no">0</span>
+<span class="cline-any cline-no">0</span>
+<span class="cline-any cline-no">0</span>
+<span class="cline-any cline-no">0</span>
+<span class="cline-any cline-no">0</span>
+<span class="cline-any cline-no">0</span>
+<span class="cline-any cline-no">0</span>
+<span class="cline-any cline-no">0</span>
+<span class="cline-any cline-no">0</span>
+<span class="cline-any cline-no">0</span>
+<span class="cline-any cline-no">0</span></td><td class="text"><pre class="prettyprint lang-js">Unable to lookup source: /home/amelie/Documents/Skola/Testing/CardGame/frontend/src/constants/Context.ts (ENOENT: no such file or directory, open '/home/amelie/Documents/Skola/Testing/CardGame/frontend/src/constants/Context.ts')
+Error: Unable to lookup source: /home/amelie/Documents/Skola/Testing/CardGame/frontend/src/constants/Context.ts (ENOENT: no such file or directory, open '/home/amelie/Documents/Skola/Testing/CardGame/frontend/src/constants/Context.ts')
+    at Context.defaultSourceLookup [as sourceFinder] (/home/amelie/Documents/Skola/Testing/CardGame/frontend/node_modules/istanbul-lib-report/lib/context.js:17:15)
+    at Context.getSource (/home/amelie/Documents/Skola/Testing/CardGame/frontend/node_modules/istanbul-lib-report/lib/context.js:71:21)
+    at annotateSourceCode (/home/amelie/Documents/Skola/Testing/CardGame/frontend/node_modules/istanbul-reports/lib/html/annotator.js:249:40)
+    at HtmlReport.onDetail (/home/amelie/Documents/Skola/Testing/CardGame/frontend/node_modules/istanbul-reports/lib/html/index.js:414:33)
+    at LcovReport.<computed> [as onDetail] (/home/amelie/Documents/Skola/Testing/CardGame/frontend/node_modules/istanbul-reports/lib/lcov/index.js:28:23)
+    at Visitor.value (/home/amelie/Documents/Skola/Testing/CardGame/frontend/node_modules/istanbul-lib-report/lib/tree.js:38:38)
+    at ReportNode.visit (/home/amelie/Documents/Skola/Testing/CardGame/frontend/node_modules/istanbul-lib-report/lib/tree.js:88:21)
+    at /home/amelie/Documents/Skola/Testing/CardGame/frontend/node_modules/istanbul-lib-report/lib/tree.js:92:19
+    at Array.forEach (<anonymous>)
+    at ReportNode.visit (/home/amelie/Documents/Skola/Testing/CardGame/frontend/node_modules/istanbul-lib-report/lib/tree.js:91:28)
+    at /home/amelie/Documents/Skola/Testing/CardGame/frontend/node_modules/istanbul-lib-report/lib/tree.js:92:19
+    at Array.forEach (<anonymous>)
+    at ReportNode.visit (/home/amelie/Documents/Skola/Testing/CardGame/frontend/node_modules/istanbul-lib-report/lib/tree.js:91:28)
+    at ReportTree.visit (/home/amelie/Documents/Skola/Testing/CardGame/frontend/node_modules/istanbul-lib-report/lib/tree.js:127:24)
+    at LcovReport.execute (/home/amelie/Documents/Skola/Testing/CardGame/frontend/node_modules/istanbul-lib-report/lib/report-base.js:12:44)
+    at /home/amelie/Documents/Skola/Testing/CardGame/frontend/node_modules/nyc/index.js:467:10
+    at Array.forEach (<anonymous>)
+    at NYC.report (/home/amelie/Documents/Skola/Testing/CardGame/frontend/node_modules/nyc/index.js:461:19)</pre></td></tr></table></pre>
 
                 <div class='push'></div><!-- for sticky footer -->
             </div><!-- /wrapper -->
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2024-01-14T12:38:38.691Z
+                at 2024-01-14T17:07:50.629Z
             </div>
         <script src="../../prettify.js"></script>
         <script>

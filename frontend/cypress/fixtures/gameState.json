@@ -1,0 +1,1678 @@
+{
+  "deck": [
+    {
+      "nr": 29,
+      "face": "5",
+      "value": 5,
+      "suit": "H",
+      "url": "5H",
+      "status": "Unset"
+    },
+    {
+      "nr": 7,
+      "face": "9",
+      "value": 9,
+      "suit": "S",
+      "url": "9S",
+      "status": "Unset"
+    },
+    {
+      "nr": 35,
+      "face": "J",
+      "value": 11,
+      "suit": "H",
+      "url": "JH",
+      "status": "Unset"
+    },
+    {
+      "nr": 10,
+      "face": "Q",
+      "value": 12,
+      "suit": "S",
+      "url": "QS",
+      "status": "Unset"
+    },
+    {
+      "nr": 37,
+      "face": "K",
+      "value": 13,
+      "suit": "H",
+      "url": "KH",
+      "status": "Unset"
+    },
+    {
+      "nr": 50,
+      "face": "K",
+      "value": 13,
+      "suit": "D",
+      "url": "KD",
+      "status": "Unset"
+    },
+    {
+      "nr": 40,
+      "face": "3",
+      "value": 3,
+      "suit": "D",
+      "url": "3D",
+      "status": "Unset"
+    },
+    {
+      "nr": 8,
+      "face": "10",
+      "value": 10,
+      "suit": "S",
+      "url": "10S",
+      "status": "Unset"
+    },
+    {
+      "nr": 24,
+      "face": "K",
+      "value": 13,
+      "suit": "C",
+      "url": "KC",
+      "status": "Unset"
+    },
+    {
+      "nr": 27,
+      "face": "3",
+      "value": 3,
+      "suit": "H",
+      "url": "3H",
+      "status": "Unset"
+    },
+    {
+      "nr": 6,
+      "face": "8",
+      "value": 8,
+      "suit": "S",
+      "url": "8S",
+      "status": "Unset"
+    },
+    {
+      "nr": 32,
+      "face": "8",
+      "value": 8,
+      "suit": "H",
+      "url": "8H",
+      "status": "Unset"
+    },
+    {
+      "nr": 39,
+      "face": "2",
+      "value": 2,
+      "suit": "D",
+      "url": "2D",
+      "status": "Unset"
+    },
+    {
+      "nr": 10,
+      "face": "Q",
+      "value": 12,
+      "suit": "S",
+      "url": "QS",
+      "status": "Unset"
+    },
+    {
+      "nr": 31,
+      "face": "7",
+      "value": 7,
+      "suit": "H",
+      "url": "7H",
+      "status": "Unset"
+    },
+    {
+      "nr": 19,
+      "face": "8",
+      "value": 8,
+      "suit": "C",
+      "url": "8C",
+      "status": "Unset"
+    },
+    {
+      "nr": 5,
+      "face": "7",
+      "value": 7,
+      "suit": "S",
+      "url": "7S",
+      "status": "Unset"
+    },
+    {
+      "nr": 34,
+      "face": "10",
+      "value": 10,
+      "suit": "H",
+      "url": "10H",
+      "status": "Unset"
+    },
+    {
+      "nr": 9,
+      "face": "J",
+      "value": 11,
+      "suit": "S",
+      "url": "JS",
+      "status": "Unset"
+    },
+    {
+      "nr": 30,
+      "face": "6",
+      "value": 6,
+      "suit": "H",
+      "url": "6H",
+      "status": "Unset"
+    },
+    {
+      "nr": 28,
+      "face": "4",
+      "value": 4,
+      "suit": "H",
+      "url": "4H",
+      "status": "Unset"
+    },
+    {
+      "nr": 20,
+      "face": "9",
+      "value": 9,
+      "suit": "C",
+      "url": "9C",
+      "status": "Unset"
+    },
+    {
+      "nr": 48,
+      "face": "J",
+      "value": 11,
+      "suit": "D",
+      "url": "JD",
+      "status": "Unset"
+    },
+    {
+      "nr": 14,
+      "face": "3",
+      "value": 3,
+      "suit": "C",
+      "url": "3C",
+      "status": "Unset"
+    },
+    {
+      "nr": 23,
+      "face": "Q",
+      "value": 12,
+      "suit": "C",
+      "url": "QC",
+      "status": "Unset"
+    },
+    {
+      "nr": 24,
+      "face": "K",
+      "value": 13,
+      "suit": "C",
+      "url": "KC",
+      "status": "Unset"
+    },
+    {
+      "nr": 1,
+      "face": "3",
+      "value": 3,
+      "suit": "S",
+      "url": "3S",
+      "status": "Unset"
+    },
+    {
+      "nr": 26,
+      "face": "2",
+      "value": 2,
+      "suit": "H",
+      "url": "2H",
+      "status": "Unset"
+    },
+    {
+      "nr": 7,
+      "face": "9",
+      "value": 9,
+      "suit": "S",
+      "url": "9S",
+      "status": "Unset"
+    },
+    {
+      "nr": 13,
+      "face": "2",
+      "value": 2,
+      "suit": "C",
+      "url": "2C",
+      "status": "Unset"
+    },
+    {
+      "nr": 43,
+      "face": "6",
+      "value": 6,
+      "suit": "D",
+      "url": "6D",
+      "status": "Unset"
+    },
+    {
+      "nr": 49,
+      "face": "Q",
+      "value": 12,
+      "suit": "D",
+      "url": "QD",
+      "status": "Unset"
+    },
+    {
+      "nr": 21,
+      "face": "10",
+      "value": 10,
+      "suit": "C",
+      "url": "10C",
+      "status": "Unset"
+    },
+    {
+      "nr": 47,
+      "face": "10",
+      "value": 10,
+      "suit": "D",
+      "url": "10D",
+      "status": "Unset"
+    },
+    {
+      "nr": 21,
+      "face": "10",
+      "value": 10,
+      "suit": "C",
+      "url": "10C",
+      "status": "Unset"
+    },
+    {
+      "nr": 37,
+      "face": "K",
+      "value": 13,
+      "suit": "H",
+      "url": "KH",
+      "status": "Unset"
+    },
+    {
+      "nr": 51,
+      "face": "A",
+      "value": 14,
+      "suit": "D",
+      "url": "AD",
+      "status": "Unset"
+    },
+    {
+      "nr": 23,
+      "face": "Q",
+      "value": 12,
+      "suit": "C",
+      "url": "QC",
+      "status": "Unset"
+    },
+    {
+      "nr": 12,
+      "face": "A",
+      "value": 14,
+      "suit": "S",
+      "url": "AS",
+      "status": "Unset"
+    },
+    {
+      "nr": 4,
+      "face": "6",
+      "value": 6,
+      "suit": "S",
+      "url": "6S",
+      "status": "Unset"
+    },
+    {
+      "nr": 33,
+      "face": "9",
+      "value": 9,
+      "suit": "H",
+      "url": "9H",
+      "status": "Unset"
+    },
+    {
+      "nr": 11,
+      "face": "K",
+      "value": 13,
+      "suit": "S",
+      "url": "KS",
+      "status": "Unset"
+    },
+    {
+      "nr": 36,
+      "face": "Q",
+      "value": 12,
+      "suit": "H",
+      "url": "QH",
+      "status": "Unset"
+    },
+    {
+      "nr": 0,
+      "face": "2",
+      "value": 2,
+      "suit": "S",
+      "url": "2S",
+      "status": "Unset"
+    },
+    {
+      "nr": 8,
+      "face": "10",
+      "value": 10,
+      "suit": "S",
+      "url": "10S",
+      "status": "Unset"
+    },
+    {
+      "nr": 11,
+      "face": "K",
+      "value": 13,
+      "suit": "S",
+      "url": "KS",
+      "status": "Unset"
+    },
+    {
+      "nr": 3,
+      "face": "5",
+      "value": 5,
+      "suit": "S",
+      "url": "5S",
+      "status": "Unset"
+    },
+    {
+      "nr": 15,
+      "face": "4",
+      "value": 4,
+      "suit": "C",
+      "url": "4C",
+      "status": "Unset"
+    },
+    {
+      "nr": 46,
+      "face": "9",
+      "value": 9,
+      "suit": "D",
+      "url": "9D",
+      "status": "Unset"
+    },
+    {
+      "nr": 28,
+      "face": "4",
+      "value": 4,
+      "suit": "H",
+      "url": "4H",
+      "status": "Unset"
+    },
+    {
+      "nr": 43,
+      "face": "6",
+      "value": 6,
+      "suit": "D",
+      "url": "6D",
+      "status": "Unset"
+    },
+    {
+      "nr": 45,
+      "face": "8",
+      "value": 8,
+      "suit": "D",
+      "url": "8D",
+      "status": "Unset"
+    },
+    {
+      "nr": 4,
+      "face": "6",
+      "value": 6,
+      "suit": "S",
+      "url": "6S",
+      "status": "Unset"
+    },
+    {
+      "nr": 30,
+      "face": "6",
+      "value": 6,
+      "suit": "H",
+      "url": "6H",
+      "status": "Unset"
+    },
+    {
+      "nr": 13,
+      "face": "2",
+      "value": 2,
+      "suit": "C",
+      "url": "2C",
+      "status": "Unset"
+    },
+    {
+      "nr": 48,
+      "face": "J",
+      "value": 11,
+      "suit": "D",
+      "url": "JD",
+      "status": "Unset"
+    },
+    {
+      "nr": 39,
+      "face": "2",
+      "value": 2,
+      "suit": "D",
+      "url": "2D",
+      "status": "Unset"
+    },
+    {
+      "nr": 16,
+      "face": "5",
+      "value": 5,
+      "suit": "C",
+      "url": "5C",
+      "status": "Unset"
+    },
+    {
+      "nr": 38,
+      "face": "A",
+      "value": 14,
+      "suit": "H",
+      "url": "AH",
+      "status": "Unset"
+    },
+    {
+      "nr": 46,
+      "face": "9",
+      "value": 9,
+      "suit": "D",
+      "url": "9D",
+      "status": "Unset"
+    },
+    {
+      "nr": 25,
+      "face": "A",
+      "value": 14,
+      "suit": "C",
+      "url": "AC",
+      "status": "Unset"
+    },
+    {
+      "nr": 35,
+      "face": "J",
+      "value": 11,
+      "suit": "H",
+      "url": "JH",
+      "status": "Unset"
+    },
+    {
+      "nr": 17,
+      "face": "6",
+      "value": 6,
+      "suit": "C",
+      "url": "6C",
+      "status": "Unset"
+    },
+    {
+      "nr": 50,
+      "face": "K",
+      "value": 13,
+      "suit": "D",
+      "url": "KD",
+      "status": "Unset"
+    },
+    {
+      "nr": 26,
+      "face": "2",
+      "value": 2,
+      "suit": "H",
+      "url": "2H",
+      "status": "Unset"
+    },
+    {
+      "nr": 9,
+      "face": "J",
+      "value": 11,
+      "suit": "S",
+      "url": "JS",
+      "status": "Unset"
+    },
+    {
+      "nr": 29,
+      "face": "5",
+      "value": 5,
+      "suit": "H",
+      "url": "5H",
+      "status": "Unset"
+    },
+    {
+      "nr": 20,
+      "face": "9",
+      "value": 9,
+      "suit": "C",
+      "url": "9C",
+      "status": "Unset"
+    },
+    {
+      "nr": 40,
+      "face": "3",
+      "value": 3,
+      "suit": "D",
+      "url": "3D",
+      "status": "Unset"
+    },
+    {
+      "nr": 2,
+      "face": "4",
+      "value": 4,
+      "suit": "S",
+      "url": "4S",
+      "status": "Unset"
+    },
+    {
+      "nr": 31,
+      "face": "7",
+      "value": 7,
+      "suit": "H",
+      "url": "7H",
+      "status": "Unset"
+    },
+    {
+      "nr": 44,
+      "face": "7",
+      "value": 7,
+      "suit": "D",
+      "url": "7D",
+      "status": "Unset"
+    },
+    {
+      "nr": 41,
+      "face": "4",
+      "value": 4,
+      "suit": "D",
+      "url": "4D",
+      "status": "Unset"
+    },
+    {
+      "nr": 6,
+      "face": "8",
+      "value": 8,
+      "suit": "S",
+      "url": "8S",
+      "status": "Unset"
+    },
+    {
+      "nr": 2,
+      "face": "4",
+      "value": 4,
+      "suit": "S",
+      "url": "4S",
+      "status": "Unset"
+    },
+    {
+      "nr": 22,
+      "face": "J",
+      "value": 11,
+      "suit": "C",
+      "url": "JC",
+      "status": "Unset"
+    },
+    {
+      "nr": 45,
+      "face": "8",
+      "value": 8,
+      "suit": "D",
+      "url": "8D",
+      "status": "Unset"
+    },
+    {
+      "nr": 25,
+      "face": "A",
+      "value": 14,
+      "suit": "C",
+      "url": "AC",
+      "status": "Unset"
+    },
+    {
+      "nr": 3,
+      "face": "5",
+      "value": 5,
+      "suit": "S",
+      "url": "5S",
+      "status": "Unset"
+    },
+    {
+      "nr": 14,
+      "face": "3",
+      "value": 3,
+      "suit": "C",
+      "url": "3C",
+      "status": "Unset"
+    },
+    {
+      "nr": 1,
+      "face": "3",
+      "value": 3,
+      "suit": "S",
+      "url": "3S",
+      "status": "Unset"
+    },
+    {
+      "nr": 17,
+      "face": "6",
+      "value": 6,
+      "suit": "C",
+      "url": "6C",
+      "status": "Unset"
+    },
+    {
+      "nr": 32,
+      "face": "8",
+      "value": 8,
+      "suit": "H",
+      "url": "8H",
+      "status": "Unset"
+    },
+    {
+      "nr": 34,
+      "face": "10",
+      "value": 10,
+      "suit": "H",
+      "url": "10H",
+      "status": "Unset"
+    },
+    {
+      "nr": 22,
+      "face": "J",
+      "value": 11,
+      "suit": "C",
+      "url": "JC",
+      "status": "Unset"
+    },
+    {
+      "nr": 36,
+      "face": "Q",
+      "value": 12,
+      "suit": "H",
+      "url": "QH",
+      "status": "Unset"
+    },
+    {
+      "nr": 49,
+      "face": "Q",
+      "value": 12,
+      "suit": "D",
+      "url": "QD",
+      "status": "Unset"
+    },
+    {
+      "nr": 33,
+      "face": "9",
+      "value": 9,
+      "suit": "H",
+      "url": "9H",
+      "status": "Unset"
+    },
+    {
+      "nr": 42,
+      "face": "5",
+      "value": 5,
+      "suit": "D",
+      "url": "5D",
+      "status": "Unset"
+    },
+    {
+      "nr": 0,
+      "face": "2",
+      "value": 2,
+      "suit": "S",
+      "url": "2S",
+      "status": "Unset"
+    }
+  ],
+  "gameBoard": [
+    [
+      {
+        "nr": 54,
+        "face": "Joker",
+        "value": 0,
+        "suit": "H",
+        "url": "joker",
+        "status": "Joker",
+        "team": "joker"
+      },
+      {
+        "nr": 0,
+        "face": "2",
+        "value": 2,
+        "suit": "S",
+        "url": "2S",
+        "status": "Unset"
+      },
+      {
+        "nr": 1,
+        "face": "3",
+        "value": 3,
+        "suit": "S",
+        "url": "3S",
+        "status": "Unset"
+      },
+      {
+        "nr": 2,
+        "face": "4",
+        "value": 4,
+        "suit": "S",
+        "url": "4S",
+        "status": "Unset"
+      },
+      {
+        "nr": 3,
+        "face": "5",
+        "value": 5,
+        "suit": "S",
+        "url": "5S",
+        "status": "Unset"
+      },
+      {
+        "nr": 4,
+        "face": "6",
+        "value": 6,
+        "suit": "S",
+        "url": "6S",
+        "status": "Unset"
+      },
+      {
+        "nr": 5,
+        "face": "7",
+        "value": 7,
+        "suit": "S",
+        "url": "7S",
+        "status": "Unset"
+      },
+      {
+        "nr": 6,
+        "face": "8",
+        "value": 8,
+        "suit": "S",
+        "url": "8S",
+        "status": "Unset"
+      },
+      {
+        "nr": 7,
+        "face": "9",
+        "value": 9,
+        "suit": "S",
+        "url": "9S",
+        "status": "Unset"
+      },
+      {
+        "nr": 53,
+        "face": "Joker",
+        "value": 0,
+        "suit": "C",
+        "url": "joker",
+        "status": "Joker",
+        "team": "joker"
+      }
+    ],
+    [
+      {
+        "nr": 17,
+        "face": "6",
+        "value": 6,
+        "suit": "C",
+        "url": "6C",
+        "status": "Unset"
+      },
+      {
+        "nr": 16,
+        "face": "5",
+        "value": 5,
+        "suit": "C",
+        "url": "5C",
+        "status": "Unset"
+      },
+      {
+        "nr": 15,
+        "face": "4",
+        "value": 4,
+        "suit": "C",
+        "url": "4C",
+        "status": "Unset"
+      },
+      {
+        "nr": 14,
+        "face": "3",
+        "value": 3,
+        "suit": "C",
+        "url": "3C",
+        "status": "Unset"
+      },
+      {
+        "nr": 13,
+        "face": "2",
+        "value": 2,
+        "suit": "C",
+        "url": "2C",
+        "status": "Unset"
+      },
+      {
+        "nr": 38,
+        "face": "A",
+        "value": 14,
+        "suit": "H",
+        "url": "AH",
+        "status": "Unset"
+      },
+      {
+        "nr": 37,
+        "face": "K",
+        "value": 13,
+        "suit": "H",
+        "url": "KH",
+        "status": "Unset"
+      },
+      {
+        "nr": 36,
+        "face": "Q",
+        "value": 12,
+        "suit": "H",
+        "url": "QH",
+        "status": "Unset"
+      },
+      {
+        "nr": 34,
+        "face": "10",
+        "value": 10,
+        "suit": "H",
+        "url": "10H",
+        "status": "Unset"
+      },
+      {
+        "nr": 8,
+        "face": "10",
+        "value": 10,
+        "suit": "S",
+        "url": "10S",
+        "status": "Unset"
+      }
+    ],
+    [
+      {
+        "nr": 18,
+        "face": "7",
+        "value": 7,
+        "suit": "C",
+        "url": "7C",
+        "status": "Unset"
+      },
+      {
+        "nr": 12,
+        "face": "A",
+        "value": 14,
+        "suit": "S",
+        "url": "AS",
+        "status": "Unset"
+      },
+      {
+        "nr": 39,
+        "face": "2",
+        "value": 2,
+        "suit": "D",
+        "url": "2D",
+        "status": "Unset"
+      },
+      {
+        "nr": 40,
+        "face": "3",
+        "value": 3,
+        "suit": "D",
+        "url": "3D",
+        "status": "Unset"
+      },
+      {
+        "nr": 41,
+        "face": "4",
+        "value": 4,
+        "suit": "D",
+        "url": "4D",
+        "status": "Unset"
+      },
+      {
+        "nr": 42,
+        "face": "5",
+        "value": 5,
+        "suit": "D",
+        "url": "5D",
+        "status": "Unset"
+      },
+      {
+        "nr": 43,
+        "face": "6",
+        "value": 6,
+        "suit": "D",
+        "url": "6D",
+        "status": "Unset"
+      },
+      {
+        "nr": 44,
+        "face": "7",
+        "value": 7,
+        "suit": "D",
+        "url": "7D",
+        "status": "Unset"
+      },
+      {
+        "nr": 33,
+        "face": "9",
+        "value": 9,
+        "suit": "H",
+        "url": "9H",
+        "status": "Unset"
+      },
+      {
+        "nr": 10,
+        "face": "Q",
+        "value": 12,
+        "suit": "S",
+        "url": "QS",
+        "status": "Unset"
+      }
+    ],
+    [
+      {
+        "nr": 19,
+        "face": "8",
+        "value": 8,
+        "suit": "C",
+        "url": "8C",
+        "status": "Unset"
+      },
+      {
+        "nr": 11,
+        "face": "K",
+        "value": 13,
+        "suit": "S",
+        "url": "KS",
+        "status": "Unset"
+      },
+      {
+        "nr": 17,
+        "face": "6",
+        "value": 6,
+        "suit": "C",
+        "url": "6C",
+        "status": "Unset"
+      },
+      {
+        "nr": 16,
+        "face": "5",
+        "value": 5,
+        "suit": "C",
+        "url": "5C",
+        "status": "Unset"
+      },
+      {
+        "nr": 15,
+        "face": "4",
+        "value": 4,
+        "suit": "C",
+        "url": "4C",
+        "status": "Unset"
+      },
+      {
+        "nr": 14,
+        "face": "3",
+        "value": 3,
+        "suit": "C",
+        "url": "3C",
+        "status": "Unset"
+      },
+      {
+        "nr": 13,
+        "face": "2",
+        "value": 2,
+        "suit": "C",
+        "url": "2C",
+        "status": "Unset"
+      },
+      {
+        "nr": 45,
+        "face": "8",
+        "value": 8,
+        "suit": "D",
+        "url": "8D",
+        "status": "Unset"
+      },
+      {
+        "nr": 32,
+        "face": "8",
+        "value": 8,
+        "suit": "H",
+        "url": "8H",
+        "status": "Unset"
+      },
+      {
+        "nr": 11,
+        "face": "K",
+        "value": 13,
+        "suit": "S",
+        "url": "KS",
+        "status": "Unset"
+      }
+    ],
+    [
+      {
+        "nr": 20,
+        "face": "9",
+        "value": 9,
+        "suit": "C",
+        "url": "9C",
+        "status": "Unset"
+      },
+      {
+        "nr": 10,
+        "face": "Q",
+        "value": 12,
+        "suit": "S",
+        "url": "QS",
+        "status": "Unset"
+      },
+      {
+        "nr": 18,
+        "face": "7",
+        "value": 7,
+        "suit": "C",
+        "url": "7C",
+        "status": "Unset"
+      },
+      {
+        "nr": 30,
+        "face": "6",
+        "value": 6,
+        "suit": "H",
+        "url": "6H",
+        "status": "Unset"
+      },
+      {
+        "nr": 29,
+        "face": "5",
+        "value": 5,
+        "suit": "H",
+        "url": "5H",
+        "status": "Unset"
+      },
+      {
+        "nr": 28,
+        "face": "4",
+        "value": 4,
+        "suit": "H",
+        "url": "4H",
+        "status": "Unset"
+      },
+      {
+        "nr": 38,
+        "face": "A",
+        "value": 14,
+        "suit": "H",
+        "url": "AH",
+        "status": "Unset"
+      },
+      {
+        "nr": 46,
+        "face": "9",
+        "value": 9,
+        "suit": "D",
+        "url": "9D",
+        "status": "Unset"
+      },
+      {
+        "nr": 31,
+        "face": "7",
+        "value": 7,
+        "suit": "H",
+        "url": "7H",
+        "status": "Unset"
+      },
+      {
+        "nr": 12,
+        "face": "A",
+        "value": 14,
+        "suit": "S",
+        "url": "AS",
+        "status": "Unset"
+      }
+    ],
+    [
+      {
+        "nr": 21,
+        "face": "10",
+        "value": 10,
+        "suit": "C",
+        "url": "10C",
+        "status": "Unset"
+      },
+      {
+        "nr": 8,
+        "face": "10",
+        "value": 10,
+        "suit": "S",
+        "url": "10S",
+        "status": "Unset"
+      },
+      {
+        "nr": 19,
+        "face": "8",
+        "value": 8,
+        "suit": "C",
+        "url": "8C",
+        "status": "Unset"
+      },
+      {
+        "nr": 31,
+        "face": "7",
+        "value": 7,
+        "suit": "H",
+        "url": "7H",
+        "status": "Unset"
+      },
+      {
+        "nr": 26,
+        "face": "2",
+        "value": 2,
+        "suit": "H",
+        "url": "2H",
+        "status": "Unset"
+      },
+      {
+        "nr": 27,
+        "face": "3",
+        "value": 3,
+        "suit": "H",
+        "url": "3H",
+        "status": "Unset"
+      },
+      {
+        "nr": 37,
+        "face": "K",
+        "value": 13,
+        "suit": "H",
+        "url": "KH",
+        "status": "Unset"
+      },
+      {
+        "nr": 47,
+        "face": "10",
+        "value": 10,
+        "suit": "D",
+        "url": "10D",
+        "status": "Unset"
+      },
+      {
+        "nr": 30,
+        "face": "6",
+        "value": 6,
+        "suit": "H",
+        "url": "6H",
+        "status": "Unset"
+      },
+      {
+        "nr": 39,
+        "face": "2",
+        "value": 2,
+        "suit": "D",
+        "url": "2D",
+        "status": "Unset"
+      }
+    ],
+    [
+      {
+        "nr": 23,
+        "face": "Q",
+        "value": 12,
+        "suit": "C",
+        "url": "QC",
+        "status": "Unset"
+      },
+      {
+        "nr": 7,
+        "face": "9",
+        "value": 9,
+        "suit": "S",
+        "url": "9S",
+        "status": "Unset"
+      },
+      {
+        "nr": 20,
+        "face": "9",
+        "value": 9,
+        "suit": "C",
+        "url": "9C",
+        "status": "Unset"
+      },
+      {
+        "nr": 32,
+        "face": "8",
+        "value": 8,
+        "suit": "H",
+        "url": "8H",
+        "status": "Unset"
+      },
+      {
+        "nr": 33,
+        "face": "9",
+        "value": 9,
+        "suit": "H",
+        "url": "9H",
+        "status": "Unset"
+      },
+      {
+        "nr": 34,
+        "face": "10",
+        "value": 10,
+        "suit": "H",
+        "url": "10H",
+        "status": "Unset"
+      },
+      {
+        "nr": 36,
+        "face": "Q",
+        "value": 12,
+        "suit": "H",
+        "url": "QH",
+        "status": "Unset"
+      },
+      {
+        "nr": 49,
+        "face": "Q",
+        "value": 12,
+        "suit": "D",
+        "url": "QD",
+        "status": "Unset"
+      },
+      {
+        "nr": 29,
+        "face": "5",
+        "value": 5,
+        "suit": "H",
+        "url": "5H",
+        "status": "Unset"
+      },
+      {
+        "nr": 40,
+        "face": "3",
+        "value": 3,
+        "suit": "D",
+        "url": "3D",
+        "status": "Unset"
+      }
+    ],
+    [
+      {
+        "nr": 24,
+        "face": "K",
+        "value": 13,
+        "suit": "C",
+        "url": "KC",
+        "status": "Unset"
+      },
+      {
+        "nr": 6,
+        "face": "8",
+        "value": 8,
+        "suit": "S",
+        "url": "8S",
+        "status": "Unset"
+      },
+      {
+        "nr": 21,
+        "face": "10",
+        "value": 10,
+        "suit": "C",
+        "url": "10C",
+        "status": "Unset"
+      },
+      {
+        "nr": 23,
+        "face": "Q",
+        "value": 12,
+        "suit": "C",
+        "url": "QC",
+        "status": "Unset"
+      },
+      {
+        "nr": 24,
+        "face": "K",
+        "value": 13,
+        "suit": "C",
+        "url": "KC",
+        "status": "Unset"
+      },
+      {
+        "nr": 25,
+        "face": "A",
+        "value": 14,
+        "suit": "C",
+        "url": "AC",
+        "status": "Unset"
+      },
+      {
+        "nr": 51,
+        "face": "A",
+        "value": 14,
+        "suit": "D",
+        "url": "AD",
+        "status": "Unset"
+      },
+      {
+        "nr": 50,
+        "face": "K",
+        "value": 13,
+        "suit": "D",
+        "url": "KD",
+        "status": "Unset"
+      },
+      {
+        "nr": 28,
+        "face": "4",
+        "value": 4,
+        "suit": "H",
+        "url": "4H",
+        "status": "Unset"
+      },
+      {
+        "nr": 41,
+        "face": "4",
+        "value": 4,
+        "suit": "D",
+        "url": "4D",
+        "status": "Unset"
+      }
+    ],
+    [
+      {
+        "nr": 25,
+        "face": "A",
+        "value": 14,
+        "suit": "C",
+        "url": "AC",
+        "status": "Unset"
+      },
+      {
+        "nr": 5,
+        "face": "7",
+        "value": 7,
+        "suit": "S",
+        "url": "7S",
+        "status": "Unset"
+      },
+      {
+        "nr": 4,
+        "face": "6",
+        "value": 6,
+        "suit": "S",
+        "url": "6S",
+        "status": "Unset"
+      },
+      {
+        "nr": 3,
+        "face": "5",
+        "value": 5,
+        "suit": "S",
+        "url": "5S",
+        "status": "Unset"
+      },
+      {
+        "nr": 2,
+        "face": "4",
+        "value": 4,
+        "suit": "S",
+        "url": "4S",
+        "status": "Unset"
+      },
+      {
+        "nr": 1,
+        "face": "3",
+        "value": 3,
+        "suit": "S",
+        "url": "3S",
+        "status": "Unset"
+      },
+      {
+        "nr": 0,
+        "face": "2",
+        "value": 2,
+        "suit": "S",
+        "url": "2S",
+        "status": "Unset"
+      },
+      {
+        "nr": 26,
+        "face": "2",
+        "value": 2,
+        "suit": "H",
+        "url": "2H",
+        "status": "Unset"
+      },
+      {
+        "nr": 27,
+        "face": "3",
+        "value": 3,
+        "suit": "H",
+        "url": "3H",
+        "status": "Unset"
+      },
+      {
+        "nr": 42,
+        "face": "5",
+        "value": 5,
+        "suit": "D",
+        "url": "5D",
+        "status": "Unset"
+      }
+    ],
+    [
+      {
+        "nr": 52,
+        "face": "Joker",
+        "value": 0,
+        "suit": "S",
+        "url": "joker",
+        "status": "Joker",
+        "team": "joker"
+      },
+      {
+        "nr": 51,
+        "face": "A",
+        "value": 14,
+        "suit": "D",
+        "url": "AD",
+        "status": "Unset"
+      },
+      {
+        "nr": 50,
+        "face": "K",
+        "value": 13,
+        "suit": "D",
+        "url": "KD",
+        "status": "Unset"
+      },
+      {
+        "nr": 49,
+        "face": "Q",
+        "value": 12,
+        "suit": "D",
+        "url": "QD",
+        "status": "Unset"
+      },
+      {
+        "nr": 47,
+        "face": "10",
+        "value": 10,
+        "suit": "D",
+        "url": "10D",
+        "status": "Unset"
+      },
+      {
+        "nr": 46,
+        "face": "9",
+        "value": 9,
+        "suit": "D",
+        "url": "9D",
+        "status": "Unset"
+      },
+      {
+        "nr": 45,
+        "face": "8",
+        "value": 8,
+        "suit": "D",
+        "url": "8D",
+        "status": "Unset"
+      },
+      {
+        "nr": 44,
+        "face": "7",
+        "value": 7,
+        "suit": "D",
+        "url": "7D",
+        "status": "Unset"
+      },
+      {
+        "nr": 43,
+        "face": "6",
+        "value": 6,
+        "suit": "D",
+        "url": "6D",
+        "status": "Unset"
+      },
+      {
+        "nr": 55,
+        "face": "Joker",
+        "value": 0,
+        "suit": "D",
+        "url": "joker",
+        "status": "Joker",
+        "team": "joker"
+      }
+    ]
+  ],
+  "throwPile": [],
+  "backendPlayers": [
+    {
+      "color": "red",
+      "username": "poi",
+      "cardsOnHand": [
+        {
+          "nr": 27,
+          "face": "3",
+          "value": 3,
+          "suit": "H",
+          "url": "3H",
+          "status": "Unset"
+        },
+        {
+          "nr": 12,
+          "face": "A",
+          "value": 14,
+          "suit": "S",
+          "url": "AS",
+          "status": "Unset"
+        },
+        {
+          "nr": 51,
+          "face": "A",
+          "value": 14,
+          "suit": "D",
+          "url": "AD",
+          "status": "Unset"
+        },
+        {
+          "nr": 42,
+          "face": "5",
+          "value": 5,
+          "suit": "D",
+          "url": "5D",
+          "status": "Unset"
+        },
+        {
+          "nr": 47,
+          "face": "10",
+          "value": 10,
+          "suit": "D",
+          "url": "10D",
+          "status": "Unset"
+        },
+        {
+          "nr": 19,
+          "face": "8",
+          "value": 8,
+          "suit": "C",
+          "url": "8C",
+          "status": "Unset"
+        },
+        {
+          "nr": 41,
+          "face": "4",
+          "value": 4,
+          "suit": "D",
+          "url": "4D",
+          "status": "Unset"
+        }
+      ]
+    },
+    {
+      "color": "green",
+      "username": "testPlayer2",
+      "cardsOnHand": [
+        {
+          "nr": 18,
+          "face": "7",
+          "value": 7,
+          "suit": "C",
+          "url": "7C",
+          "status": "Unset"
+        },
+        {
+          "nr": 38,
+          "face": "A",
+          "value": 14,
+          "suit": "H",
+          "url": "AH",
+          "status": "Unset"
+        },
+        {
+          "nr": 44,
+          "face": "7",
+          "value": 7,
+          "suit": "D",
+          "url": "7D",
+          "status": "Unset"
+        },
+        {
+          "nr": 16,
+          "face": "5",
+          "value": 5,
+          "suit": "C",
+          "url": "5C",
+          "status": "Unset"
+        },
+        {
+          "nr": 18,
+          "face": "7",
+          "value": 7,
+          "suit": "C",
+          "url": "7C",
+          "status": "Unset"
+        },
+        {
+          "nr": 5,
+          "face": "7",
+          "value": 7,
+          "suit": "S",
+          "url": "7S",
+          "status": "Unset"
+        },
+        {
+          "nr": 15,
+          "face": "4",
+          "value": 4,
+          "suit": "C",
+          "url": "4C",
+          "status": "Unset"
+        }
+      ]
+    }
+  ],
+  "gameHasStarted": true
+}

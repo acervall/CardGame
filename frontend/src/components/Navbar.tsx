@@ -1,7 +1,6 @@
 import { useNavigate } from 'react-router-dom'
 import { RoundedButton } from '../assets/StyledComponents/FormComponents'
 import styled from '@emotion/styled'
-// import { color } from '../assets/colors'
 import { useState, useRef, useEffect } from 'react'
 
 const NavbarContent = styled.div`
@@ -65,7 +64,11 @@ function Navbar() {
             </RoundedButton>
           </NavbarContent>
         ) : (
-          <div style={{ cursor: 'pointer' }} onClick={() => setShowNavbar(true)}>
+          <div
+            data-testid="showNavbar"
+            style={{ cursor: 'pointer' }}
+            onClick={() => setShowNavbar(true)}
+          >
             =
           </div>
         )}

@@ -1,7 +1,7 @@
 import { useQuery } from '@tanstack/react-query'
 import { GetUser } from '../api/user'
 import { useContext } from 'react'
-import Context from '../constants/Context'
+import Context from '../context/Context'
 
 const useUser = () => {
   const { accessToken } = useContext(Context)

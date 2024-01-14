@@ -1,8 +1,8 @@
 import { ReactNode } from 'react'
-import { UserProvider } from '../../src/utils/UserContext'
+import { UserProvider } from '../../src/context/UserContext'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { MemoryRouter } from 'react-router-dom'
-import Context from '../../src/constants/Context'
+import Context from '../../src/context/Context'
 
 const queryClient = new QueryClient()
 const accessToken = 'mockAccessToken'

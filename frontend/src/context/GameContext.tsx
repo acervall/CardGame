@@ -2,7 +2,7 @@ import { useState, useEffect, createContext, useRef } from 'react'
 import { io, Socket } from 'socket.io-client'
 import { BASE_URL } from '../constants/baseUrl'
 import { Card, Color } from '../constants/Deck'
-import { useUsername } from './useUsername'
+import { useUsername } from '../hooks/useUsername'
 
 // interface GameState {
 //   deck: Card[]
@@ -37,7 +37,7 @@ interface GameContextProps {
   disconnect: () => void
   drawCard: () => void
   getHand: () => void
-  initGame: (color: string) => void
+  initGame: (color: Color) => void
   startGame: () => void
   updateGameboard: (newGameBoard: Card[][], selectedCard: Card) => void
   throwCard: (throwCard: Card) => void
@@ -146,6 +146,7 @@ export const GameProvider: React.FC<GameProviderProps> = ({ children }) => {
 
   const firstConnection = () => {
     socket.current.on('gameState', (gameState) => {
+      console.log('gameState', gameState)
       if (gameState.gameHasStarted) {
         setGameHasStarted(true)
         setGameBoard(gameState.gameBoard)
@@ -167,15 +168,13 @@ export const GameProvider: React.FC<GameProviderProps> = ({ children }) => {
     socket.current.emit('firstConnection')
   }
 
-  const initGame = (color: string) => {
+  const initGame = (color: Color) => {
     socket.current.emit('initGame', { color, username: username })
   }
 
   const playSound = (sound: string) => {
-    console.log('play sound')
     const audio = new Audio(sound)
     audio.play()
-    console.log('RÖVHÅÅÅL')
   }
 
   const startGame = () => {
@@ -208,23 +207,6 @@ export const GameProvider: React.FC<GameProviderProps> = ({ children }) => {
   const getHand = () => {
     socket.current.on('getHand', (hand) => {
       setCardsOnHand(hand)
-      // const jackS = {
-      //   nr: 9,
-      //   face: 'J',
-      //   value: 11,
-      //   suit: 'S',
-      //   url: 'JS',
-      // }
-
-      // const jackD = {
-      //   nr: 48,
-      //   face: 'J',
-      //   value: 11,
-      //   suit: 'D',
-      //   url: 'JD',
-      // }
-      // const newHAnd = [...hand, jackD, jackS]
-      // setCardsOnHand(newHAnd)
     })
     socket.current.emit('getHand', username)
   }

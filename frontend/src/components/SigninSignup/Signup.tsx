@@ -1,8 +1,8 @@
-import AuthForm from '../../helpers/AuthForm'
+import AuthForm from '../AuthForm'
 import { SignupUser } from '../../api/user'
 import { NewUser, Field, SubmitButtonInterface } from '../../utils/types'
 import { useQueryClient } from '@tanstack/react-query'
-import Context from '../../constants/Context'
+import Context from '../../context/Context'
 import { useContext } from 'react'
 
 const Signup = () => {

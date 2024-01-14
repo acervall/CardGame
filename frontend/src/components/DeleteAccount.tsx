@@ -3,7 +3,7 @@ import { UserId } from '../utils/types'
 import { useQueryClient } from '@tanstack/react-query'
 import useUser from '../hooks/useUser'
 import { useContext } from 'react'
-import Context from '../constants/Context'
+import Context from '../context/Context'
 import { RoundedButton } from '../assets/StyledComponents/FormComponents'
 import { useNavigate } from 'react-router-dom'
 

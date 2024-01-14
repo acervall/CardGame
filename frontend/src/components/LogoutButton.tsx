@@ -1,6 +1,6 @@
 import { useQueryClient } from '@tanstack/react-query'
 import { useContext } from 'react'
-import Context from '../constants/Context'
+import Context from '../context/Context'
 import { LogoutUser } from '../api/user'
 import { useNavigate } from 'react-router-dom'
 import { RoundedButton } from '../assets/StyledComponents/FormComponents'

@@ -1,4 +1,4 @@
-import AuthForm from '../helpers/AuthForm'
+import AuthForm from './AuthForm'
 import { EditUser, EditUserSettings } from '../api/user'
 import { User, Field, SubmitButtonInterface, OnlySettings } from '../utils/types'
 import { useQueryClient } from '@tanstack/react-query'
@@ -77,17 +77,11 @@ const EditProfile = () => {
         <button data-testid="change-color-red" onClick={() => changeBackgroundColor('red')}>
           Red
         </button>
-
         <button onClick={() => changeBackgroundColor('blue')}>Blue</button>
         <button onClick={() => changeBackgroundColor('gray')}>Gray</button>
         <button onClick={() => changeBackgroundColor('green')}>Green</button>
         <button onClick={() => changeBackgroundColor('purple')}>Purple</button>
         <button onClick={() => changeBackgroundColor('yellow')}>Yellow</button>
-        {/* <input
-          type="color"
-          onChange={(event) => changeBackgroundColor(event.target.value)}
-          value={user.background_color}
-        /> */}
         <p>Edit you user information</p>
         <AuthForm<User> fields={fields} submitButton={submitButton} />
       </div>

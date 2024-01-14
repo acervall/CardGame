@@ -23,30 +23,30 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">0% </span>
+                <span class="strong">44.44% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>0/0</span>
+                <span class='fraction'>8/18</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">0% </span>
+                <span class="strong">80% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>0/0</span>
+                <span class='fraction'>4/5</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">0% </span>
+                <span class="strong">20% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>0/0</span>
+                <span class='fraction'>1/5</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">0% </span>
+                <span class="strong">50% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>0/0</span>
+                <span class='fraction'>6/12</span>
             </div>
         
             
@@ -91,7 +91,18 @@
 <a name='L26'></a><a href='#L26'>26</a>
 <a name='L27'></a><a href='#L27'>27</a>
 <a name='L28'></a><a href='#L28'>28</a>
-<a name='L29'></a><a href='#L29'>29</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<a name='L29'></a><a href='#L29'>29</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">24x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -99,38 +110,27 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import AuthForm from '../../helpers/AuthForm'
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import AuthForm from '../AuthForm'<span class="cstat-no" title="statement not covered" ><span class="branch-1 cbranch-no" title="branch not covered" ></span></span>
 import { SignupUser } from '../../api/user'
 import { NewUser, Field, SubmitButtonInterface } from '../../utils/types'
-import { useQueryClient } from '@tanstack/react-query'
-import Context from '../../constants/Context'
-import { useContext } from 'react'
+import { <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >useQueryClient } from '</span>@tanstack/react-query'</span>
+import Context from '../../context/Context'
+<span class="cstat-no" title="statement not covered" >import { useContext } from 'react'</span>
 &nbsp;
-const Signup = () =&gt; {
-  const queryClient = useQueryClient()
+const Signup<span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" > = <span class="fstat-no" title="function not covered" >(</span>) =&gt; <span class="cstat-no" title="statement not covered" >{</span></span></span>
+  const queryClient = <span class="cstat-no" title="statement not covered" >useQueryClient()</span>
   const { setAccessToken } = useContext(Context)
 &nbsp;
-  const fields: Field[] = [
+  const fields: Field[] = <span class="cstat-no" title="statement not covered" >[</span>
     { label: 'Username', typeKey: 'username', type: 'text', required: true },
     { label: 'Email', typeKey: 'email', type: 'email', required: true },
     { label: 'password', typeKey: 'password', type: 'password', required: true },
@@ -138,13 +138,13 @@ const Signup = () =&gt; {
     { label: 'last name', typeKey: 'last_name', type: 'text', required: false },
   ]
 &nbsp;
-  const submitButton: SubmitButtonInterface&lt;NewUser&gt; = {
+  const submitButton: SubmitButtonInterface&lt;NewUser&gt; = <span class="cstat-no" title="statement not covered" >{</span>
     label: 'Signup',
     type: 'submit',
-    func: (values) =&gt; SignupUser(values as NewUser, queryClient, setAccessToken),
+    func: <span class="fstat-no" title="function not covered" >(v</span>alues) =&gt; <span class="cstat-no" title="statement not covered" >SignupUser(values as NewUser, queryClient, setAccessToken),</span>
   }
 &nbsp;
-  return &lt;AuthForm&lt;NewUser&gt; fields={fields} submitButton={submitButton} /&gt;
+<span class="cstat-no" title="statement not covered" >  return &lt;AuthForm&lt;NewUser&gt; fields={fields} submitButton={submitButton} /&gt;</span>
 }
 export default Signup
 &nbsp;</pre></td></tr></table></pre>
@@ -154,7 +154,7 @@ export default Signup
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2024-01-14T12:38:38.691Z
+                at 2024-01-14T17:07:50.629Z
             </div>
         <script src="../../../prettify.js"></script>
         <script>

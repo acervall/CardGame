@@ -1,8 +1,8 @@
 import styled from '@emotion/styled'
-import { color } from '../assets/colors'
-import { cardImages } from '../assets/Cards/CardImages'
-import { Card as CardType, Suit, CardStatus, Team } from '../constants/Deck'
-import { backMarker } from '../assets/Markers/markers'
+import { color } from '../../assets/colors'
+import { cardImages } from '../../assets/Cards/CardImages'
+import { Card as CardType, Suit, CardStatus, Team } from '../../constants/Deck'
+import { backMarker } from '../../assets/Markers/markers'
 
 interface CardProps extends CardType {
   nr: number

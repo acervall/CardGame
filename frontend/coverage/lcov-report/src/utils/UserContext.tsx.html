@@ -23,30 +23,30 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">50% </span>
+                <span class="strong">92.85% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>7/14</span>
+                <span class='fraction'>13/14</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">50% </span>
+                <span class="strong">62.5% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>4/8</span>
+                <span class='fraction'>5/8</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">33.33% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>1/3</span>
+                <span class='fraction'>3/3</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">55.55% </span>
+                <span class="strong">88.88% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>5/9</span>
+                <span class='fraction'>8/9</span>
             </div>
         
             
@@ -61,7 +61,7 @@
             </div>
         </template>
     </div>
-    <div class='status-line medium'></div>
+    <div class='status-line high'></div>
     <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -82,91 +82,52 @@
 <a name='L17'></a><a href='#L17'>17</a>
 <a name='L18'></a><a href='#L18'>18</a>
 <a name='L19'></a><a href='#L19'>19</a>
-<a name='L20'></a><a href='#L20'>20</a>
-<a name='L21'></a><a href='#L21'>21</a>
-<a name='L22'></a><a href='#L22'>22</a>
-<a name='L23'></a><a href='#L23'>23</a>
-<a name='L24'></a><a href='#L24'>24</a>
-<a name='L25'></a><a href='#L25'>25</a>
-<a name='L26'></a><a href='#L26'>26</a>
-<a name='L27'></a><a href='#L27'>27</a>
-<a name='L28'></a><a href='#L28'>28</a>
-<a name='L29'></a><a href='#L29'>29</a>
-<a name='L30'></a><a href='#L30'>30</a>
-<a name='L31'></a><a href='#L31'>31</a>
-<a name='L32'></a><a href='#L32'>32</a>
-<a name='L33'></a><a href='#L33'>33</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">16x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import { useState, createContext, ReactNode } from 'react'<span class="branch-1 cbranch-no" title="branch not covered" ></span>
-import useUser from '../hooks/useUser'
-&nbsp;
-interface UserContextType {
-  username: string
-}
-&nbsp;
-export const UserContext = createContext&lt;UserContextType | undefined&gt;(undefined)
-&nbsp;
-interface UserProviderProps {
-  children: ReactNode
-}
-&nbsp;
-export const UserProvider: React.FC&lt;UserProviderProps&gt;<span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" > = <span class="fstat-no" title="function not covered" >(</span>{</span> children }) =&gt; <span class="cstat-no" title="statement not covered" >{</span></span>
-  const [username, setUsername] = <span class="cstat-no" title="statement not covered" >useState&lt;string&gt;('')</span>
-&nbsp;
-  const { data: user } = <span class="cstat-no" title="statement not covered" >useUser()</span>
-&nbsp;
-<span class="cstat-no" title="statement not covered" >  <span class="missing-if-branch" title="if path not taken" >I</span>if (user &amp;&amp; username === '') {</span>
-<span class="cstat-no" title="statement not covered" >    setUsername(user.username)</span>
-  }
-&nbsp;
-<span class="cstat-no" title="statement not covered" >  return (</span>
-    &lt;UserContext.Provider
-      value={{
-        username,
-      }}
-    &gt;
-      {children}
-    &lt;/UserContext.Provider&gt;
-  )
-}
-&nbsp;</pre></td></tr></table></pre>
+<a name='L20'></a><a href='#L20'>20</a></td><td class="line-coverage quiet"><span class="cline-any cline-no">0</span>
+<span class="cline-any cline-no">0</span>
+<span class="cline-any cline-no">0</span>
+<span class="cline-any cline-no">0</span>
+<span class="cline-any cline-no">0</span>
+<span class="cline-any cline-no">0</span>
+<span class="cline-any cline-no">0</span>
+<span class="cline-any cline-no">0</span>
+<span class="cline-any cline-no">0</span>
+<span class="cline-any cline-no">0</span>
+<span class="cline-any cline-no">0</span>
+<span class="cline-any cline-no">0</span>
+<span class="cline-any cline-no">0</span>
+<span class="cline-any cline-no">0</span>
+<span class="cline-any cline-no">0</span>
+<span class="cline-any cline-no">0</span>
+<span class="cline-any cline-no">0</span>
+<span class="cline-any cline-no">0</span>
+<span class="cline-any cline-no">0</span>
+<span class="cline-any cline-no">0</span></td><td class="text"><pre class="prettyprint lang-js">Unable to lookup source: /home/amelie/Documents/Skola/Testing/CardGame/frontend/src/utils/UserContext.tsx (ENOENT: no such file or directory, open '/home/amelie/Documents/Skola/Testing/CardGame/frontend/src/utils/UserContext.tsx')
+Error: Unable to lookup source: /home/amelie/Documents/Skola/Testing/CardGame/frontend/src/utils/UserContext.tsx (ENOENT: no such file or directory, open '/home/amelie/Documents/Skola/Testing/CardGame/frontend/src/utils/UserContext.tsx')
+    at Context.defaultSourceLookup [as sourceFinder] (/home/amelie/Documents/Skola/Testing/CardGame/frontend/node_modules/istanbul-lib-report/lib/context.js:17:15)
+    at Context.getSource (/home/amelie/Documents/Skola/Testing/CardGame/frontend/node_modules/istanbul-lib-report/lib/context.js:71:21)
+    at annotateSourceCode (/home/amelie/Documents/Skola/Testing/CardGame/frontend/node_modules/istanbul-reports/lib/html/annotator.js:249:40)
+    at HtmlReport.onDetail (/home/amelie/Documents/Skola/Testing/CardGame/frontend/node_modules/istanbul-reports/lib/html/index.js:414:33)
+    at LcovReport.<computed> [as onDetail] (/home/amelie/Documents/Skola/Testing/CardGame/frontend/node_modules/istanbul-reports/lib/lcov/index.js:28:23)
+    at Visitor.value (/home/amelie/Documents/Skola/Testing/CardGame/frontend/node_modules/istanbul-lib-report/lib/tree.js:38:38)
+    at ReportNode.visit (/home/amelie/Documents/Skola/Testing/CardGame/frontend/node_modules/istanbul-lib-report/lib/tree.js:88:21)
+    at /home/amelie/Documents/Skola/Testing/CardGame/frontend/node_modules/istanbul-lib-report/lib/tree.js:92:19
+    at Array.forEach (<anonymous>)
+    at ReportNode.visit (/home/amelie/Documents/Skola/Testing/CardGame/frontend/node_modules/istanbul-lib-report/lib/tree.js:91:28)
+    at /home/amelie/Documents/Skola/Testing/CardGame/frontend/node_modules/istanbul-lib-report/lib/tree.js:92:19
+    at Array.forEach (<anonymous>)
+    at ReportNode.visit (/home/amelie/Documents/Skola/Testing/CardGame/frontend/node_modules/istanbul-lib-report/lib/tree.js:91:28)
+    at ReportTree.visit (/home/amelie/Documents/Skola/Testing/CardGame/frontend/node_modules/istanbul-lib-report/lib/tree.js:127:24)
+    at LcovReport.execute (/home/amelie/Documents/Skola/Testing/CardGame/frontend/node_modules/istanbul-lib-report/lib/report-base.js:12:44)
+    at /home/amelie/Documents/Skola/Testing/CardGame/frontend/node_modules/nyc/index.js:467:10
+    at Array.forEach (<anonymous>)
+    at NYC.report (/home/amelie/Documents/Skola/Testing/CardGame/frontend/node_modules/nyc/index.js:461:19)</pre></td></tr></table></pre>
 
                 <div class='push'></div><!-- for sticky footer -->
             </div><!-- /wrapper -->
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2024-01-14T12:38:38.691Z
+                at 2024-01-14T17:07:50.629Z
             </div>
         <script src="../../prettify.js"></script>
         <script>
