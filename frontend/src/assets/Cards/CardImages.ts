@@ -59,6 +59,9 @@ import purple_back from '../Cards/purple_back.png'
 import red_back from '../Cards/red_back.png'
 import yellow_back from '../Cards/yellow_back.png'
 
+import joker from '../Cards/joker.png'
+import symbols from '../Cards/symbols.png'
+
 export const cardImages = {
   '2C': twoOfClubs,
   '2D': twoOfDiamonds,
@@ -119,4 +122,6 @@ export const cardImages = {
   purple_back: purple_back,
   red_back: red_back,
   yellow_back: yellow_back,
+  joker: joker,
+  symbols: symbols,
 }

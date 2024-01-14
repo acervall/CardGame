@@ -74,14 +74,20 @@ const EditProfile = () => {
     return (
       <div>
         <h1>Edit Profile</h1>
-        <button data-testid="change-color-red" onClick={() => changeBackgroundColor('#ff0000')}>
-          Change background color to red
+        <button data-testid="change-color-red" onClick={() => changeBackgroundColor('red')}>
+          Red
         </button>
-        <input
+
+        <button onClick={() => changeBackgroundColor('blue')}>Blue</button>
+        <button onClick={() => changeBackgroundColor('gray')}>Gray</button>
+        <button onClick={() => changeBackgroundColor('green')}>Green</button>
+        <button onClick={() => changeBackgroundColor('purple')}>Purple</button>
+        <button onClick={() => changeBackgroundColor('yellow')}>Yellow</button>
+        {/* <input
           type="color"
           onChange={(event) => changeBackgroundColor(event.target.value)}
           value={user.background_color}
-        />
+        /> */}
         <p>Edit you user information</p>
         <AuthForm<User> fields={fields} submitButton={submitButton} />
       </div>

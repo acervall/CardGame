@@ -13,7 +13,7 @@ interface GameState {
   throwPile: Card[]
   backendPlayers: Player[]
   gameHasStarted: boolean
-  playerTurn: string
+  playerTurn: Player | undefined
 }
 
 function checkForSequence(board: Card[][], team: string): boolean {
@@ -55,7 +55,7 @@ function initializeGameState(): GameState {
     throwPile: [],
     backendPlayers: [],
     gameHasStarted: false,
-    playerTurn: '',
+    playerTurn: undefined,
   }
 }
 
@@ -117,7 +117,7 @@ export function setupGame(io: IOServer) {
 
     socket.on('startGame', () => {
       gameState.gameHasStarted = true
-      gameState.playerTurn = gameState.backendPlayers[0].username
+      gameState.playerTurn = gameState.backendPlayers[0]
 
       io.emit('playerTurn', gameState.playerTurn)
       io.emit('newDeck', gameState.deck)
@@ -148,13 +148,13 @@ export function setupGame(io: IOServer) {
         console.log('Player has a sequence!')
         emitToAll('winner', team)
       } else {
-        console.log('Player does not have a sequence')
+        console.log('Player does not have a sequence', team)
       }
 
       if (player) {
         let position = gameState.backendPlayers.lastIndexOf(player)
         let next = position === gameState.backendPlayers.length - 1 ? 0 : position + 1
-        gameState.playerTurn = gameState.backendPlayers[next].username
+        gameState.playerTurn = gameState.backendPlayers[next]
         emitToAll('playerTurn', gameState.playerTurn)
       }
 

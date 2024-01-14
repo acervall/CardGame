@@ -6,7 +6,8 @@ export enum Suit {
 }
 
 export type CardStatus = 'Available' | 'Selected' | 'CanBeRemoved' | 'Unset' | 'Joker' | undefined
-export type Team = 'red' | 'green' | 'blue' | 'joker' | undefined
+export type Team = Color | 'joker' | undefined
+export type Color = 'red' | 'green' | 'blue'
 
 export interface Card {
   nr: number
@@ -47,7 +48,7 @@ for (const suit of Object.values(Suit)) {
     face: 'Joker',
     value: 0,
     suit: suit,
-    url: 'gray_back',
+    url: 'joker',
     status: 'Joker',
     team: 'joker',
   })

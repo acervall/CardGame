@@ -1,7 +1,7 @@
 import { useState, useEffect, createContext, useRef } from 'react'
 import { io, Socket } from 'socket.io-client'
 import { BASE_URL } from '../constants/baseUrl'
-import { Card, Team } from '../constants/Deck'
+import { Card, Color } from '../constants/Deck'
 import { useUsername } from './useUsername'
 
 // interface GameState {
@@ -11,7 +11,7 @@ import { useUsername } from './useUsername'
 // }
 
 interface Player {
-  color: string
+  color: Color
   username: string
   cardsOnHand: Card[]
 }
@@ -23,16 +23,16 @@ interface GameContextProps {
   gameBoard: Card[][]
   gameHasStarted: boolean
   gameOver: string | boolean
-  playersTurn: string
+  playersTurn: Player | undefined
   readyToPlay: boolean
-  team: Team
+  team: Color | undefined
   throwPile: Card[]
   username: string
   yourTurn: boolean
 
   setCanDraw: (canDraw: boolean) => void
   setGameBoard: (gameBoard: Card[][]) => void
-  setTeam: (team: Team) => void
+  setTeam: (team: Color) => void
 
   disconnect: () => void
   drawCard: () => void
@@ -57,9 +57,9 @@ export const GameProvider: React.FC<GameProviderProps> = ({ children }) => {
   const [cardsOnHand, setCardsOnHand] = useState<Card[]>([])
   const [gameBoard, setGameBoard] = useState<Card[][]>([[]])
   const [gameHasStarted, setGameHasStarted] = useState<boolean>(false)
-  const [playersTurn, setPlayersTurn] = useState<string>('')
+  const [playersTurn, setPlayersTurn] = useState<Player | undefined>(undefined)
   const [readyToPlay, setReadyToPlay] = useState<boolean>(false)
-  const [team, setTeam] = useState<Team>(undefined)
+  const [team, setTeam] = useState<Color | undefined>(undefined)
   const [throwPile, setThrowPile] = useState<Card[]>([])
 
   const [canDraw, setCanDraw] = useState<boolean>(false)
@@ -96,9 +96,12 @@ export const GameProvider: React.FC<GameProviderProps> = ({ children }) => {
     })
 
     currentSocket.on('playerTurn', (playerTurn) => {
-      if (playerTurn === username) {
+      if (playerTurn.username === username) {
         setYourTurn(true)
         setCanDraw(false)
+        playSound(
+          'http://codeskulptor-demos.commondatastorage.googleapis.com/GalaxyInvaders/alien_shoot.wav',
+        )
       } else {
         setYourTurn(false)
       }
@@ -166,6 +169,13 @@ export const GameProvider: React.FC<GameProviderProps> = ({ children }) => {
 
   const initGame = (color: string) => {
     socket.current.emit('initGame', { color, username: username })
+  }
+
+  const playSound = (sound: string) => {
+    console.log('play sound')
+    const audio = new Audio(sound)
+    audio.play()
+    console.log('RÖVHÅÅÅL')
   }
 
   const startGame = () => {
@@ -263,7 +273,3 @@ export const GameProvider: React.FC<GameProviderProps> = ({ children }) => {
     </GameContext.Provider>
   )
 }
-
-// kolla korten som kommer i draw
-// vad som ska hända när någon vinner
-// Joker ska bara ta bort inte ersätta

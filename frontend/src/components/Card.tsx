@@ -2,6 +2,7 @@ import styled from '@emotion/styled'
 import { color } from '../assets/colors'
 import { cardImages } from '../assets/Cards/CardImages'
 import { Card as CardType, Suit, CardStatus, Team } from '../constants/Deck'
+import { backMarker } from '../assets/Markers/markers'
 
 interface CardProps extends CardType {
   nr: number
@@ -14,40 +15,44 @@ interface CardProps extends CardType {
   gameBoard?: boolean
 }
 
-const Card = styled.button<CardProps>(
+const Card = styled.div<CardProps>(
   (props) => `
-  all: unset;
-	width: 5.6vh;
-	height: 8vh;
+  width: ${props.gameBoard ? '100%' : 'fit-content'};
+  height: ${props.gameBoard ? '100%' : 'fit-content'};
+  max-width: ${props.gameBoard && '8vw'};
+	max-height:${props.gameBoard && '7vh'};
 	color: ${props.suit === 'D' || props.suit === 'H' ? color.red : color.black};
 	position: relative;
 	display: flex;
 	flex-direction: column;
 	justify-content: center;
   align-items: center;
-	padding: 2px;
 	border-radius: 5px;
-	opacity: ${
-    props.gameBoard && props.status !== 'Available' && props.status !== 'CanBeRemoved' ? 0.8 : 1
-  };
-  background-image: url(${cardImages[props.url as keyof typeof cardImages]});
+  opacity: 1;
+  background-image: url(${props.gameBoard && cardImages[props.url as keyof typeof cardImages]});
 	background-size: cover;
   background-color: ${props.status === 'Available' ? color.lightGray : color.white};
   border: ${
     props.status === 'Available' || props.status === 'CanBeRemoved'
       ? '2px solid red'
-      : '2px solid' + color.green
+      : '2px solid transparent'
   };
-
   `,
 )
 
+const CardImage = styled.img`
+  width: fit-content;
+  max-width: 5vw;
+  object-fit: cover;
+`
+
 const Circle = styled.div<CardProps>(
   (props) => `
-	width: 3vh;
-	height: 3vh;
-  background-color: ${props.team};
-  border-radius: 3vh;
+	width: 6vh;
+	height: 6vh;
+  background-image: url(${backMarker(props.team as keyof typeof backMarker)});
+  background-size: contain;
+  position: absolute;
   `,
 )
 
@@ -64,7 +69,9 @@ export function Cards(props: CardProps) {
         team={props.team}
         gameBoard={props.gameBoard}
       >
-        {/* {props.status === 'Available' && <div>Available</div>} */}
+        {!props.gameBoard && (
+          <CardImage src={cardImages[props.url as keyof typeof cardImages]} alt="" />
+        )}
         <Circle {...props} />
       </Card>
     </>

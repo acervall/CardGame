@@ -51,7 +51,7 @@ for (const suit of Object.values(Suit)) {
     face: 'Joker',
     value: 0,
     suit: suit,
-    url: 'gray_back',
+    url: 'joker',
     status: 'Joker',
     team: 'joker',
   })

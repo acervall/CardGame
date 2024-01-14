@@ -10,24 +10,17 @@ import { useQueryClient } from '@tanstack/react-query'
 import { useContext } from 'react'
 
 const GameSpace = () => {
-  const { disconnect, gameHasStarted } = useGame()
+  const { gameHasStarted } = useGame()
   const { data: user, isLoading, error } = useUser()
   const queryClient = useQueryClient()
   const { setAccessToken } = useContext(Context)
   const navigate = useNavigate()
-
-  const leaveGame = () => {
-    disconnect()
-  }
 
   if (user) {
     return (
       <>
         {gameHasStarted ? (
           <>
-            <button onClick={leaveGame} style={{ position: 'fixed', zIndex: 5 }}>
-              Leave Game
-            </button>
             <Sequence />
           </>
         ) : (

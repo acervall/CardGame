@@ -42,7 +42,7 @@ app.use(errorHandler)
 const httpServer = new Server(app)
 const io = new IOServer(httpServer, {
   cors: {
-    origin: '*', // Allow all origins
+    origin: '*',
     methods: ['GET', 'POST'],
   },
 })
