@@ -47,7 +47,11 @@ const GameLobby = () => {
         <>
           <p>Game color: {team}</p>
           {teams.map((color) => (
-            <RoundedButton key={color} onClick={() => selectGameColor(color)}>
+            <RoundedButton
+              data-testid={'change-color-' + color}
+              key={color}
+              onClick={() => selectGameColor(color)}
+            >
               {color}
             </RoundedButton>
           ))}
