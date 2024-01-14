@@ -18,7 +18,7 @@ jobs:
       - name: Start Docker Compose Services
         run: docker-compose -f compose.yaml up -d
 
-      -name: Start Application
+      - name: Start Application
         run: |
           cd frontend 
           npm install 
