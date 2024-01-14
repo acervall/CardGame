@@ -25,7 +25,7 @@
     "cypress/component/CardCards.cy.tsx",
     "cypress/component/GameLobby.cy.tsx",
     "cypress/component/App.cy.tsx",
-    "cypress/component/Game.cy.tsx"
+    "cypress/component/StartGame.cy.tsx"
   ],
   "references": [{ "path": "./tsconfig.node.json" }]
 }

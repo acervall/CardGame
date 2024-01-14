@@ -2,7 +2,7 @@ import { When, Then, Given } from '@badeball/cypress-cucumber-preprocessor'
 
 Given(`a user is logged in, navigates to the profile page`, () => {
   localStorage.clear()
-  cy.visit('http://localhost:5173/')
+  cy.visit('http://localhost:3001/')
   cy.get('input[name="identifier"]').type('poi')
   cy.get('input[name="password"]').type('poi')
   cy.get('button[type="submit"]').click()

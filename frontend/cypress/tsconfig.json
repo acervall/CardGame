@@ -1,6 +1,7 @@
 {
-	"compilerOptions": {
-		"jsx": "preserve"
-	},
-	"include": ["**/*.ts", "**/*.tsx"]
+  "compilerOptions": {
+    "jsx": "preserve",
+    "resolveJsonModule": true
+  },
+  "include": ["**/*.ts", "**/*.tsx"]
 }
