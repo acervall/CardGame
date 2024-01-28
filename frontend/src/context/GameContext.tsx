@@ -99,9 +99,9 @@ export const GameProvider: React.FC<GameProviderProps> = ({ children }) => {
       if (playerTurn.username === username) {
         setYourTurn(true)
         setCanDraw(false)
-        playSound(
-          'http://codeskulptor-demos.commondatastorage.googleapis.com/GalaxyInvaders/alien_shoot.wav',
-        )
+        // playSound(
+        //   'http://codeskulptor-demos.commondatastorage.googleapis.com/GalaxyInvaders/alien_shoot.wav',
+        // )
       } else {
         setYourTurn(false)
       }
