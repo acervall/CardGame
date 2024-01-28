@@ -16,7 +16,12 @@ jobs:
           echo "JWT_SECRET=secret" >> .env
 
       - name: Start Docker Compose Services
-        run: docker-compose -f compose.yaml up -d
+        run: |
+          docker-compose -f compose.yaml up -d
+          wget -O wait-for-it.sh https://raw.githubusercontent.com/vishnubob/wait-for-it/master/wait-for-it.sh
+          chmod +x wait-for-it.sh
+          ./wait-for-it.sh -t 0 localhost:5173 &
+          sleep 5
 
       # - name: Start Application
       #   run: |
