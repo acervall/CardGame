@@ -21,11 +21,11 @@ jobs:
       - name: Install wait-on
         run: npm install -g wait-on
 
-      - name: Wait for backend to be ready
-        run: wait-on http://localhost:3000
-
       - name: Output backend logs
         run: docker-compose logs backend
+
+      - name: Wait for backend to be ready
+        run: wait-on http://localhost:3000
 
       - name: Start Application
         run: |
