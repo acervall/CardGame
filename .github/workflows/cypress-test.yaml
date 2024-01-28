@@ -18,6 +18,12 @@ jobs:
       - name: Start Docker Compose Services
         run: docker-compose -f compose.yaml up -d
 
+      - name: Install wait-on
+        run: npm install -g wait-on
+
+      - name: Wait for backend to be ready
+        run: wait-on http://localhost:3000
+
       - name: Start Application
         run: |
           cd frontend 
