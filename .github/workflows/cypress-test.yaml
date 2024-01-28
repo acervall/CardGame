@@ -23,6 +23,11 @@ jobs:
           ./wait-for-it.sh -t 0 localhost:5173 &
           sleep 5
 
+      - name: Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20.9.0'
+
       # - name: Start Application
       #   run: |
       #     cd frontend
