@@ -16,17 +16,16 @@ jobs:
           echo "JWT_SECRET=secret" >> .env
 
       - name: Start Docker Compose Services
+        run: docker-compose -f compose.yaml up -d
+
+      - name: Start Application
         run: |
-          docker-compose -f compose.yaml up -d
-          wget -O wait-for-it.sh https://raw.githubusercontent.com/vishnubob/wait-for-it/master/wait-for-it.sh
-          chmod +x wait-for-it.sh
-          ./wait-for-it.sh -t 0 localhost:5173 &
-          sleep 5
+          cd frontend 
+          npm install 
+          npm run dev &
+          sleep 10
 
       - name: Build and Cypress run
-        uses: cypress-io/github-action@v6
-        with:
-          working-directory: frontend
-          wait-on: 'http://localhost:5173'
-          start: npm run dev
-          config-file: cypress.config.cjs
+        run: |
+          cd frontend 
+          npx cypress run
