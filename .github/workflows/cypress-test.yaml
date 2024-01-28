@@ -25,7 +25,7 @@ jobs:
         run: docker-compose logs backend
 
       - name: Wait for backend to be ready
-        run: wait-on http://localhost:3000
+        run: wait-on http://backend:3000
 
       - name: Start Application
         run: |
