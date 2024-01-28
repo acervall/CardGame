@@ -18,14 +18,10 @@ jobs:
       - name: Start Docker Compose Services
         run: docker-compose -f compose.yaml up -d
 
-      - name: Start Application
-        run: |
-          cd frontend 
-          npm install 
-          npm run dev &
-          sleep 10
-
       - name: Build and Cypress run
-        run: |
-          cd frontend 
-          npx cypress run
+        uses: cypress-io/github-action@v6
+        with:
+          working-directory: frontend
+          wait-on: 'http://localhost:5173'
+          start: npm run dev
+          config-file: cypress.config.cjs
