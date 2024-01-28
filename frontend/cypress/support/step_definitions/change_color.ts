@@ -6,6 +6,7 @@ Given(`a user is logged in, navigates to the profile page`, () => {
   cy.get('input[name="identifier"]').type('poi')
   cy.get('input[name="password"]').type('poi')
   cy.get('button[type="submit"]').click()
+  console.log('testing')
   cy.get('[data-testid="showNavbar"]').click()
   cy.get('[data-testid="profile"]').click()
 })
