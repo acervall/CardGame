@@ -1,9 +1,29 @@
 {
-  "id": 4,
-  "username": "poi",
-  "email": "poi@poi.poi",
-  "first_name": "poi",
-  "last_name": "poi",
-  "opacity": 80,
-  "background_color": "#ffffff"
+  "login": {
+    "accessToken": "fakeAccessToken",
+    "user": {
+      "id": 4,
+      "username": "poi",
+      "first_name": "poi",
+      "last_name": "poi",
+      "email": "poi@poi.poi",
+      "password": "poi",
+      "opacity": 80,
+      "background_color": "#ffffff"
+    }
+  },
+  "update": {
+    "success": true,
+    "message": "User settings updated",
+    "user": { "id": 4, "opacity": 80, "background_color": "red" }
+  },
+  "updatedUser": {
+    "id": 4,
+    "username": "poi",
+    "email": "poi@poi.poi",
+    "first_name": "poi",
+    "last_name": "poi",
+    "opacity": 80,
+    "background_color": "red"
+  }
 }
